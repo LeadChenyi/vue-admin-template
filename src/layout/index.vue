@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import IndexSidebar from "@/components/index-layout/index-sidebar";
-import IndexNavbar from "@/components/index-layout/index-navbar";
+import IndexSidebar from "./index-sidebar";
+import IndexNavbar from "./index-navbar";
 export default {
     name: "Index",
     components: {

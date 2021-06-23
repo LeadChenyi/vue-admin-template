@@ -9,10 +9,10 @@
         <el-breadcrumb class="index-navbar-breadcrumb" separator="/">
             <transition-group name="breadcrumb">
                 <el-breadcrumb-item
-                    v-for="(item, index) in breadcrumbs"
-                    :key="index"
+                    v-for="item in getBreadcrumbs"
+                    :key="item.path"
                 >
-                    {{ item.title }}
+                    {{ item.meta.title }}
                 </el-breadcrumb-item>
             </transition-group>
         </el-breadcrumb>
@@ -52,10 +52,15 @@ export default {
                     title: "个人中心",
                 },
                 {
-                    title: "财务账单",
+                    title: "我的收藏",
                 },
             ],
         };
+    },
+    computed: {
+        getBreadcrumbs() {
+            return this.$route.matched;
+        },
     },
     methods: {
         onCommandSetting(e) {
