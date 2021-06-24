@@ -19,7 +19,9 @@ let baseRouters = [
         component: Layout,
         meta: {
             title: '主页',
-            icon: 'el-icon-menu'
+            icon: 'el-icon-menu',
+            hidden: false,   // 是否隐藏路由    
+            promote: true,  // 是否晋升路由（当子路由只有一个元素时，当前路由不展示）
         },
         redirect: '/dashboard',
         children: [

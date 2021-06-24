@@ -36,7 +36,7 @@ export default {
     },
     computed: {
         routes() {
-            const blacklists = ["Login", "Tset"];
+            const blacklists = ["Login", "Test"];
             return this.$router.options.routes.filter((item) => {
                 return item.name && !blacklists.includes(item.name);
             });

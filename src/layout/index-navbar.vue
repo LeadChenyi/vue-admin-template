@@ -59,7 +59,9 @@ export default {
     },
     computed: {
         getBreadcrumbs() {
-            return this.$route.matched;
+            return this.$route.matched.filter((item) => {
+                return !item.meta.promote;
+            });
         },
     },
     methods: {
