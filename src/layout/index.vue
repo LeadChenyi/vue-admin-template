@@ -49,6 +49,10 @@ export default {
 </script>
 
 <style>
+.index-layout {
+    width: 100%;
+    height: 100%;
+}
 .index-mask {
     position: absolute;
     top: 0;
@@ -72,7 +76,7 @@ export default {
     overflow: hidden;
 }
 .index-container {
-    min-height: 100%;
+    height: 100%;
     transition: margin-left 0.28s;
     margin-left: 210px;
     position: relative;
@@ -103,5 +107,9 @@ export default {
     height: 40px;
     border-radius: 10px;
     cursor: pointer;
+}
+.index-main {
+    width: 100%;
+    height: calc(100% - 50px);
 }
 </style>

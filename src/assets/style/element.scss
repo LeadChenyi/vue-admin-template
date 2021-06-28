@@ -1,0 +1,7 @@
+/* 主题色变量 */
+$--color-primary:#29298E;       //这里不能使用属性变量的方式，必须是一个初始值（与mix有关）
+
+/* icon字体路径变量必须 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+@import "~element-ui/packages/theme-chalk/src/index";

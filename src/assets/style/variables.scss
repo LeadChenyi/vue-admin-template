@@ -1,0 +1,37 @@
+// 声明动态变量
+$app-color-white:#FFFFFF;
+$app-color-default:#F8F8F8;
+$app-color-primary:#0099FF;
+$app-color-success:#66C666;
+$app-color-fail:#F66666;
+$app-color-warn:#F99966;
+$app-color-info:#909099;
+
+$app-color-light-primary:rgba(0, 153, 255,.3);
+$app-color-light-success:rgba(102, 198, 102,.3);
+$app-color-light-fail:rgba(246, 102, 102,.3);
+$app-color-light-warn:rgba(249, 153, 102,.3);
+$app-color-light-info:rgba(144, 144, 153,.3);
+
+$app-color-0:#000000;
+$app-color-3:#333333;
+$app-color-6:#666666;
+$app-color-9:#999999;
+$app-color-c:#cccccc;
+
+$app-size-block:100%;
+$app-size-normal:normal;
+$app-size-large:360px;
+$app-size-big:180px;
+$app-size-small:90px;
+$app-size-mini:45px;
+
+// 导出动态变量
+:export {
+    appColorDefault:$app-color-default;
+    appColorPrimary:$app-color-primary;
+    appColorSuccess:$app-color-success;
+    appColorFail:$app-color-fail;
+    appColorWarn:$app-color-warn;
+    appColorInfo:$app-color-info;
+}

@@ -1,24 +1,19 @@
 # vue-admin-template
 
-## Project setup
-```
-npm install
-```
+### 安装依赖时如何对应版本
+- 先查看当前node版本，再安装目前node所支持的node-sass版本，最后安装node-sass所对应的sass-loader版本。
 
-### Compiles and hot-reloads for development
+### 如何自定义环境变量
+- 创建文件
 ```
-npm run serve
+    .env.[mode]
 ```
-
-### Compiles and minifies for production
+- 默认字段
 ```
-npm run build
+    NODE_ENV [可重置]
+    BASE_URL [无法重置]
 ```
-
-### Lints and fixes files
+- 自定义字段
 ```
-npm run lint
+    VUE_APP_ + 自定义字段
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

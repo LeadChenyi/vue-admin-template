@@ -21,7 +21,7 @@ let baseRouters = [
             title: '主页',
             icon: 'el-icon-menu',
             hidden: false,   // 是否隐藏路由    
-            promote: true,  // 是否晋升路由（当子路由只有一个元素时，当前路由不展示）
+            inherit: true,  // 是否继承路由（当子路由只有一个元素时，当前路由不展示）
         },
         redirect: '/dashboard',
         children: [
@@ -32,6 +32,27 @@ let baseRouters = [
                 meta: {
                     title: '仪表盘',
                     icon: 'el-icon-menu'
+                }
+            }
+        ]
+    }, {
+        path: '/config',
+        name: 'Config',
+        component: Layout,
+        meta: {
+            title: '配置管理',
+            icon: 'el-icon-menu',
+            hidden: false,   // 是否隐藏路由    
+            inherit: false,  // 是否继承路由（当子路由只有一个元素时，当前路由不展示）
+        },
+        redirect: '/env',
+        children: [
+            {
+                path: '/env',
+                name: 'Env',
+                component: () => import('@/pages/config/env'),
+                meta: {
+                    title: '环境变量'
                 }
             }
         ]
