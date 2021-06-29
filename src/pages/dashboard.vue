@@ -10,7 +10,16 @@ export default {
     data() {
         return {};
     },
-    mounted() {},
+    mounted() {
+        this.$api.index
+            .getProjects()
+            .then((res) => {
+                console.log("getProject", res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    },
 };
 </script>
 

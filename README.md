@@ -17,3 +17,11 @@
 ```
     VUE_APP_ + 自定义字段
 ```
+
+### 路由守卫 / 拦截
+- nprogress 进度条加载
+- permission 权限验证 [wait]
+
+### 数据模拟
+- mockjs 伪造数据\请求拦截
+- axios HTTP请求\请求拦截\封装请求 [wait]

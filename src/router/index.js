@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Layout from "@/layout/index"
+import Layout from "@/layout/index";
+
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
     return originalPush.call(this, location).catch(err => err)
@@ -121,9 +122,8 @@ baseRouters.push({
     path: '/*',
     redirect: { name: 'Index' }
 });
-const routers = new VueRouter({
+const router = new VueRouter({
     mode: 'history',
     routes: baseRouters
 });
-
-export default routers;
+export default router;
