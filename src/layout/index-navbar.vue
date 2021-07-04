@@ -1,8 +1,12 @@
 <template>
     <div class="index-navbar">
         <!-- 左侧菜单折叠 -->
-        <div class="index-navbar-collapse">
-            <i class="el-icon-s-unfold" />
+        <div class="index-navbar-collapse" @click="handleCollapse">
+            <i
+                :class="[
+                    activeCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold',
+                ]"
+            />
         </div>
 
         <!-- 面包屑 -->
@@ -63,10 +67,19 @@ export default {
                 return !item.meta.inherit;
             });
         },
+        activeCollapse() {
+            return this.$store.getters["app/getCollapse"];
+        },
     },
     methods: {
         onCommandSetting(e) {
             console.log("onCommand", e);
+        },
+        handleCollapse() {
+            this.$store.dispatch(
+                "app/setCollapse",
+                !this.$store.state.app.isCollapse
+            );
         },
     },
 };

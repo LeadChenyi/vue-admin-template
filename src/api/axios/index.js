@@ -8,7 +8,7 @@ const request = (options) => {
             baseURL: options.baseURL || baseUrl,
             url: options.url,
             method: options.method || 'GET',
-            data: options.data,
+            data: options.data || {},
             headers: options.headers || {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'X-Requested-With': 'XMLHttpRequest',

@@ -6,7 +6,7 @@
                 :router="true"
                 :unique-opened="false"
                 :collapse-transition="false"
-                :collapse="isCollapse"
+                :collapse="activeCollapse"
                 mode="vertical"
                 text-color="#bfcbd9"
                 active-text-color="#409EFF"
@@ -31,7 +31,7 @@ export default {
     },
     data() {
         return {
-            isCollapse: false,
+            isCollapse: true,
         };
     },
     computed: {
@@ -43,6 +43,9 @@ export default {
         },
         activeMenu() {
             return this.$route.path;
+        },
+        activeCollapse() {
+            return this.$store.getters["app/getCollapse"];
         },
     },
     mounted() {

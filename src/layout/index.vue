@@ -1,5 +1,11 @@
 <template>
-    <div class="index-layout" :class="{ 'index-layout--mobile': isMobile }">
+    <div
+        class="index-layout"
+        :class="{
+            'index-layout--mobile': isMobile,
+            'index-layout--collapse': isCollapse,
+        }"
+    >
         <!-- <div class="index-mask"></div> -->
         <index-sidebar></index-sidebar>
         <div class="index-container">
@@ -45,6 +51,11 @@ export default {
             }
         },
     },
+    computed: {
+        isCollapse() {
+            return this.$store.getters["app/getCollapse"];
+        },
+    },
 };
 </script>
 
@@ -75,6 +86,7 @@ export default {
     z-index: 1001;
     overflow: hidden;
 }
+
 .index-container {
     height: 100%;
     transition: margin-left 0.28s;
@@ -111,5 +123,21 @@ export default {
 .index-main {
     width: 100%;
     height: calc(100% - 50px);
+}
+
+/* 折叠模式 */
+.index-layout--collapse .index-sidebar {
+    width: 64px;
+}
+.index-layout--collapse .index-container {
+    margin-left: 64px;
+}
+.el-menu--collapse .el-menu-item > span,
+.el-menu--collapse .el-submenu .el-submenu__title > span {
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    visibility: hidden;
+    display: inline-block;
 }
 </style>
