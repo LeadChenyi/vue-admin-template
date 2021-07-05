@@ -9,6 +9,8 @@ import store from '@/store'
 import Api from '@/api/axios/index.js'
 Vue.prototype.$api = Api;
 
+import Utils from '@/common/utils.js'
+Vue.prototype.$utils = Utils;
 
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'

@@ -6,7 +6,14 @@
             'index-layout--collapse': isCollapse,
         }"
     >
-        <!-- <div class="index-mask"></div> -->
+        <template v-if="isMobile">
+            <div
+                class="index-mask"
+                :hidden="isCollapse"
+                @click="closeCollapse"
+            ></div>
+        </template>
+
         <index-sidebar></index-sidebar>
         <div class="index-container">
             <index-navbar></index-navbar>
@@ -30,13 +37,15 @@ export default {
         IndexSidebar,
         IndexNavbar,
     },
-    data() {
-        return {
-            isMobile: false,
-        };
+    created() {
+        let mobileStatus = this.$utils.isMobileOrMiniClient();
+        this.$store.dispatch("app/setMobile", mobileStatus);
     },
     beforeMount() {
-        window.addEventListener("resize", this.onWindowResize);
+        window.addEventListener(
+            "resize",
+            this.$utils.debounce(this.onWindowResize)
+        );
     },
     beforeDestroy() {
         window.removeEventListener("resize", this.onWindowResize);
@@ -44,16 +53,24 @@ export default {
     methods: {
         onWindowResize() {
             const rect = document.body.getBoundingClientRect();
+            let mobileStatus;
             if (rect.width <= 1024) {
-                this.isMobile = true;
+                mobileStatus = true;
             } else {
-                this.isMobile = false;
+                mobileStatus = false;
             }
+            this.$store.dispatch("app/setMobile", mobileStatus);
+        },
+        closeCollapse() {
+            this.$store.dispatch("app/setCollapse", true);
         },
     },
     computed: {
         isCollapse() {
             return this.$store.getters["app/getCollapse"];
+        },
+        isMobile() {
+            return this.$store.getters["app/getMobile"];
         },
     },
 };
@@ -102,11 +119,15 @@ export default {
     display: flex;
     align-items: center;
 }
+.index-sidebar .el-menu {
+    border-right: none !important;
+}
 .index-navbar-collapse {
     height: 100%;
     line-height: 50px;
     padding: 0px 15px;
     display: inline-block;
+    cursor: pointer;
 }
 .index-navbar-breadcrumb {
     flex: 1;
@@ -139,5 +160,12 @@ export default {
     overflow: hidden;
     visibility: hidden;
     display: inline-block;
+}
+
+/* 移动端模式 */
+.index-layout--mobile .index-sidebar {
+}
+.index-layout--mobile .index-container {
+    margin-left: 64px;
 }
 </style>

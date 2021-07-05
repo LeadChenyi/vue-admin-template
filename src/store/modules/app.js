@@ -3,6 +3,7 @@ export default {
     state: {
         message: '',
         isCollapse: false,
+        isMobile: false
     },
     getters: {
         getMessage(state) {
@@ -10,6 +11,9 @@ export default {
         },
         getCollapse(state) {
             return state.isCollapse;
+        },
+        getMobile(state) {
+            return state.isMobile;
         },
     },
     mutations: {
@@ -19,6 +23,9 @@ export default {
         SET_COLLAPSE(state, payload) {
             state.isCollapse = payload;
         },
+        SET_MOBILE(state, payload) {
+            state.isMobile = payload;
+        },
     },
     actions: {
         setMessage({ commit }, payload) {
@@ -26,6 +33,9 @@ export default {
         },
         setCollapse({ commit }, payload) {
             commit('SET_COLLAPSE', payload)
+        },
+        setMobile({ commit }, payload) {
+            commit('SET_MOBILE', payload)
         },
     }
 }
