@@ -20,13 +20,27 @@
 
 ### 路由守卫 / 拦截
 - nprogress 进度条加载
-- permission 权限验证 [wait]
 
 ### 数据模拟
 - mockjs 伪造数据\请求拦截
-- axios HTTP请求\请求拦截\封装请求 [wait]
 
 ### 状态管理
 - app为全局状态管理
 - 左侧菜单栏折叠
 - 移动屏模型检测
+
+### 拓展插件
+- underscore
+- dayjs
+- i18n 国际化
+
+### 登录
+- 登录页
+- 表单验证
+- permission 权限验证
+- axios 错误处理 响应拦截
+
+### 组件
+- swiper
+- excel
+- editor
