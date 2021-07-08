@@ -72,14 +72,43 @@ export default {
         },
     },
     methods: {
-        onCommandSetting(e) {
-            console.log("onCommand", e);
+        onCommandSetting(value) {
+            switch (value) {
+                case "logout":
+                    this.logout();
+                    break;
+            }
         },
         handleCollapse() {
             this.$store.dispatch(
                 "app/setCollapse",
                 !this.$store.state.app.isCollapse
             );
+        },
+        logout() {
+            this.$api
+                .request({
+                    url: "/logout",
+                    method: "POST",
+                })
+                .then((res) => {
+                    console.log(res);
+                    if (res.code != 200) {
+                        this.$message({
+                            type: "error",
+                            message: res.message,
+                        });
+                        return false;
+                    }
+
+                    this.$cookie.remove("token");
+                    this.$router.push({
+                        name: "Login",
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
     },
 };

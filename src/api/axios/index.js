@@ -1,21 +1,37 @@
 import Axios from 'axios'
-import { baseUrl } from '@/common/config.js'
+import { baseURL } from '@/common/config.js'
 import './interceptors'
+import { Message } from 'element-ui';
 
-const request = (options) => {
+const request = ({
+    url,
+    method = 'GET',
+    data = {},
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Requested-With': 'XMLHttpRequest',
+    },
+    showError = true
+}) => {
     return new Promise((resolve, reject) => {
         Axios({
-            baseURL: options.baseURL || baseUrl,
-            url: options.url,
-            method: options.method || 'GET',
-            data: options.data || {},
-            headers: options.headers || {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-Requested-With': 'XMLHttpRequest',
-            }
+            baseURL,
+            url,
+            method,
+            data,
+            headers
         }).then(res => {
-            resolve(res);
+            if (res.status == 200) {
+                resolve(res.data);
+            }
+
         }).catch(err => {
+            if (showError) {
+                Message({
+                    type: 'error',
+                    content: err
+                })
+            }
             reject(err);
         });
     })

@@ -5,7 +5,7 @@ module.exports = {
     devServer: {
         proxy: {
             '/api': {          // 代理服务器的前缀
-                target: 'http://jsonplaceholder.typicode.com',
+                target: 'https://easy-mock.bookset.io/mock/60bbb4795aca6a408a54972d/operator',
                 ws: true,      // 是否支持webScokit
                 changeOrigin: true,
                 secure: false,

@@ -2,8 +2,8 @@ export default {
     namespaced: true,
     state: {
         message: '',
-        isCollapse: false,
-        isMobile: false
+        isCollapse: true,   // 是否为折叠模式
+        isMobile: false     // 是否为移动模型
     },
     getters: {
         getMessage(state) {

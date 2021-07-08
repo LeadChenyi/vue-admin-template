@@ -36,11 +36,19 @@
 
 ### 登录
 - 登录页
-- 表单验证
-- permission 权限验证
-- axios 错误处理 响应拦截
+- validator 表单验证
+- axios 请求拦截 错误处理 
+- cookie 本地缓存 登录/退出状态记录
+- router 路由守卫 访问权限 重定向路由
 
-### 组件
-- swiper
-- excel
-- editor
+### 用户角色
+- permission 操作权限 [wait]
+- menu 动态菜单路由
+
+### 功能
+- language 切语言
+- theme skin 换皮肤
+- fullscreen 全屏
+- swiper 轮播
+- excel 导入导出
+- editor 富文本编辑
