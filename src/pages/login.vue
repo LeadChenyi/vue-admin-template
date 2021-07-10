@@ -118,12 +118,11 @@ export default {
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
                     this.loading = true;
-                    this.$api
-                        .request({
-                            method: "POST",
-                            url: "/login",
-                            data: this.loginForm,
-                        })
+                    this.$request({
+                        method: "POST",
+                        url: "/login",
+                        data: this.loginForm,
+                    })
                         .then((res) => {
                             this.loading = false;
                             console.log(res);

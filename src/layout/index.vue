@@ -47,6 +47,10 @@ export default {
             this.$utils.debounce(this.onWindowResize)
         );
     },
+    mounted() {
+        // get common data
+        // 枚举
+    },
     beforeDestroy() {
         window.removeEventListener("resize", this.onWindowResize);
     },

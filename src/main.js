@@ -6,8 +6,8 @@ import store from '@/store'
 import i18n from '@/i18n'
 
 // import '@/api/mock/index.js'
-import Api from '@/api/axios/index.js'
-Vue.prototype.$api = Api;
+import Request from '@/api/axios/index.js'
+Vue.prototype.$request = Request;
 
 import Utils from '@/common/utils.js'
 Vue.prototype.$utils = Utils;

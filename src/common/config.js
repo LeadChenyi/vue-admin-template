@@ -1,4 +1,3 @@
 module.exports = {
-    baseURL: process.env.VUE_APP_BASE_URL,
-    pathWhiteList: []
+    baseURL: process.env.VUE_APP_BASE_URL
 }

@@ -3,7 +3,7 @@ import { baseURL } from '@/common/config.js'
 import './interceptors'
 import { Message } from 'element-ui';
 
-const request = ({
+const Request = ({
     url,
     method = 'GET',
     data = {},
@@ -37,11 +37,13 @@ const request = ({
     })
 }
 
-export default {
-    request,
+// api manage document
+export const api = {
     index: {
         getProjects() {
-            return request({ url: '/index/projects' });
+            return Request({ url: '/index/projects' });
         }
     }
 };
+
+export default Request;

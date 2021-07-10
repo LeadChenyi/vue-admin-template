@@ -30,13 +30,13 @@
             <div class="user-wrap">
                 <img
                     class="user-avatar"
-                    src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    :src="getUserInfo && getUserInfo.avatar"
                 />
                 <i class="el-icon-caret-bottom" />
             </div>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="notice">设置</el-dropdown-item>
-                <el-dropdown-item command="center">通知</el-dropdown-item>
+                <el-dropdown-item command="setting">设置</el-dropdown-item>
+                <el-dropdown-item command="notice">通知</el-dropdown-item>
                 <el-dropdown-item command="center">中心</el-dropdown-item>
                 <el-dropdown-item divided command="logout"
                     >退出</el-dropdown-item
@@ -49,18 +49,6 @@
 <script>
 export default {
     name: "IndexNavbar",
-    data() {
-        return {
-            breadcrumbs: [
-                {
-                    title: "个人中心",
-                },
-                {
-                    title: "我的收藏",
-                },
-            ],
-        };
-    },
     computed: {
         getBreadcrumbs() {
             return this.$route.matched.filter((item) => {
@@ -69,6 +57,10 @@ export default {
         },
         activeCollapse() {
             return this.$store.getters["app/getCollapse"];
+        },
+        getUserInfo() {
+            // getUserInfo返回值是一个对象，需要具体到某个属性时运用短路逻辑
+            return this.$store.getters["app/getUserInfo"];
         },
     },
     methods: {
@@ -86,11 +78,10 @@ export default {
             );
         },
         logout() {
-            this.$api
-                .request({
-                    url: "/logout",
-                    method: "POST",
-                })
+            this.$request({
+                url: "/logout",
+                method: "POST",
+            })
                 .then((res) => {
                     console.log(res);
                     if (res.code != 200) {
@@ -102,6 +93,8 @@ export default {
                     }
 
                     this.$cookie.remove("token");
+                    this.$store.dispatch("app/setUserInfo", null);
+                    this.$store.dispatch("app/setRouters", null);
                     this.$router.push({
                         name: "Login",
                     });

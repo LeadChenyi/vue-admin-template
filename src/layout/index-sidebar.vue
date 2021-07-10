@@ -30,16 +30,11 @@ export default {
         IndexMenuItem,
     },
     data() {
-        return {
-            isCollapse: true,
-        };
+        return {};
     },
     computed: {
         routes() {
-            const blacklists = ["Login", "Test"];
-            return this.$router.options.routes.filter((item) => {
-                return item.name && !blacklists.includes(item.name);
-            });
+            return this.$store.getters["app/getRouters"];
         },
         activeMenu() {
             return this.$route.path;
@@ -49,7 +44,7 @@ export default {
         },
     },
     mounted() {
-        console.log(this.$router.options.routes);
+        // console.log(this.$router.options.routes);
     },
 };
 </script>

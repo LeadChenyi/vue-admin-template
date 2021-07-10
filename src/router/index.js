@@ -111,6 +111,22 @@ let baseRouters = [
                 }
             }
         ]
+    },
+    {
+        path: '/system',
+        name: 'System',
+        component: Layout,
+        meta: {
+            title: '系统',
+            icon: 'el-icon-menu'
+        },
+        children: [
+            {
+                path: '/404',
+                name: 'NotFound',
+                component: () => import('@/pages/404')
+            }
+        ]
     }
 ];
 

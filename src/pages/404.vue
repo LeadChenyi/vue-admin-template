@@ -1,12 +1,12 @@
 <template>
-    <div class="dashboard-page">
-        <div>dashboard</div>
+    <div class="not-fount-page">
+        <div>404</div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "Dashboard",
+    name: "NotFound",
     data() {
         return {};
     },
