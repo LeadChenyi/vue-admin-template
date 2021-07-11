@@ -41,12 +41,13 @@
 - cookie 本地缓存 登录/退出状态记录
 - router 路由守卫 访问权限 重定向路由
 
-### 用户角色
-- permission 操作权限 [wait]
+### 用户角色 [wait]
+- permission 操作权限 
 - menu 动态菜单路由
 
 ### 功能
-- language 切语言
+- tags 标签页 
+- language 切语言 [wait]
 - theme skin 换皮肤
 - fullscreen 全屏
 - swiper 轮播

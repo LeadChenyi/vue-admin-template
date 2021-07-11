@@ -18,8 +18,9 @@
         <div class="index-container">
             <index-navbar></index-navbar>
             <div class="index-main">
+                <index-tags></index-tags>
                 <transition>
-                    <keep-alive>
+                    <keep-alive :include="getTags">
                         <router-view></router-view>
                     </keep-alive>
                 </transition>
@@ -31,11 +32,13 @@
 <script>
 import IndexSidebar from "./index-sidebar";
 import IndexNavbar from "./index-navbar";
+import IndexTags from "./index-tags";
 export default {
     name: "Index",
     components: {
         IndexSidebar,
         IndexNavbar,
+        IndexTags,
     },
     created() {
         let mobileStatus = this.$utils.isMobileOrMiniClient();
@@ -75,6 +78,9 @@ export default {
         },
         isMobile() {
             return this.$store.getters["app/getMobile"];
+        },
+        getTags() {
+            return this.$store.getters["app/getTags"];
         },
     },
 };

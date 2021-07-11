@@ -7,7 +7,7 @@ export default {
         userInfo: null,         // 用户信息
         routers: null,          // 动态路由
         enums: {},              // 枚举
-
+        tags: null,              // 标签页
     },
     getters: {
         getMessage(state) {
@@ -27,6 +27,9 @@ export default {
         },
         getEnums(state) {
             return state.enums;
+        },
+        getTags(state) {
+            return state.tags;
         },
     },
     mutations: {
@@ -48,6 +51,9 @@ export default {
         SET_ENUMS(state, payload) {
             state.enums = payload;
         },
+        SET_TAGS(state, payload) {
+            state.tags = payload;
+        },
     },
     actions: {
         setMessage({ commit }, payload) {
@@ -67,6 +73,9 @@ export default {
         },
         setEnums({ commit }, payload) {
             commit('SET_ENUMS', payload)
+        },
+        setTags({ commit }, payload) {
+            commit('SET_TAGS', payload)
         },
     }
 }
