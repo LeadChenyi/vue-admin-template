@@ -6,9 +6,6 @@ export default {
         isMobile: false,        // 是否为移动模型
         userInfo: null,         // 用户信息
         routers: null,          // 动态路由
-        userPathWhiteList: [
-            "/404"
-        ],
         enums: {},              // 枚举
 
     },

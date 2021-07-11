@@ -6,6 +6,7 @@ import Request from '@/api/axios/index.js';
 import { Message } from 'element-ui';
 import Store from '@/store/index.js';
 
+// 404 等页面需要添加到白名单上，因为只要跳转页面就会触发路由守卫，否则会进入死循环
 let userPathWhiteList = ['/404'];
 
 router.beforeEach((to, from, next) => {
@@ -25,19 +26,20 @@ router.afterEach(() => {
 })
 
 async function userNextTick(to, from, next) {
-    // 先确保用户信息、动态路由获取完毕后再放行
+    // 使用异步方式获取用户信息、动态路由数据后再放行路由拦截
     !Store.state.app.userInfo && await getUserInfo();
     !Store.state.app.routers && await getRouters();
-    console.log(userPathWhiteList);
+
     if (to.path === '/login') {
         next({ name: 'Dashboard' })
-    } else if (!userPathWhiteList.includes(to.path)) {
-        // 404 等页面需要添加到白名单上，因为只要跳转页面就会触发路由守卫
-        next({
-            name: 'NotFound'
-        })
     } else {
-        next();
+        if (userPathWhiteList.includes(to.path)) {
+            next();
+        } else {
+            next({
+                name: 'NotFound'
+            })
+        }
     }
 }
 
@@ -49,9 +51,9 @@ function visitorNextTick(to, from, next) {
     }
 }
 
-
+// 只有return Promise对象异步调用才是有效的，否则会影响执行顺序
 function getUserInfo() {
-    Request({
+    return Request({
         url: "/userInfo",
     })
         .then((res) => {
@@ -70,10 +72,10 @@ function getUserInfo() {
 }
 
 function getRouters() {
-    Request({
+    return Request({
         url: "/routers",
     })
-        .then((res) => {
+        .then(async (res) => {
             if (res.code != 200) {
                 Message({
                     type: "error",
@@ -81,12 +83,10 @@ function getRouters() {
                 });
                 return false;
             }
-            res.data.forEach(item => {
-                userPathWhiteList.push(item.path);
-                if (item.children) {
-                    getItemPath(item.children);
-                }
-            })
+
+            if (userPathWhiteList.length <= 1) {
+                getItemPath(res.data);
+            }
             Store.dispatch("app/setRouters", res.data);
         })
         .catch((err) => {
@@ -94,11 +94,12 @@ function getRouters() {
         });
 }
 
+// 同步执行
 function getItemPath(routers) {
-    routers.forEach(item => {
-        userPathWhiteList.push(item.path);
-        if (item.children) {
-            getItemPath(item.children);
+    for (let i = 0; i < routers.length; i++) {
+        userPathWhiteList.push(routers[i].path);
+        if (routers[i].children) {
+            getItemPath(routers[i].children);
         }
-    })
+    }
 }
