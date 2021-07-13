@@ -31,12 +31,12 @@ module.exports = {
         // 低版本浏览器兼容ES6
         config.entry('main').add('babel-polyfill')
 
-        // 图片解析器
-        config.module.rule('images')
-            .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
-            .use('image-webpack-loader')
-            .loader('image-webpack-loader')
-            .options({ bypassOnDebug: true })
+        // 图片解析器(依赖安装失败)
+        // config.module.rule('images')
+        //     .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+        //     .use('image-webpack-loader')
+        //     .loader('image-webpack-loader')
+        //     .options({ bypassOnDebug: true })
 
         // 生成模式下进行文件资源压缩
         if (process.env.NODE_ENV === 'production') {

@@ -47,9 +47,9 @@
 
 ### 功能
 - tags 标签页 
+- fullscreen 全屏
 - language 切语言 [wait]
 - theme skin 换皮肤
-- fullscreen 全屏
 - swiper 轮播
 - excel 导入导出
 - editor 富文本编辑

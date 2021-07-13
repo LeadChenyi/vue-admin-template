@@ -9,6 +9,15 @@
             />
         </div>
 
+        <!-- 全屏 -->
+        <div class="index-navbar-collapse" @click="handleFullScreen">
+            <i
+                :class="[
+                    isFullScreen ? 'el-icon-remove' : 'el-icon-circle-plus',
+                ]"
+            />
+        </div>
+
         <!-- 面包屑 -->
         <el-breadcrumb class="index-navbar-breadcrumb" separator="/">
             <transition-group name="breadcrumb">
@@ -49,6 +58,11 @@
 <script>
 export default {
     name: "IndexNavbar",
+    data() {
+        return {
+            isFullScreen: false,
+        };
+    },
     computed: {
         getBreadcrumbs() {
             return this.$route.matched.filter((item) => {
@@ -76,6 +90,10 @@ export default {
                 "app/setCollapse",
                 !this.$store.state.app.isCollapse
             );
+        },
+        handleFullScreen() {
+            this.isFullScreen = !this.isFullScreen;
+            this.$emit("changeFullScreen", this.isFullScreen);
         },
         logout() {
             this.$request({

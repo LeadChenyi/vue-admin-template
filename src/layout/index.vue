@@ -1,5 +1,6 @@
 <template>
     <div
+        ref="indexLayout"
         class="index-layout"
         :class="{
             'index-layout--mobile': isMobile,
@@ -16,7 +17,7 @@
 
         <index-sidebar></index-sidebar>
         <div class="index-container">
-            <index-navbar></index-navbar>
+            <index-navbar @changeFullScreen="changeFullScreen"></index-navbar>
             <div class="index-main">
                 <index-tags></index-tags>
                 <transition>
@@ -71,6 +72,43 @@ export default {
         closeCollapse() {
             this.$store.dispatch("app/setCollapse", true);
         },
+        changeFullScreen(value) {
+            if (value) {
+                this.openFS(this.$refs.indexLayout);
+            } else {
+                this.closeFS();
+            }
+        },
+        openFS(ele) {
+            // 开启的时候需要指定元素
+            if (ele.requestFullscreen) {
+                ele.requestFullscreen();
+            } else if (ele.mozRequestFullScreen) {
+                /* Firefox */
+                ele.mozRequestFullScreen();
+            } else if (ele.webkitRequestFullscreen) {
+                /* Chrome, Safari and Opera */
+                ele.webkitRequestFullscreen();
+            } else if (ele.msRequestFullscreen) {
+                /* IE/Edge */
+                ele.msRequestFullscreen();
+            }
+        },
+        closeFS() {
+            // 关闭的时候只需委托给文档（因为一个显示器只有一个浏览器窗口能全屏）
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                /* Firefox */
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                /* Chrome, Safari and Opera */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                /* IE/Edge */
+                document.msExitFullscreen();
+            }
+        },
     },
     computed: {
         isCollapse() {
@@ -90,6 +128,7 @@ export default {
 .index-layout {
     width: 100%;
     height: 100%;
+    background-color: #ffffff;
 }
 .index-mask {
     position: absolute;
