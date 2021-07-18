@@ -9,7 +9,7 @@
             label-position="left"
         >
             <div class="title-container">
-                <h3 class="title">{{ $t("login") }} Form</h3>
+                <h3 class="title">{{ $t("login.title") }}</h3>
             </div>
 
             <el-form-item prop="username">
@@ -52,14 +52,31 @@
                 type="primary"
                 style="width: 100%; margin-bottom: 30px"
                 @click.native.prevent="handleLogin"
-                >Login</el-button
+                >{{ $t("login.buttonText") }}</el-button
             >
 
             <div class="tips">
-                <span style="margin-right: 20px">username: admin</span>
-                <span> password: any</span>
+                {{ $t("login.tips") }}
             </div>
         </el-form>
+
+        <div class="select-language">
+            <span>{{ $t("login.language") }}：</span>
+            <el-dropdown trigger="click" @command="changeLanguage">
+                <span class="el-dropdown-link">
+                    {{ language }}
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item
+                        v-for="(item, index) in languages"
+                        :key="index"
+                        :command="index"
+                        >{{ item.name }}</el-dropdown-item
+                    >
+                </el-dropdown-menu>
+            </el-dropdown>
+        </div>
     </div>
 </template>
 
@@ -88,6 +105,19 @@ export default {
         };
 
         return {
+            language: "Chinese",
+            languages: [
+                {
+                    name: "Chinese",
+                    label: "中文",
+                    locale: "zh",
+                },
+                {
+                    name: "English",
+                    label: "英文",
+                    locale: "en",
+                },
+            ],
             loginForm: {
                 username: "admin",
                 password: "111111",
@@ -114,6 +144,10 @@ export default {
         };
     },
     methods: {
+        changeLanguage(command) {
+            this.language = this.languages[command].name;
+            this.$i18n.locale = this.languages[command].locale;
+        },
         handleLogin() {
             this.$refs.loginForm.validate((valid) => {
                 if (valid) {
@@ -264,5 +298,16 @@ $light_gray: #eee;
         cursor: pointer;
         user-select: none;
     }
+}
+.select-language {
+    font-size: 16px;
+    color: #ffffff;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+}
+.select-language .el-dropdown {
+    color: #ffffff;
+    cursor: pointer;
 }
 </style>

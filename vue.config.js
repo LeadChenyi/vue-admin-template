@@ -31,7 +31,7 @@ module.exports = {
         // 低版本浏览器兼容ES6
         config.entry('main').add('babel-polyfill')
 
-        // 图片解析器(依赖安装失败)
+        // 图片解析器(image-webpack-loader依赖包安装不全)
         // config.module.rule('images')
         //     .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
         //     .use('image-webpack-loader')

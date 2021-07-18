@@ -193,14 +193,20 @@ export default {
 .index-main {
     width: 100%;
     height: calc(100% - 50px);
+    overflow: hidden;
+}
+
+/* 移动端模式 */
+.index-layout--mobile .index-container {
+    margin-left: 64px;
 }
 
 /* 折叠模式 */
 .index-layout--collapse .index-sidebar {
-    width: 64px;
+    width: 64px !important;
 }
 .index-layout--collapse .index-container {
-    margin-left: 64px;
+    margin-left: 64px !important;
 }
 .el-menu--collapse .el-menu-item > span,
 .el-menu--collapse .el-submenu .el-submenu__title > span {
@@ -209,12 +215,5 @@ export default {
     overflow: hidden;
     visibility: hidden;
     display: inline-block;
-}
-
-/* 移动端模式 */
-.index-layout--mobile .index-sidebar {
-}
-.index-layout--mobile .index-container {
-    margin-left: 64px;
 }
 </style>

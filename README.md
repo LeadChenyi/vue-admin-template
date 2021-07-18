@@ -48,8 +48,17 @@
 ### 功能
 - tags 标签页 
 - fullscreen 全屏
-- language 切语言 [wait]
-- theme skin 换皮肤
+- language 切语言 
+- theme skin 换皮肤 [wait]
 - swiper 轮播
 - excel 导入导出
 - editor 富文本编辑
+
+### 常见问题
+- Syntax Error: Error: Cannot find module 'gifsicle'
+```
+    原因：由于image-webpack-loader依赖包安装不全，导致依赖包所关联的依赖模块丢失
+    解决：删除node_modules 和 package-lock.json 使用淘宝镜像安装模块
+    源主机资源无法访问：https://www.cnblogs.com/ccti7/p/13956678.html
+``` 
+
