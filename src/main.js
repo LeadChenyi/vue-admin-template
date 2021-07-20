@@ -16,8 +16,8 @@ import Plugins from '@/common/plugins.js'
 Vue.use(Plugins);
 
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-// import '@/assets/style/element.scss'
+// import 'element-ui/lib/theme-chalk/index.css'
+import '@/assets/style/custom-element-theme.scss'
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

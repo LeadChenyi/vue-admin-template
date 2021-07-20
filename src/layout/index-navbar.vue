@@ -83,6 +83,9 @@ export default {
                 case "logout":
                     this.logout();
                     break;
+                case "setting":
+                    this.$emit("changeSetting");
+                    break;
             }
         },
         handleCollapse() {

@@ -9,7 +9,7 @@
                 :collapse="activeCollapse"
                 mode="vertical"
                 text-color="#bfcbd9"
-                active-text-color="#409EFF"
+                :active-text-color="getColorPrimary"
                 background-color="#304156"
             >
                 <index-menu-item
@@ -24,13 +24,11 @@
 
 <script>
 import IndexMenuItem from "./index-menu-item";
+import Variables from "@/assets/style/variables.scss";
 export default {
     name: "IndexSidebar",
     components: {
         IndexMenuItem,
-    },
-    data() {
-        return {};
     },
     computed: {
         routes() {
@@ -41,6 +39,10 @@ export default {
         },
         activeCollapse() {
             return this.$store.getters["app/getCollapse"];
+        },
+        getColorPrimary() {
+            // 改为数据状态管理
+            return Variables.colorPrimary;
         },
     },
     mounted() {

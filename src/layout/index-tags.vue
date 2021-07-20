@@ -120,7 +120,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .index-tags {
     position: relative;
     height: 30px;
@@ -170,8 +170,8 @@ export default {
 }
 
 .tags-li.active {
-    border: 1px solid #409eff;
-    background-color: #409eff;
+    border: 1px solid $--color-primary;
+    background-color: $--color-primary;
 }
 .tags-li.active .tags-li-title {
     color: #fff;

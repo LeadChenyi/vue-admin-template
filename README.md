@@ -49,10 +49,27 @@
 - tags 标签页 
 - fullscreen 全屏
 - language 切语言 
-- theme skin 换皮肤 [wait]
-- swiper 轮播
-- excel 导入导出
-- editor 富文本编辑
+- vue-awesome-swiper 轮播
+```
+    import "swiper/dist/css/swiper.css";
+    import { swiper, swiperSlide } from "vue-awesome-swiper";
+    import * as swiperAni from "@/common/lib/swiper.animate.js";
+```
+- custom-element-theme.scss 重置主题/动态皮肤 [wait]
+```
+    import 'element-ui/lib/theme-chalk/index.css'       （动态换肤无效，默认样式在后置位打包渲染，依旧会覆盖动态生成的样式）
+    import '@/assets/style/custom-element-theme.scss'   （动态换肤无效）
+    
+    const version = require("element-ui/package.json").version;（锁定版本）
+```
+- vue-clipboard2 复制到剪切板 
+- vue-quill-editor 富文本编辑 
+- vue-draggable-resizable/vue-draggable sortablejs/vue-sortable 拖拽排序
+- vue-ele-import 导入数据
+- vue-echarts 图表
+- print 打印
+- 参考 vue-admin-beautiful 依赖包
+
 
 ### 常见问题
 - Syntax Error: Error: Cannot find module 'gifsicle'

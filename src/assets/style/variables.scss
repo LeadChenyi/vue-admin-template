@@ -1,4 +1,7 @@
-// 声明动态变量
+/* element主题色变量 */
+$--color-primary:#29298E;
+
+/* 其它主题色变量 */
 $app-color-white:#FFFFFF;
 $app-color-default:#F8F8F8;
 $app-color-primary:#0099FF;
@@ -28,6 +31,7 @@ $app-size-mini:45px;
 
 // 导出动态变量
 :export {
+    colorPrimary:$--color-primary;
     appColorDefault:$app-color-default;
     appColorPrimary:$app-color-primary;
     appColorSuccess:$app-color-success;
