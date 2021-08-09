@@ -20,6 +20,10 @@ import ElementUI from 'element-ui'
 import '@/assets/style/custom-element-theme.scss'
 Vue.use(ElementUI)
 
+import VueClipboard from 'vue-clipboard-plus'
+VueClipboard.config.autoSetContainer = true
+Vue.use(VueClipboard)
+
 Vue.config.productionTip = false
 
 new Vue({
