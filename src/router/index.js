@@ -36,15 +36,16 @@ let baseRouters = [
                 }
             }
         ]
-    }, {
+    },
+    {
         path: '/config',
         name: 'Config',
         component: Layout,
         meta: {
             title: '配置管理',
             icon: 'el-icon-menu',
-            hidden: false,   // 是否隐藏路由    
-            inherit: false,  // 是否继承路由（当子路由只有一个元素时，当前路由不展示）
+            hidden: false,
+            inherit: false,
         },
         redirect: '/env',
         children: [
@@ -66,6 +67,7 @@ let baseRouters = [
             title: '用户管理',
             icon: 'el-icon-menu'
         },
+        redirect: '/mange',
         children: [
             {
                 path: '/robot',
@@ -93,6 +95,7 @@ let baseRouters = [
             title: '订单管理',
             icon: 'el-icon-menu'
         },
+        redirect: '/thing',
         children: [
             {
                 path: '/thing',
@@ -108,6 +111,34 @@ let baseRouters = [
                 component: () => import('@/pages/order/rush'),
                 meta: {
                     title: '抢购订单'
+                }
+            }
+        ]
+    },
+    {
+        path: '/unit',
+        name: 'Unit',
+        component: Layout,
+        meta: {
+            title: '组件管理',
+            icon: 'el-icon-menu'
+        },
+        redirect: '/copy',
+        children: [
+            {
+                path: '/copy',
+                name: 'Copy',
+                component: () => import('@/pages/unit/copy'),
+                meta: {
+                    title: '复制剪切板'
+                }
+            },
+            {
+                path: '/form',
+                name: 'Form',
+                component: () => import('@/pages/unit/form'),
+                meta: {
+                    title: '表单验证'
                 }
             }
         ]
