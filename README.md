@@ -45,7 +45,7 @@
 - permission 操作权限 
 - menu 动态菜单路由
 
-### 功能
+### 功能描述及使用
 - tags 标签页 
 - fullscreen 全屏
 - language 切语言 
@@ -62,20 +62,20 @@
     
     const version = require("element-ui/package.json").version;（锁定版本）
 ```
-- vue-clipboard-plus 复制到剪切板
--  sortablejs 拖动排序 
-```
-    注意：vue-sortable 不支持vue2.0及以上
-```
-- vue-draggable 拖拽排序 [wait]
 - vue-quill-editor 富文本编辑
 - vue-ele-import 导入数据
 - vue-echarts 图表
 - print 打印
 - 参考 vue-admin-beautiful 依赖包
 
+### 依赖模块大全
+- [√] vue-clipboard-plus 复制到剪切板
+- [√] sortablejs 拖动排序
+- [√] vue-draggable 拖拽排序(v1.1.1搭配vue2.6以下，v2.0.0搭配vue2.6+可支持vue-draggable-group组件模式)
+
 
 ### 常见问题
+- 安装依赖模块时先查看相关版本介绍，比如vue-sortable模块就不支持vue2及以上
 - Syntax Error: Error: Cannot find module 'gifsicle'
 ```
     原因：由于image-webpack-loader依赖包安装不全，导致依赖包所关联的依赖模块丢失

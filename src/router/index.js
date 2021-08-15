@@ -134,6 +134,14 @@ let baseRouters = [
                 }
             },
             {
+                path: '/sort',
+                name: 'Sort',
+                component: () => import('@/pages/unit/sort'),
+                meta: {
+                    title: '元素排序'
+                }
+            },
+            {
                 path: '/form',
                 name: 'Form',
                 component: () => import('@/pages/unit/form'),

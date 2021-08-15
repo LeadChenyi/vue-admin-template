@@ -1,5 +1,5 @@
 <template>
-    <div class="form"></div>
+    <div class="unit-page"></div>
 </template>
 
 <script>
