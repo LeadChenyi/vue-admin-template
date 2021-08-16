@@ -359,7 +359,8 @@ export default {
 .index-main {
     width: 100%;
     height: calc(100% - 50px);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* 移动端模式 */

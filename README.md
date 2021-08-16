@@ -65,14 +65,14 @@
 - vue-quill-editor 富文本编辑
 - vue-ele-import 导入数据
 - vue-echarts 图表
-- print 打印
 - 参考 vue-admin-beautiful 依赖包
 
 ### 依赖模块大全
 - [√] vue-clipboard-plus 复制到剪切板
 - [√] sortablejs 拖动排序
 - [√] vue-draggable 拖拽排序(v1.1.1搭配vue2.6以下，v2.0.0搭配vue2.6+可支持vue-draggable-group组件模式)
-
+- [√] vuedraggable 拖拽排序(推荐)
+- [√] vue-print-plugin 指定元素打印
 
 ### 常见问题
 - 安装依赖模块时先查看相关版本介绍，比如vue-sortable模块就不支持vue2及以上

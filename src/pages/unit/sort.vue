@@ -20,6 +20,18 @@
                 <li class="drag-item">Item 6</li>
             </ul>
         </div>
+
+        <el-divider>vuedraggable</el-divider>
+        <draggable
+            v-model="sorts"
+            group="people"
+            @start="drag = true"
+            @end="drag = false"
+        >
+            <div class="list-group-item" v-for="item in sorts" :key="item.id">
+                {{ item.title }}
+            </div>
+        </draggable>
     </div>
 </template>
 
@@ -31,8 +43,14 @@ Vue.directive("sortable", {
         new Sortable(el, binding.value || {});
     },
 });
+
+import draggable from "vuedraggable";
+
 export default {
     name: "Sort",
+    components: {
+        draggable,
+    },
     data() {
         return {
             sorts: [
