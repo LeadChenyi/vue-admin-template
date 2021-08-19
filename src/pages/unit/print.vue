@@ -1,7 +1,7 @@
 <template>
     <div class="unit-page">
-        <button @click="printArticle">打印文字</button>
-        <div ref="article">
+        <button @click="printElement('queryArticle')">打印文章元素</button>
+        <div ref="queryArticle">
             歌德曾经说过，没有人事先了解自己到底有多大的力量，直到他试过以后才知道。这似乎解答了我的疑惑。
             带着这些问题，我们来审视一下生活的意义。 从这个角度来看，
             爱迪生说过一句富有哲理的话，失败也是我需要的，它和成功对我一样有价值。这启发了我，
@@ -25,8 +25,8 @@
 export default {
     name: "Print",
     methods: {
-        printArticle() {
-            this.$print(this.$refs.article);
+        printElement(ref) {
+            this.$print(this.$refs[ref]);
         },
     },
 };

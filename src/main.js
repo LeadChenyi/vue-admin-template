@@ -27,7 +27,7 @@ Vue.use(VueClipboard)
 import VueDraggable from "vue-draggable";
 Vue.use(VueDraggable);
 
-import Print from "@/common/print.js";
+import Print from "@/common/lib/print.js";
 Vue.use(Print);
 
 Vue.config.productionTip = false

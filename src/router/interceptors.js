@@ -5,6 +5,8 @@ import Cookie from 'js-cookie';
 import Request from '@/api/axios/index.js';
 import { Message } from 'element-ui';
 import Store from '@/store/index.js';
+import RouterModulesUnit from '@/router/modules/unit.js';
+import RouterModulesStatic from '@/router/modules/static.js';
 
 // 404 等页面需要添加到白名单上，因为只要跳转页面就会触发路由守卫，否则会进入死循环
 let userPathWhiteList = ['/404'];
@@ -84,10 +86,13 @@ function getRouters() {
                 return false;
             }
 
+            // 动态路由与静态路由数据合并
+            let fullRouters = [...res.data, ...RouterModulesUnit, ...RouterModulesStatic];
+
             if (userPathWhiteList.length <= 1) {
-                getItemPath(res.data);
+                getItemPath(fullRouters);
             }
-            Store.dispatch("app/setRouters", res.data);
+            Store.dispatch("app/setRouters", fullRouters);
         })
         .catch((err) => {
             console.log(err);

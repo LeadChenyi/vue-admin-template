@@ -2,7 +2,7 @@ export default {
     namespaced: true,
     state: {
         message: '',            // 消息通知
-        isCollapse: true,       // 是否为折叠模式
+        isCollapse: false,       // 是否为折叠模式
         isMobile: false,        // 是否为移动模型
         userInfo: null,         // 用户信息
         routers: null,          // 动态路由

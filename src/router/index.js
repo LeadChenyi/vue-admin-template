@@ -116,42 +116,6 @@ let baseRouters = [
         ]
     },
     {
-        path: '/unit',
-        name: 'Unit',
-        component: Layout,
-        meta: {
-            title: '组件管理',
-            icon: 'el-icon-menu'
-        },
-        redirect: '/copy',
-        children: [
-            {
-                path: '/copy',
-                name: 'Copy',
-                component: () => import('@/pages/unit/copy'),
-                meta: {
-                    title: '复制剪切板'
-                }
-            },
-            {
-                path: '/sort',
-                name: 'Sort',
-                component: () => import('@/pages/unit/sort'),
-                meta: {
-                    title: '元素排序'
-                }
-            },
-            {
-                path: '/form',
-                name: 'Form',
-                component: () => import('@/pages/unit/form'),
-                meta: {
-                    title: '表单验证'
-                }
-            }
-        ]
-    },
-    {
         path: '/system',
         name: 'System',
         component: Layout,
@@ -168,7 +132,7 @@ let baseRouters = [
         ]
     }
 ];
-
+// 自动化注入路由
 const files = require.context('./modules', false, /\.js$/);
 files.keys().forEach((item) => {
     baseRouters = [...baseRouters, ...files(item).default];
