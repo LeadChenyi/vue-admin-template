@@ -1,28 +1,32 @@
 <template>
     <div
-        ref="indexLayout"
-        class="index-layout"
+        ref="queryLayout"
+        class="alike-layout"
         :class="{
-            'index-layout--mobile': isMobile,
-            'index-layout--collapse': isCollapse,
+            'alike-layout--mobile': isMobile,
+            'alike-layout--collapse': isCollapse,
         }"
     >
+        <!-- 移动端菜单遮罩层 -->
         <template v-if="isMobile">
             <div
-                class="index-mask"
+                class="alive-layout-mask"
                 :hidden="isCollapse"
                 @click="closeCollapse"
             ></div>
         </template>
 
-        <index-sidebar></index-sidebar>
-        <div class="index-container">
-            <index-navbar
-                @changeFullScreen="changeFullScreen"
-                @changeSetting="changeSetting"
-            ></index-navbar>
-            <div class="index-main">
-                <index-tags></index-tags>
+        <alike-sidebar></alike-sidebar>
+
+        <div class="alike-layout-page">
+            <div class="alike-header">
+                <alike-navbar
+                    @changeFullScreen="changeFullScreen"
+                    @changeSetting="changeSetting"
+                ></alike-navbar>
+                <alike-tags></alike-tags>
+            </div>
+            <div class="alike-main">
                 <transition>
                     <keep-alive :include="getTags">
                         <router-view></router-view>
@@ -48,9 +52,9 @@
 </template>
 
 <script>
-import IndexSidebar from "./index-sidebar";
-import IndexNavbar from "./index-navbar";
-import IndexTags from "./index-tags";
+import AlikeSidebar from "./alike-sidebar";
+import AlikeNavbar from "./alike-navbar";
+import AlikeTags from "./alike-tags";
 import Variables from "@/assets/style/variables.scss";
 // 锁定版本，以免将来 Element 升级时受到非兼容性更新的影响。
 const version = require("element-ui/package.json").version;
@@ -59,9 +63,9 @@ const ORIGINAL_THEME = Variables.colorPrimary;
 export default {
     name: "Index",
     components: {
-        IndexSidebar,
-        IndexNavbar,
-        IndexTags,
+        AlikeSidebar,
+        AlikeNavbar,
+        AlikeTags,
     },
     data() {
         return {
@@ -240,7 +244,7 @@ export default {
         },
         changeFullScreen(value) {
             if (value) {
-                this.openFS(this.$refs.indexLayout);
+                this.openFS(this.$refs.queryLayout);
             } else {
                 this.closeFS();
             }
@@ -291,12 +295,12 @@ export default {
 </script>
 
 <style>
-.index-layout {
+.alike-layout {
     width: 100%;
     height: 100%;
     background-color: #ffffff;
 }
-.index-mask {
+.alive-layout-mask {
     position: absolute;
     top: 0;
     left: 0;
@@ -305,7 +309,7 @@ export default {
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
 }
-.index-sidebar {
+.alike-sidebar {
     transition: width 0.28s;
     width: 210px;
     background-color: #304156;
@@ -319,35 +323,37 @@ export default {
     overflow: hidden;
 }
 
-.index-container {
+.alike-layout-page {
     height: 100%;
     transition: margin-left 0.28s;
     margin-left: 210px;
     position: relative;
 }
-.index-navbar {
-    height: 50px;
+.alike-navbar {
+    height: 60px;
     position: relative;
     overflow: hidden;
-    background: #ffffff;
-    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+    background-color: #ffffff;
+    /* box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08); */
+    border-bottom: 1px solid #f6f6f6;
     display: flex;
     align-items: center;
+    box-sizing: border-box;
 }
-.index-sidebar .el-menu {
+.alike-sidebar .el-menu {
     border-right: none !important;
 }
-.index-navbar-collapse {
+.alike-navbar-collapse {
     height: 100%;
-    line-height: 50px;
+    line-height: 60px;
     padding: 0px 15px;
     display: inline-block;
     cursor: pointer;
 }
-.index-navbar-breadcrumb {
+.alike-navbar-breadcrumb {
     flex: 1;
 }
-.index-navbar-dropdown {
+.alike-navbar-dropdown {
     margin-right: 15px;
 }
 .user-avatar {
@@ -356,23 +362,29 @@ export default {
     border-radius: 10px;
     cursor: pointer;
 }
-.index-main {
+.alike-main {
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 100px);
     overflow-x: hidden;
     overflow-y: auto;
+    background-color: #f5f6fa;
+}
+.alike-container {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 /* 移动端模式 */
-.index-layout--mobile .index-container {
+.alike-layout--mobile .alike-layout-page {
     margin-left: 64px;
 }
 
 /* 折叠模式 */
-.index-layout--collapse .index-sidebar {
+.alike-layout--collapse .alike-sidebar {
     width: 64px !important;
 }
-.index-layout--collapse .index-container {
+.alike-layout--collapse .alike-layout-page {
     margin-left: 64px !important;
 }
 .el-menu--collapse .el-menu-item > span,

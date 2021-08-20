@@ -46,6 +46,8 @@
 - menu 动态菜单路由
 
 ### 功能描述及使用
+- alike为PC端关键词，alive为Mobile端关键词
+- 查询元素以query关键词开头定义
 - tags 标签页 
 - fullscreen 全屏
 - language 切语言 
