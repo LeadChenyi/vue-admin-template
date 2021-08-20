@@ -15,7 +15,7 @@ export default [
                 name: 'Copy',
                 component: () => import('@/pages/unit/copy'),
                 meta: {
-                    title: '复制剪切板'
+                    title: '复制到剪切板'
                 }
             },
             {
@@ -23,7 +23,7 @@ export default [
                 name: 'Sort',
                 component: () => import('@/pages/unit/sort'),
                 meta: {
-                    title: '元素排序'
+                    title: '元素拖动排序'
                 }
             },
             {
@@ -31,7 +31,7 @@ export default [
                 name: 'Print',
                 component: () => import('@/pages/unit/print'),
                 meta: {
-                    title: '指定打印元素'
+                    title: '打印指定元素'
                 }
             },
             {

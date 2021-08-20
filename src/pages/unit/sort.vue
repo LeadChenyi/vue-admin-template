@@ -1,49 +1,64 @@
 <template>
-    <div class="unit-page">
-        <el-divider>sortablejs</el-divider>
-        <div id="list-group" v-sortable="{ onUpdate: changeSortable }">
-            <div class="list-group-item" v-for="item in sorts" :key="item.id">
-                {{ item.title }}
-            </div>
-        </div>
-
-        <el-divider>vue-draggable</el-divider>
-        <div class="drag-wrapper" v-drag-and-drop:options="options">
-            <ul class="drag-list">
-                <li class="drag-item">Item 1</li>
-                <li class="drag-item">Item 2</li>
-                <li class="drag-item">Item 3</li>
-            </ul>
-            <ul class="drag-list">
-                <li class="drag-item">Item 4</li>
-                <li class="drag-item">Item 5</li>
-                <li class="drag-item">Item 6</li>
-            </ul>
-        </div>
-
-        <el-divider>vuedraggable</el-divider>
-        <draggable
-            v-model="sorts"
-            group="people"
-            @start="drag = true"
-            @end="drag = false"
-        >
-            <div class="list-group-item" v-for="item in sorts" :key="item.id">
-                {{ item.title }}
-            </div>
-        </draggable>
+    <div class="alike-container p-20">
+        <el-row :gutter="20">
+            <el-col :span="6">
+                <el-card>
+                    <div slot="header">vuedraggable 单容器拖动</div>
+                    <draggable
+                        v-model="sorts1"
+                        group="people"
+                        @start="drag = true"
+                        @end="drag = false"
+                        draggable=".sort-item"
+                    >
+                        <div
+                            class="sort-item"
+                            v-for="item in sorts1"
+                            :key="item.id"
+                        >
+                            {{ item.name }}
+                        </div>
+                    </draggable>
+                    <div class="mt-20">
+                        <el-button @click="showSortData(sorts1)"
+                            >显示最终排序</el-button
+                        >
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="6">
+                <el-card>
+                    <div slot="header">vuedraggable 带过渡动画</div>
+                    <draggable
+                        v-model="sorts2"
+                        @start="drag = true"
+                        @end="drag = false"
+                    >
+                        <transition-group
+                            type="transition"
+                            :name="'ani-draggable'"
+                        >
+                            <div
+                                class="sort-item"
+                                v-for="item in sorts2"
+                                :key="item.id"
+                            >
+                                {{ item.name }}
+                            </div>
+                        </transition-group>
+                    </draggable>
+                    <div class="mt-20">
+                        <el-button @click="showSortData(sorts2)"
+                            >显示最终排序</el-button
+                        >
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
 <script>
-import Vue from "vue";
-import Sortable from "sortablejs";
-Vue.directive("sortable", {
-    inserted: function (el, binding) {
-        new Sortable(el, binding.value || {});
-    },
-});
-
 import draggable from "vuedraggable";
 
 export default {
@@ -53,128 +68,68 @@ export default {
     },
     data() {
         return {
-            sorts: [
-                { id: 1, title: "Item 1" },
-                { id: 2, title: "Item 2" },
-                { id: 3, title: "Item 3" },
+            sorts1: [
+                { id: 1, name: "P1 Item 1" },
+                { id: 2, name: "P1 Item 2" },
+                { id: 3, name: "P1 Item 3" },
             ],
-            options: {
-                reactivityEnabled: false,
-                dropzoneSelector: ".drag-list",
-                draggableSelector: ".drag-item",
-                onDragend(event) {
-                    console.log(event);
-                },
-            },
+            sorts2: [
+                { id: 1, name: "P2 Item 1" },
+                { id: 2, name: "P2 Item 2" },
+                { id: 3, name: "P2 Item 3" },
+            ],
+            packSorts: [
+                { id: 1, name: "Pack Item 1" },
+                { id: 2, name: "Pack Item 2" },
+                { id: 3, name: "Pack Item 3" },
+                { id: 4, name: "Pack Item 4" },
+                { id: 5, name: "Pack Item 5" },
+            ],
+            indexSorts: [
+           
+            ],
         };
     },
     methods: {
-        changeSortable(e) {
-            //splice(1、目标位置 2、删除个数 3、新增元素)
-            //删除数组中oldIndex的元素并且将该元素保留，插入到newIndex的位置后面
-            this.sorts.splice(
-                e.newIndex,
-                0,
-                this.sorts.splice(e.oldIndex, 1)[0]
-            );
-
-            //标记最新顺序
-            this.sorts.forEach((item, index) => {
-                item.no = index;
-            });
-            console.log(this.sorts);
+        showSortData(value) {
+            this.$msgbox({
+                title: "最终排序结果",
+                message: JSON.stringify(value),
+            })
+                .then()
+                .catch();
         },
     },
 };
 </script>
 
 <style scoped>
-.list-group {
+.ani-draggable-move {
+    transition: transform 0.5s;
+}
+.sort-wrap {
+    min-height: 300px;
     position: relative;
     overflow: hidden;
+    border: 1px solid rgba(50, 192, 109, 0.7);
+    background-color: #f8f8f8;
+    border-radius: 2px;
 }
-.list-group-item {
-    position: relative;
-    display: block;
-    padding: 10px;
+.sort-item {
+    font-size: 15px;
+    color: #333333;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    background-color: #ffffff;
     margin-bottom: -1px;
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    cursor: move;
 }
-.drag-wrapper {
-    display: flex;
-    justify-content: center;
-}
-
-ul {
-    display: flex;
-    flex-direction: column;
-    padding: 3px !important;
-    min-height: 70vh;
-    width: 100px;
-    float: left;
-    list-style-type: none;
-    overflow-y: auto;
-    border: 2px solid #888;
-    border-radius: 0.2em;
-    background: #8adccc;
-    color: #555;
-    margin-right: 5px;
-}
-
-/* drop target state */
-ul[aria-dropeffect="move"] {
-    border-color: #68b;
-    background: #fff;
-}
-
-/* drop target focus and dragover state */
-ul[aria-dropeffect="move"]:focus,
-ul[aria-dropeffect="move"].dragover {
-    outline: none;
-    box-shadow: 0 0 0 1px #fff, 0 0 0 3px #68b;
-}
-
-/* draggable items */
-li {
-    display: block;
-    list-style-type: none;
-    margin: 0 0 2px 0;
-    padding: 0.2em 0.4em;
-    border-radius: 0.2em;
-    line-height: 1.3;
-}
-
-li:hover {
-    box-shadow: 0 0 0 2px #68b, inset 0 0 0 1px #ddd;
-}
-
-/* items focus state */
-li:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #68b, inset 0 0 0 1px #ddd;
-}
-
-/* items grabbed state */
-li[aria-grabbed="true"] {
-    background: #5cc1a6;
-    color: #fff;
-}
-
-@keyframes nodeInserted {
-    from {
-        opacity: 0.2;
-    }
-    to {
-        opacity: 0.8;
-    }
-}
-
-.item-dropzone-area {
-    height: 30px;
-    background: #888;
-    opacity: 0.8;
-    animation-duration: 0.5s;
-    animation-name: nodeInserted;
+.sort-item[draggable="true"] {
+    color: rgba(21, 136, 244, 0.3);
+    border-color: rgba(21, 136, 244, 0.7);
 }
 </style>

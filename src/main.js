@@ -24,9 +24,6 @@ import VueClipboard from 'vue-clipboard-plus'
 VueClipboard.config.autoSetContainer = true
 Vue.use(VueClipboard)
 
-import VueDraggable from "vue-draggable";
-Vue.use(VueDraggable);
-
 import Print from "@/common/lib/print.js";
 Vue.use(Print);
 
