@@ -3,7 +3,7 @@
 exports.__esModule = true
 var vue_1 = require('vue')
 var Print = /** @class */ (function () {
-  function Print (dom) {
+  function Print(dom) {
     if (dom instanceof HTMLElement) {
       this.dom = dom
     } else if (dom instanceof vue_1['default']) {
@@ -46,9 +46,11 @@ var Print = /** @class */ (function () {
   }
   return Print
 }())
+
 exports['default'] = {
-  install: function (Vue) {
-    // 4. 添加实例方法
+  install: function (Vue) {// Vue.use 全局注册方式
     Vue.prototype.$print = function (dom) { return new Print(dom) }
-  }
+  },// 局部引用方式
+  action(dom) { return new Print(dom) }
 }
+

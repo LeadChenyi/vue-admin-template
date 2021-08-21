@@ -28,6 +28,7 @@
 </template>
 
 <script>
+// vue-draggable (v1.1.1搭配vue2.6以下，v2.0.0搭配vue2.6+可支持vue-draggable-group组件模式)
 export default {
     data() {
         return {

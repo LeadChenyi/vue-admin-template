@@ -66,17 +66,17 @@
 ```
 - [vuedraggable 中文](https://www.itxst.com/vue-draggable/yvq3mifz.html)
 - [SortableJS 英文](https://github.com/SortableJS/Sortable#options)
-- vue-quill-editor 富文本编辑
-- vue-ele-import 导入数据
-- vue-echarts 图表
-- 参考 vue-admin-beautiful 依赖包
+- 参考依赖包 vue-element-admin、vue-admin-beautiful
 
 ### 依赖模块大全
 - [√] vue-clipboard-plus 复制到剪切板
 - [√] sortablejs 排序插件
-- [√] vue-draggable 拖拽排序(v1.1.1搭配vue2.6以下，v2.0.0搭配vue2.6+可支持vue-draggable-group组件模式)
-- [√] vuedraggable 依赖 sortablejs 拖拽排序(推荐)
-- [√] vue-print-plugin 指定元素打印
+- [√] vuedraggable 依赖 sortablejs 拖拽排序
+- [√] vue-print-nb \ print.js（来自vue-print-plugin）打印指定元素
+- [×] validation.js 表单自定义验证方法与格式
+- [×] vue-quill-editor 富文本编辑
+- [×] vue-echarts 图表
+- [×] vue-ele-import 导入数据
 
 ### 常见问题
 - 安装依赖模块时先查看相关版本介绍，比如vue-sortable模块就不支持vue2及以上
@@ -86,4 +86,8 @@
     解决：删除node_modules 和 package-lock.json 使用淘宝镜像安装模块
     源主机资源无法访问：https://www.cnblogs.com/ccti7/p/13956678.html
 ``` 
-
+- Uncaught SyntaxError: Invalid or unexpected token
+```
+    原因：更新或删除了依赖
+    解决：刷新项目资源管理器，然后重新编译
+```
