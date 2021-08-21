@@ -3,7 +3,7 @@
         <el-row :gutter="20">
             <el-col :span="6">
                 <el-card>
-                    <div slot="header">vuedraggable 单列拖拽</div>
+                    <div slot="header">单列拖拽</div>
                     <draggable
                         v-model="sorts1"
                         @start="drag = true"
@@ -26,7 +26,7 @@
             </el-col>
             <el-col :span="6">
                 <el-card>
-                    <div slot="header">vuedraggable 指定拖拽元素类</div>
+                    <div slot="header">指定拖拽元素类</div>
                     <draggable
                         v-model="sorts2"
                         @start="drag = true"
@@ -50,7 +50,7 @@
             </el-col>
             <el-col :span="6">
                 <el-card>
-                    <div slot="header">vuedraggable animation默认动画</div>
+                    <div slot="header">animation默认动画</div>
                     <draggable
                         v-model="sorts3"
                         @start="drag = true"
@@ -76,9 +76,7 @@
             </el-col>
             <el-col :span="6">
                 <el-card>
-                    <div slot="header">
-                        vuedraggable transition-group自定义动画
-                    </div>
+                    <div slot="header">transition-group自定义动画</div>
                     <draggable
                         v-model="sorts4"
                         @start="drag = true"
@@ -108,7 +106,7 @@
         <el-row :gutter="20" class="mt-20">
             <el-col :span="6">
                 <el-card>
-                    <div slot="header">vuedraggable 多列互相拖拽(ROOM1-A)</div>
+                    <div slot="header">多列互相拖拽(ROOM1-A)</div>
                     <draggable
                         class="sort-wrap"
                         v-model="sorts5"
@@ -133,7 +131,7 @@
             </el-col>
             <el-col :span="6">
                 <el-card>
-                    <div slot="header">vuedraggable 多列互相拖拽(ROOM1-B)</div>
+                    <div slot="header">多列互相拖拽(ROOM1-B)</div>
                     <draggable
                         class="sort-wrap"
                         v-model="sorts6"
@@ -158,7 +156,7 @@
             </el-col>
             <el-col :span="6">
                 <el-card>
-                    <div slot="header">vuedraggable 多列单项拖拽(ROOM2-A)</div>
+                    <div slot="header">多列单项拖拽(ROOM2-A)</div>
                     <draggable
                         class="sort-wrap"
                         v-model="sorts7"
@@ -184,7 +182,7 @@
             </el-col>
             <el-col :span="6">
                 <el-card>
-                    <div slot="header">vuedraggable 多列单项拖拽(ROOM2-B)</div>
+                    <div slot="header">多列单项拖拽(ROOM2-B)</div>
                     <draggable
                         class="sort-wrap"
                         v-model="sorts8"
