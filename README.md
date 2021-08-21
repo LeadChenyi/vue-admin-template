@@ -64,6 +64,8 @@
     
     const version = require("element-ui/package.json").version;（锁定版本）
 ```
+- [vuedraggable 中文](https://www.itxst.com/vue-draggable/yvq3mifz.html)
+- [SortableJS 英文](https://github.com/SortableJS/Sortable#options)
 - vue-quill-editor 富文本编辑
 - vue-ele-import 导入数据
 - vue-echarts 图表
@@ -71,9 +73,9 @@
 
 ### 依赖模块大全
 - [√] vue-clipboard-plus 复制到剪切板
-- [√] sortablejs 拖动排序
+- [√] sortablejs 排序插件
 - [√] vue-draggable 拖拽排序(v1.1.1搭配vue2.6以下，v2.0.0搭配vue2.6+可支持vue-draggable-group组件模式)
-- [√] vuedraggable 拖拽排序(推荐)
+- [√] vuedraggable 依赖 sortablejs 拖拽排序(推荐)
 - [√] vue-print-plugin 指定元素打印
 
 ### 常见问题
