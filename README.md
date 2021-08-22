@@ -71,7 +71,7 @@
 - [SortableJS options文档](https://github.com/SortableJS/Sortable#options)
 - [vuedraggable 示例](https://www.itxst.com/vue-draggable/yvq3mifz.html)
 - [vue-quill-editor 示例](https://github.surmon.me/vue-quill-editor/)
-
+- [v-charts 文档](https://v-charts.js.org/#/)
 
 ### 依赖模块大全
 - [√] vue-clipboard-plus 复制到剪切板
@@ -81,7 +81,7 @@
 - [√] validation.js 自定义表单验证方法及规则与描述
 - [√] list 数据列表示例
 - [√] vue-quill-editor quill-image-extend-module 富文本编辑器
-- [×] vue-echarts 图表
+- [√] echarts、v-charts 数据图表
 - [×] vue-ele-import 导入数据
 
 

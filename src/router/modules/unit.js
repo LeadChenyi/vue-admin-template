@@ -65,6 +65,14 @@ export default [
                 meta: {
                     title: '富文本编辑器'
                 }
+            },
+            {
+                path: '/chart',
+                name: 'Chart',
+                component: () => import('@/pages/unit/chart'),
+                meta: {
+                    title: '数据图表'
+                }
             }
         ]
     }

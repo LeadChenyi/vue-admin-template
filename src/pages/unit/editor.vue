@@ -5,12 +5,13 @@
                 <el-card>
                     <div slot="header">vue-quill-editor</div>
                     <quill-editor
-                        class="alike-editor"
+                        ref="queryQuillEditor"
                         v-model="quillContent"
                         :options="quillOptions"
-                        @blur="blurQuill($event)"
-                        @focus="focusQuill($event)"
                         @ready="readyQuill($event)"
+                        @focus="focusQuill($event)"
+                        @change="changeQuill($event)"
+                        @blur="blurQuill($event)"
                     >
                     </quill-editor>
                 </el-card>
@@ -58,15 +59,25 @@ export default {
             },
         };
     },
+    mounted() {
+        // 等同于监听ready钩子函数
+        console.log(
+            "get quill editor context",
+            this.$refs.queryQuillEditor.quill
+        );
+    },
     methods: {
-        blurQuill(quill) {
-            console.log("blur editor", quill);
+        readyQuill(quill) {
+            console.log("ready editor", quill);
         },
         focusQuill(quill) {
             console.log("focus editor", quill);
         },
-        readyQuill(quill) {
-            console.log("ready editor", quill);
+        changeQuill(quill) {
+            console.log("change editor", quill);
+        },
+        blurQuill(quill) {
+            console.log("blur editor", quill);
         },
     },
 };
