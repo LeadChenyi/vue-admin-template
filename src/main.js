@@ -5,6 +5,7 @@ import '@/router/interceptors.js'
 import store from '@/store'
 import i18n from '@/i18n'
 
+/*--- 自定义脚本插件全局挂载 ---*/
 // import '@/api/mock/index.js'
 import Request from '@/api/axios/index.js'
 Vue.prototype.$request = Request;
@@ -12,19 +13,23 @@ Vue.prototype.$request = Request;
 import Utils from '@/common/utils.js'
 Vue.prototype.$utils = Utils;
 
-import Plugins from '@/common/plugins.js'
-Vue.use(Plugins);
+import Validation from '@/common/validation.js'
+Vue.prototype.$validation = Validation;
 
+/*--- 第三方脚本插件&组件库全局挂载 ---*/
 import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/style/custom-element-theme.scss'
 Vue.use(ElementUI)
 
-import VueClipboard from 'vue-clipboard-plus'
-VueClipboard.config.autoSetContainer = true
-Vue.use(VueClipboard)
+import Plugins from '@/common/plugins.js'
+Vue.use(Plugins);
 
-Vue.config.productionTip = false
+import VueClipboard from 'vue-clipboard-plus'
+VueClipboard.config.autoSetContainer = true;
+Vue.use(VueClipboard);
+
+Vue.config.productionTip = false;
 
 new Vue({
   router,

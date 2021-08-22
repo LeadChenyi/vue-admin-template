@@ -1,9 +1,9 @@
 <template>
     <div class="alike-container p-20">
         <el-row :gutter="20">
-            <el-col :span="24">
+            <el-col :span="12">
                 <el-card>
-                    <div slot="header">表单控件</div>
+                    <div slot="header">管理列表</div>
                 </el-card>
             </el-col>
         </el-row>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    name: "Form",
+    name: "List",
 };
 </script>
 

@@ -1,3 +1,6 @@
+/**
+ * 自定义表单验证器
+ */
 module.exports = {
     isExternal(path) {
         return /^(https?:|mailto:|tel:)/.test(path)

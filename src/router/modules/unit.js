@@ -39,7 +39,23 @@ export default [
                 name: 'Form',
                 component: () => import('@/pages/unit/form'),
                 meta: {
+                    title: '表单控件'
+                }
+            },
+            {
+                path: '/rule',
+                name: 'Rule',
+                component: () => import('@/pages/unit/rule'),
+                meta: {
                     title: '表单验证'
+                }
+            },
+            {
+                path: '/list',
+                name: 'List',
+                component: () => import('@/pages/unit/list'),
+                meta: {
+                    title: '管理列表'
                 }
             }
         ]

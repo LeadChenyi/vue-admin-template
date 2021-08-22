@@ -73,7 +73,7 @@
 - [√] sortablejs 排序插件
 - [√] vuedraggable 依赖 sortablejs 拖拽排序
 - [√] vue-print-nb \ print.js（来自vue-print-plugin）打印指定元素
-- [×] validation.js 表单自定义验证方法与格式
+- [√] validation.js 自定义表单验证方法及规则与描述
 - [×] vue-quill-editor 富文本编辑
 - [×] vue-echarts 图表
 - [×] vue-ele-import 导入数据
