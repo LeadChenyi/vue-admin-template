@@ -82,7 +82,8 @@
 - [√] list 数据列表示例
 - [√] vue-quill-editor quill-image-extend-module 富文本编辑器
 - [√] echarts、v-charts 数据图表
-- [×] vue-ele-import 导入数据
+- [*] pikaz-excel-js 导入导出数据（前端需要重构处理）
+- [×] vue-element-admin vue-ele-import 导入导出数据
 
 
 ### 常见问题

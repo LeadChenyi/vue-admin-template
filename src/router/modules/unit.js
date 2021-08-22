@@ -73,6 +73,14 @@ export default [
                 meta: {
                     title: '数据图表'
                 }
+            },
+            {
+                path: '/excel',
+                name: 'Excel',
+                component: () => import('@/pages/unit/excel'),
+                meta: {
+                    title: '数据导入导出'
+                }
             }
         ]
     }
