@@ -55,7 +55,7 @@ export default [
                 name: 'List',
                 component: () => import('@/pages/unit/list'),
                 meta: {
-                    title: '管理列表'
+                    title: '数据列表'
                 }
             }
         ]
