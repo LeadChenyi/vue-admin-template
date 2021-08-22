@@ -57,6 +57,14 @@ export default [
                 meta: {
                     title: '数据列表'
                 }
+            },
+            {
+                path: '/editor',
+                name: 'Editor',
+                component: () => import('@/pages/unit/editor'),
+                meta: {
+                    title: '富文本编辑器'
+                }
             }
         ]
     }
