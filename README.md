@@ -72,7 +72,8 @@
 - [vuedraggable 示例](https://www.itxst.com/vue-draggable/yvq3mifz.html)
 - [vue-quill-editor 示例](https://github.surmon.me/vue-quill-editor/)
 - [v-charts 文档](https://v-charts.js.org/#/)
-- [excel 示例](https://panjiachen.github.io/vue-element-admin-site/feature/component/excel.html#excel-export)
+- [excel Pikez 示例](https://juejin.cn/post/6844904151667720205)
+- [excel PanJiaChen 示例](https://panjiachen.github.io/vue-element-admin-site/feature/component/excel.html#excel-export)
 
 ### 依赖模块大全
 - [√] vue-clipboard-plus 复制到剪切板
@@ -83,8 +84,8 @@
 - [√] list 数据列表示例
 - [√] vue-quill-editor quill-image-extend-module 富文本编辑器
 - [√] echarts、v-charts 数据图表
-- [*] pikaz-excel-js 导入导出数据(需要前端重构处理)
-- [*] xlsx file-saver script-loader (来自vue-element-admin) 数据导入导出(示例待完善)
+- [√] pikaz-excel-js 数据导入导出
+- [√] xlsx file-saver script-loader (来自vue-element-admin) 数据导入导出
 
 
 ### 常见问题

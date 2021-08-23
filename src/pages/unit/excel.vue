@@ -1,5 +1,5 @@
 <template>
-    <div class="alike-container p-20">
+    <div class="alike-container">
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-card>
@@ -12,9 +12,9 @@
                         <el-table-column prop="address" label="地址">
                         </el-table-column>
                     </el-table>
-                    <div>
-                        <excel-export :sheet="sheet1" filename="登记表">
-                            <div>导出</div>
+                    <div class="mt-20">
+                        <excel-export :sheet="sheet1" :filename="fileNamePikaz">
+                            <el-button>导出</el-button>
                         </excel-export>
                     </div>
                 </el-card>
@@ -30,9 +30,9 @@
                         <el-table-column prop="address" label="地址">
                         </el-table-column>
                     </el-table>
-                    <div>
+                    <div class="mt-20">
                         <excel-import :on-success="onSuccessExcelPikaz">
-                            <div>导入</div>
+                            <el-button>导入</el-button>
                         </excel-import>
                     </div>
                 </el-card>
@@ -50,7 +50,9 @@
                         <el-table-column prop="address" label="地址">
                         </el-table-column>
                     </el-table>
-                    <div></div>
+                    <div class="mt-20">
+                        <el-button @click="handleExport">导出</el-button>
+                    </div>
                 </el-card>
             </el-col>
             <el-col :span="12">
@@ -86,13 +88,14 @@ export default {
     },
     data() {
         return {
+            fileNamePikaz: "",
             sheet1: [
                 {
-                    title: "水果的味道",
-                    tHeader: ["荔枝", "柠檬"],
-                    table: [{ litchi: "甜", lemon: "酸" }],
-                    keys: ["litchi", "lemon"],
-                    sheetName: "水果的味道",
+                    // title: "",   // 导出的数据不进行导入时可设置表头，否则数据导入时需要其它配置
+                    tHeader: ["date", "name", "address"],
+                    table: [],
+                    keys: ["date", "name", "address"],
+                    sheetName: "sheet1",
                 },
             ],
             tableData1: [
@@ -134,12 +137,11 @@ export default {
         };
     },
     methods: {
-        onSuccessExcelPikaz(data, file) {
-            console.log(data);
-            // this.tableData2 = data;
+        onSuccessExcelPikaz(res, file) {
+            console.log("onSuccessExcelPikaz", res);
+            this.tableData2 = res[0].data;
         },
         beforeUploadExcel(file) {
-            console.log(file);
             const isLimit1M = file.size > 1024 * 1024 * 1;
 
             if (isLimit1M) {
@@ -150,11 +152,49 @@ export default {
                 return false;
             }
 
+            // 验证通过必须返回结果，否则不会触发on-success钩子函数
             return true;
         },
         onSuccessExcel({ results, header }) {
-            console.log(results, header);
             this.tableData4 = [...this.tableData4, ...results];
+        },
+        handleExport() {
+            import("@/common/lib/export2excel").then((excel) => {
+                const tHead = ["date", "name", "address"];
+                const data = this.JsonToArray(tHead, this.tableData3);
+                excel.export_json_to_excel({
+                    header: tHead,
+                    data,
+                    filename: `PanJiaChen_${new Date().getTime()}`,
+                    autoWidth: true,
+                    bookType: "xlsx",
+                });
+            });
+        },
+        JsonToArray(keys, datas) {
+            // 语法糖简化回调方法
+            // return datas.map((item) =>
+            //     keys.map((key) => {
+            //         return item[key];
+            //     })
+            // );
+
+            // 常规写法
+            return datas.map((item) => {
+                return keys.map((key) => {
+                    return item[key];
+                });
+            });
+        },
+    },
+    watch: {
+        tableData1: {
+            handler(newVal) {
+                this.sheet1[0].table = newVal;
+                this.fileNamePikaz = `Pikaz_${new Date().getTime()}`;
+                console.log("sheet1", this.sheet1);
+            },
+            immediate: true,
         },
     },
 };

@@ -370,9 +370,7 @@ export default {
     background-color: #f5f6fa;
 }
 .alike-container {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
+    padding: 20px;
 }
 
 /* 移动端模式 */

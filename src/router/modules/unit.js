@@ -51,19 +51,19 @@ export default [
                 }
             },
             {
-                path: '/list',
-                name: 'List',
-                component: () => import('@/pages/unit/list'),
-                meta: {
-                    title: '数据列表'
-                }
-            },
-            {
                 path: '/editor',
                 name: 'Editor',
                 component: () => import('@/pages/unit/editor'),
                 meta: {
                     title: '富文本编辑器'
+                }
+            },
+            {
+                path: '/list',
+                name: 'List',
+                component: () => import('@/pages/unit/list'),
+                meta: {
+                    title: '数据列表'
                 }
             },
             {
