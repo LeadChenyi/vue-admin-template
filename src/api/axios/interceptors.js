@@ -5,7 +5,7 @@ import Cookie from 'js-cookie'
 Axios.interceptors.request.use(
     config => {
         // 在每个请求的请求头中携带token
-        config.headers['X-XSRF-TOKEN'] = Cookie.get('token');
+        config.headers['X-XSRF-TOKEN'] = Cookie.get('authorize_access_token');
         return config;
     },
     error => {

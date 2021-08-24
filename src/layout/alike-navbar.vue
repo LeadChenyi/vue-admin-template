@@ -113,7 +113,7 @@ export default {
                         return false;
                     }
 
-                    this.$cookie.remove("token");
+                    this.$cookie.remove("authorize_access_token");
                     this.$store.dispatch("app/setUserInfo", null);
                     this.$store.dispatch("app/setRouters", null);
                     this.$router.push({

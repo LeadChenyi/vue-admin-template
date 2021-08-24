@@ -2,7 +2,7 @@ import router from "@/router/index.js";
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import Cookie from 'js-cookie';
-import Request from '@/api/axios/index.js';
+import { Request } from '@/api/axios/index.js';
 import { Message } from 'element-ui';
 import Store from '@/store/index.js';
 import RouterModulesUnit from '@/router/modules/unit.js';
@@ -13,7 +13,7 @@ let userPathWhiteList = ['/404'];
 
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    const isAuthorize = Cookie.get('token') ? true : false;
+    const isAuthorize = Cookie.get('authorize_access_token') ? true : false;
     if (isAuthorize) {
         // 已登录模式
         userNextTick(to, from, next);

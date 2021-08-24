@@ -7,8 +7,10 @@ import i18n from '@/i18n'
 
 /*--- 自定义脚本插件全局挂载 ---*/
 // import '@/api/mock/index.js'
-import Request from '@/api/axios/index.js'
+import { Request, UploadFile, DownloadFile } from '@/api/axios/index.js'
 Vue.prototype.$request = Request;
+Vue.prototype.$uploadFile = UploadFile;
+Vue.prototype.$downloadFile = DownloadFile;
 
 import Utils from '@/common/utils.js'
 Vue.prototype.$utils = Utils;

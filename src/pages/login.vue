@@ -81,29 +81,9 @@
 </template>
 
 <script>
-// import { validUsername } from "@/common/validator.js";
 export default {
     name: "Login",
     data() {
-        const validateUsername = (rule, value, callback) => {
-            if (!value.length) {
-                callback(new Error("请输入用户名称"));
-            } else if (value.length < 2) {
-                callback(new Error("用户名称不得少于2个字符"));
-            } else {
-                callback();
-            }
-        };
-        const validatePassword = (rule, value, callback) => {
-            if (!value.length) {
-                callback(new Error("请输入密码"));
-            } else if (value.length < 6) {
-                callback(new Error("密码不得少于6位"));
-            } else {
-                callback();
-            }
-        };
-
         return {
             language: "Chinese",
             languages: [
@@ -125,16 +105,18 @@ export default {
             loginRules: {
                 username: [
                     {
+                        label: "用户名称",
                         required: true,
                         trigger: "blur",
-                        validator: validateUsername,
+                        validator: this.$validation.isUsername,
                     },
                 ],
                 password: [
                     {
+                        label: "密码",
                         required: true,
                         trigger: "blur",
-                        validator: validatePassword,
+                        validator: this.$validation.isPassword,
                     },
                 ],
             },
@@ -168,7 +150,14 @@ export default {
                                 return false;
                             }
 
-                            this.$cookie.set("token", res.data.token);
+                            this.$message({
+                                type: "success",
+                                message: res.message,
+                            });
+                            this.$cookie.set(
+                                "authorize_access_token",
+                                res.data.token
+                            );
                             this.$router.push({
                                 name: "Dashboard",
                             });
@@ -177,12 +166,6 @@ export default {
                             this.loading = false;
                             console.log(err);
                         });
-                } else {
-                    this.$message({
-                        type: "error",
-                        message: valid,
-                    });
-                    return false;
                 }
             });
         },
@@ -246,6 +229,8 @@ $light_gray: #eee;
     min-height: 100%;
     width: 100%;
     background-color: $bg;
+    background: url("../assets/image/common/login_background_3.jpg") 0 0 / 100%
+        100% no-repeat;
     overflow: hidden;
     position: relative;
     .login-form {

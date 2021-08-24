@@ -54,5 +54,27 @@ export default {
         } else {
             callback();
         }
+    },
+    isUsername(rule, value, callback) {
+        let label = rule.label || '';
+        let minLimit = rule.minLimit || 3;
+        if (!value.length) {
+            callback(new Error(`请输入${label}`));
+        } else if (value.length < minLimit) {
+            callback(new Error(`${label}不得小于${minLimit}位字符`));
+        } else {
+            callback();
+        }
+    },
+    isPassword(rule, value, callback) {
+        let label = rule.label || '';
+        let minLimit = rule.minLimit || 6;
+        if (!value.length) {
+            callback(new Error(`请输入${label}`));
+        } else if (value.length < minLimit) {
+            callback(new Error(`${label}不得小于${minLimit}位字符`));
+        } else {
+            callback();
+        }
     }
 }
