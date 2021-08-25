@@ -229,7 +229,7 @@ $light_gray: #eee;
     min-height: 100%;
     width: 100%;
     background-color: $bg;
-    background: url("../assets/image/common/login_background_3.jpg") 0 0 / 100%
+    background: url("../assets/image/backdrop/backdrop_9.jpg") 0 0 / 100%
         100% no-repeat;
     overflow: hidden;
     position: relative;

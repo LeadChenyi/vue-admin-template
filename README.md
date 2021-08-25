@@ -1,11 +1,5 @@
 # vue-admin-template
 
-### 命名规范
-- PC端关键词为：alike-，Mobile端关键词为：alive-。
-- 查询元素以query为关键词：queryModule
-- Common脚本整理
-
-
 ### 框架基础搭建及核心模块
 - [√] vue-router 路由搭建
     + [√] router each 路由守卫(访问权限、重定向路由)
@@ -27,8 +21,11 @@
 - [×] 用户权限    
     + [×] rule 角色权限
     + [×] permission 操作权限
-- [×] 首页仪表盘
-
+- [√] 首页仪表盘
+    + pv、uv 覆盖折线图
+    + 游客量全国地区分布图
+    + 监控日志用户操作
+- [×] Common 脚本整理    
 
 
 ### 框架扩展功能及依赖模块
