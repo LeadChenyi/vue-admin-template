@@ -115,6 +115,27 @@ export default {
             ],
         };
     },
+    mounted() {
+        // test local mock data
+        // this.getProjects();
+    },
+    methods: {
+        getProjects() {
+            this.$request({
+                url: `/index/projects`,
+            })
+                .then((res) => {
+                    if (res.code != 200) {
+                        this.$message.error(res.message);
+                        return false;
+                    }
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+    },
 };
 </script>
 

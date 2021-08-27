@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import { baseURL } from '@/common/config.js'
 import './interceptors'
 import { Message } from 'element-ui';
 
@@ -21,7 +20,7 @@ const Request = ({
 
     return new Promise((resolve, reject) => {
         Axios({
-            baseURL,
+            baseURL: process.env.VUE_APP_BASE_URL,
             url,
             method,
             data,

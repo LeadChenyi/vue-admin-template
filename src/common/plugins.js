@@ -1,11 +1,17 @@
-import Cookie from 'js-cookie'
-import Underscore from 'underscore';
-import Dayjs from 'dayjs';
+import { Request, UploadFile, DownloadFile } from '@/api/axios/index.js';
+import Config from '@/common/config.js';
+import Utils from '@/common/utils.js';
+import Validation from '@/common/validation.js';
+// import '@/api/mock/index.js';
 
 export default {
     install: function (Vue) {
-        Object.defineProperty(Vue.prototype, '$cookie', { value: Cookie });
-        Object.defineProperty(Vue.prototype, '$underscore', { value: Underscore });
-        Object.defineProperty(Vue.prototype, '$dayjs', { value: Dayjs });
+        /*--- Object.defineProperty 自动排除重复的插件引用 ---*/
+        Object.defineProperty(Vue.prototype, '$request', { value: Request });
+        Object.defineProperty(Vue.prototype, '$config', { value: Config });
+        Object.defineProperty(Vue.prototype, '$uploadFile', { value: UploadFile });
+        Object.defineProperty(Vue.prototype, '$downloadFile', { value: DownloadFile });
+        Object.defineProperty(Vue.prototype, '$utils', { value: Utils });
+        Object.defineProperty(Vue.prototype, '$validation', { value: Validation });
     }
 }

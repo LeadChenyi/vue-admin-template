@@ -1,13 +1,15 @@
+import { ALLOW_ROUTER_PATH } from '@/common/config.js'
 export default {
     namespaced: true,
     state: {
-        message: '',            // 消息通知
-        isCollapse: false,       // 是否为折叠模式
-        isMobile: false,        // 是否为移动模型
-        userInfo: null,         // 用户信息
-        routers: null,          // 动态路由
-        enums: {},              // 枚举
-        tags: null,              // 标签页
+        message: '',                        // 消息通知
+        isCollapse: false,                  // 是否为折叠模式
+        isMobile: false,                    // 是否为移动模型
+        userInfo: null,                     // 用户信息
+        routers: null,                      // 动态路由
+        routerPaths: ALLOW_ROUTER_PATH,     // 动态路由路径
+        enums: {},                          // 枚举
+        tags: null,                         // 标签页
     },
     getters: {
         getMessage(state) {
@@ -24,6 +26,9 @@ export default {
         },
         getRouters(state) {
             return state.routers;
+        },
+        getRouterPaths(state) {
+            return state.routerPaths;
         },
         getEnums(state) {
             return state.enums;
@@ -48,6 +53,9 @@ export default {
         SET_ROUTERS(state, payload) {
             state.routers = payload;
         },
+        SET_ROUTER_PATHS(state, payload) {
+            state.routerPaths = [...state.routerPaths, payload];
+        },
         SET_ENUMS(state, payload) {
             state.enums = payload;
         },
@@ -70,6 +78,9 @@ export default {
         },
         setRouters({ commit }, payload) {
             commit('SET_ROUTERS', payload)
+        },
+        setRouterPaths({ commit }, payload) {
+            commit('SET_ROUTER_PATHS', payload)
         },
         setEnums({ commit }, payload) {
             commit('SET_ENUMS', payload)

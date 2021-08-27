@@ -8,12 +8,12 @@ import Store from '@/store/index.js';
 import RouterModulesUnit from '@/router/modules/unit.js';
 import RouterModulesStatic from '@/router/modules/static.js';
 
-// 404 等页面需要添加到白名单上，因为只要跳转页面就会触发路由守卫，否则会进入死循环
-let userPathWhiteList = ['/404'];
+// 注意 404 等页面需要添加到白名单上，因为只要跳转页面就会触发路由守卫，否则会进入死循环
 
 router.beforeEach((to, from, next) => {
     NProgress.start();
     const isAuthorize = Cookie.get('authorize_access_token') ? true : false;
+    // console.log('router beforeEach', Store.state.app.routerPaths)
     if (isAuthorize) {
         // 已登录模式
         userNextTick(to, from, next);
@@ -35,7 +35,7 @@ async function userNextTick(to, from, next) {
     if (to.path === '/login') {
         next({ name: 'Dashboard' })
     } else {
-        if (userPathWhiteList.includes(to.path)) {
+        if (Store.state.app.routerPaths.includes(to.path)) {
             next();
         } else {
             next({
@@ -89,7 +89,7 @@ function getRouters() {
             // 动态路由与静态路由数据合并
             let fullRouters = [...res.data, ...RouterModulesUnit, ...RouterModulesStatic];
 
-            if (userPathWhiteList.length <= 1) {
+            if (Store.state.app.routerPaths.length <= 1) {
                 getItemPath(fullRouters);
             }
             Store.dispatch("app/setRouters", fullRouters);
@@ -102,7 +102,7 @@ function getRouters() {
 // 同步执行
 function getItemPath(routers) {
     for (let i = 0; i < routers.length; i++) {
-        userPathWhiteList.push(routers[i].path);
+        Store.dispatch("app/setRouterPaths", routers[i].path);
         if (routers[i].children) {
             getItemPath(routers[i].children);
         }

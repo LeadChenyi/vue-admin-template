@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { defaultWihteList } from "@/common/config.js";
 export default {
     name: "AlikeTags",
     data() {
@@ -42,14 +41,16 @@ export default {
         };
     },
     created() {
-        if (!defaultWihteList.includes(this.$route.path)) {
+        if (!this.$config.DENY_ROUTER_PATH_TAGS.includes(this.$route.path)) {
             this.setTags(this.$route);
         }
     },
     watch: {
         $route(newValue, oldValue) {
             if (newValue != oldValue) {
-                if (!defaultWihteList.includes(this.$route.path)) {
+                if (
+                    !this.$config.DENY_ROUTER_PATH_TAGS.includes(this.$route.path)
+                ) {
                     this.setTags(this.$route);
                 }
             }

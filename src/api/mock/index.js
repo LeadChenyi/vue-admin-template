@@ -1,11 +1,10 @@
 import Mock from 'mockjs'
-import { baseUrl } from '@/common/config.js'
 
 Mock.setup({
     timeout: '1000-1500'
 })
 
-Mock.mock(`${baseUrl}/index/projects`, {
+Mock.mock(`${process.env.VUE_APP_BASE_URL}/index/projects`, {
     "code": 200,
     "message": "request:ok",
     "data": [
