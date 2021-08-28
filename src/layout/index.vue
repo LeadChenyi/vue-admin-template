@@ -322,7 +322,16 @@ export default {
     z-index: 1001;
     overflow: hidden;
 }
-
+.alike-sidebar-board {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+.alike-sidebar-board__image {
+    width: 100%;
+    height: 60px;
+}
 .alike-layout-page {
     height: 100%;
     transition: margin-left 0.28s;

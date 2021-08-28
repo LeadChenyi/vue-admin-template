@@ -1,6 +1,13 @@
 <template>
     <div class="alike-sidebar">
         <el-scrollbar wrap-class="scrollbar-wrapper">
+            <div class="alike-sidebar-board">
+                <img
+                    class="alike-sidebar-board__image"
+                    src="@/assets/image/common/webyi_brand.png"
+                    alt="logo"
+                />
+            </div>
             <el-menu
                 :default-active="activeMenu"
                 :router="true"
