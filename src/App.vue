@@ -12,4 +12,7 @@ export default {
 
 <style lang="scss">
 @import "./assets/style/app.css";
+.pagination {
+    margin-top: 20px;
+}
 </style>
