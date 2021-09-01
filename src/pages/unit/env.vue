@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="env-page">
         <div>mode：{{ mode }}</div>
         <div>baseUrl：{{ baseUrl }}</div>
     </div>
@@ -7,6 +7,7 @@
 
 <script>
 export default {
+    name: "Env",
     data() {
         return {
             mode: null,

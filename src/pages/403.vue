@@ -24,7 +24,7 @@
                 />
             </div>
             <div class="bullshit">
-                <div class="bullshit__info">404 - 没有找到相关页面</div>
+                <div class="bullshit__info">403 - 您没有访问页面的权限</div>
                 <div class="bullshit__return-home" @click="linkHome">
                     Go Back
                 </div>
@@ -35,7 +35,7 @@
 
 <script>
 export default {
-    name: "NotFound",
+    name: "NotPower",
     methods: {
         linkHome() {
             this.$router.push({

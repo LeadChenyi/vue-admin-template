@@ -8,8 +8,16 @@ export default [
             title: '组件管理',
             icon: 'el-icon-menu'
         },
-        redirect: '/copy',
+        redirect: '/env',
         children: [
+            {
+                path: '/env',
+                name: 'Env',
+                component: () => import('@/pages/unit/env'),
+                meta: {
+                    title: '环境变量'
+                }
+            },
             {
                 path: '/copy',
                 name: 'Copy',
@@ -83,5 +91,14 @@ export default [
                 }
             }
         ]
+    },
+    {
+        path: '/outside',
+        name: 'Outside',
+        component: () => import('@/pages/outside'),
+        meta: {
+            title: '布局外单页',
+            icon: 'el-icon-menu'
+        },
     }
 ]
