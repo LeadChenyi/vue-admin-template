@@ -135,15 +135,15 @@
                 </el-form-item>
                 <el-form-item label="分配角色">
                     <el-checkbox-group v-model="form.roleIds">
-                    <el-checkbox
-                        :label="item.id"
-                        v-for="(item, index) in roles"
-                        :key="index"
-                        >{{ item.roleName }}</el-checkbox
-                    >
-                </el-checkbox-group>
+                        <el-checkbox
+                            :label="item.id"
+                            v-for="(item, index) in roles"
+                            :key="index"
+                            >{{ item.roleName }}</el-checkbox
+                        >
+                    </el-checkbox-group>
                 </el-form-item>
-                
+
                 <el-form-item label="是否禁用">
                     <el-switch v-model="form.status" :width="50"></el-switch>
                 </el-form-item>
@@ -187,7 +187,7 @@ export default {
             form: {
                 userName: "",
                 status: false,
-                roleIds: [0],
+                roleIds: [],
             },
             pickerOptions: {
                 shortcuts: [

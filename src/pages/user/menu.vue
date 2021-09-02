@@ -141,12 +141,18 @@
             <el-form :model="form" ref="form" label-width="100px">
                 <el-form-item label="上级目录">
                     <el-cascader
-                    placeholder="请输入上级目录"
-                    v-model="form.parentId"
-                    :options="menuOptions"
-                    :props="{ checkStrictly: true }"
-                    @change="changeParentId"
-                    clearable></el-cascader>
+                        clearable
+                        placeholder="请输入上级目录"
+                        v-model="form.menuCode"
+                        :options="menuOptions"
+                        :props="{
+                            checkStrictly: true,
+                            label: 'menuName',
+                            value: 'menuCode',
+                        }"
+                        :show-all-levels="false"
+                        @change="changeCascader"
+                    ></el-cascader>
                 </el-form-item>
                 <el-form-item label="菜单名称">
                     <el-input
@@ -194,7 +200,7 @@ export default {
     data() {
         return {
             menus: [],
-            menuOptions:[],
+            menuOptions: [],
             total: 0,
             maxHeightTable: "auto",
             showDialog: false,
@@ -438,9 +444,40 @@ export default {
             this.form.parentId = 0;
             this.form.status = false;
         },
-        changeParentId(){
-
-        }
+        changeCascader(details) {
+            this.form.menuCode = details[details.length - 1];
+        },
+        lavalGroup(item, tree) {
+            let children = [];
+            tree.forEach((child) => {
+                if (item.id == child.parentId) {
+                    this.lavalGroup(child, tree);
+                    children.push(child);
+                }
+            });
+            if (children.length) {
+                item.children = children;
+            }
+            return item;
+        },
+    },
+    watch: {
+        menus: {
+            immediate: true,
+            handler(newVal, oldVal) {
+                if (newVal && newVal != oldVal) {
+                    this.menuOptions = [];
+                    newVal.forEach((item) => {
+                        if (item.parentId == 0 || item.parentId == null) {
+                            this.menuOptions.push(
+                                this.lavalGroup(item, newVal)
+                            );
+                        }
+                    });
+                    console.log(this.menuOptions);
+                }
+            },
+        },
     },
 };
 </script>

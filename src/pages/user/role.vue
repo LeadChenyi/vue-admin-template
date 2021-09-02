@@ -149,10 +149,12 @@
                 </el-form-item>
                 <el-form-item label="权限分配">
                     <el-tree
+                        ref="queryTree"
                         :data="tree"
                         show-checkbox
                         accordion
-                        :default-checked-keys="[]"
+                        node-key="menuCode"
+                        :props="{ label: 'menuName', value: 'menuCode' }"
                         @check="checkTree"
                     ></el-tree>
                 </el-form-item>
@@ -185,42 +187,7 @@ export default {
     name: "UserRole",
     data() {
         return {
-            tree: [
-                {
-                    id: 1,
-                    label: "一级 1",
-                    children: [
-                        {
-                            id: 4,
-                            label: "二级 1-1",
-                            children: [
-                                {
-                                    id: 9,
-                                    label: "三级 1-1-1",
-                                },
-                                {
-                                    id: 10,
-                                    label: "三级 1-1-2",
-                                },
-                            ],
-                        },
-                    ],
-                },
-                {
-                    id: 2,
-                    label: "一级 2",
-                    children: [
-                        {
-                            id: 5,
-                            label: "二级 2-1",
-                        },
-                        {
-                            id: 6,
-                            label: "二级 2-2",
-                        },
-                    ],
-                },
-            ],
+            tree: [],
             roles: [],
             total: 0,
             maxHeightTable: "auto",
@@ -241,6 +208,7 @@ export default {
             form: {
                 roleName: "",
                 roleCode: "",
+                menuCodekeys: [],
                 status: false,
                 remark: "",
             },
@@ -283,8 +251,9 @@ export default {
             },
         };
     },
-    created() {
-        this.initData();
+    async created() {
+        await this.initData();
+        await this.getTree();
     },
     methods: {
         changeDate(date) {
@@ -384,6 +353,9 @@ export default {
                         return false;
                     }
                     Object.assign(this.form, res.data);
+                    this.$nextTick(()=>{
+                        this.$refs.queryTree.setCheckedKeys(this.form.menuCodekeys);
+                    })
                 })
                 .catch((err) => {
                     console.log(err);
@@ -443,12 +415,42 @@ export default {
             this.showDialog = false;
             this.form.roleName = "";
             this.form.roleCode = "";
+            this.form.menuCodekeys = [];
             this.form.status = false;
             this.form.remark = "";
+            this.$refs.queryTree.setCheckedKeys(this.form.menuCodekeys);
+        },
+        lavalGroup(item, tree) {
+            let children = [];
+            tree.forEach((child) => {
+                if (item.id == child.parentId) {
+                    this.lavalGroup(child, tree);
+                    children.push(child);
+                }
+            });
+            if (children.length) {
+                item.children = children;
+            }
+            return item;
+        },
+        getTree() {
+            this.$request({
+                url: "/menus",
+            })
+                .then((res) => {
+                    res.data.forEach((item) => {
+                        if (item.parentId == 0 || item.parentId == null) {
+                            this.tree.push(this.lavalGroup(item, res.data));
+                        }
+                    });
+                    console.log("tree", this.tree);
+                })
+                .catch((_) => {});
         },
         checkTree(current, tree) {
             console.log("current checked status", current);
             console.log("tree checked status", tree);
+            this.form.menuCodekeys = tree.checkedKeys;
         },
     },
 };
