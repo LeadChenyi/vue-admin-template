@@ -256,7 +256,7 @@ export default {
                     }
 
                     this.users = res.data;
-                    this.total = res.count;
+                    this.total = res.total;
                 })
                 .finally(() => {
                     this.isLoadingTable = false;

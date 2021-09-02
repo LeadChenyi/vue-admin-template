@@ -8,7 +8,7 @@ const Request = ({
     data = {},
     params = {},
     headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         'X-Requested-With': 'XMLHttpRequest',
     },
     responseType = 'json',
@@ -54,7 +54,7 @@ function UploadFile(file) {
         method: 'POST',
         data: formData,
         headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data;boundary=something'
         }
     })
 }
