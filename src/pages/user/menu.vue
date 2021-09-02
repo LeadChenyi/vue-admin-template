@@ -64,7 +64,7 @@
                         </div>
                         <div class="table">
                             <el-table
-                                :data="users"
+                                :data="menus"
                                 :max-height="maxHeightTable"
                                 header-cell-class-name="table-header"
                                 v-loading="isLoadingTable"
@@ -140,10 +140,13 @@
         >
             <el-form :model="form" ref="form" label-width="100px">
                 <el-form-item label="上级目录">
-                    <el-input
-                        v-model="form.parentId"
-                        placeholder="请输入上级目录"
-                    />
+                    <el-cascader
+                    placeholder="请输入上级目录"
+                    v-model="form.parentId"
+                    :options="menuOptions"
+                    :props="{ checkStrictly: true }"
+                    @change="changeParentId"
+                    clearable></el-cascader>
                 </el-form-item>
                 <el-form-item label="菜单名称">
                     <el-input
@@ -158,11 +161,16 @@
                     />
                 </el-form-item>
                 <el-form-item label="菜单类型">
-                    <el-input
-                        v-model="form.type"
-                        placeholder="请输入菜单类型"
-                    />
+                    <el-radio-group v-model="form.type">
+                        <el-radio
+                            :label="key"
+                            v-for="(value, key) in menuTypeEnums"
+                            :key="key"
+                            >{{ value }}</el-radio
+                        >
+                    </el-radio-group>
                 </el-form-item>
+
                 <!-- <el-form-item label="是否禁用">
                     <el-switch v-model="form.status" :width="50"></el-switch>
                 </el-form-item> -->
@@ -185,7 +193,8 @@ export default {
     name: "UserMenu",
     data() {
         return {
-            users: [],
+            menus: [],
+            menuOptions:[],
             total: 0,
             maxHeightTable: "auto",
             showDialog: false,
@@ -193,6 +202,11 @@ export default {
             isLoadingSearch: false,
             isLoadingTable: false,
             isLoadingSubmit: false,
+            menuTypeEnums: {
+                CATALOG: "目录",
+                PAGE: "页面",
+                HANDLE: "操作",
+            },
             query: {
                 daterange: [],
                 startDate: "",
@@ -205,8 +219,8 @@ export default {
             form: {
                 menuName: "",
                 menuCode: "",
-                type: "",
-                parentId: "",
+                type: "CATALOG",
+                parentId: 0,
                 status: false,
             },
             pickerOptions: {
@@ -251,6 +265,18 @@ export default {
     created() {
         this.initData();
     },
+    computed: {
+        getMenuTypeEnums() {
+            let temps = [];
+            for (let key in this.menuTypeEnums) {
+                temps.push({
+                    label: key,
+                    name: this.menuTypeEnums[key],
+                });
+            }
+            return temps;
+        },
+    },
     methods: {
         changeDate(date) {
             if (date) {
@@ -288,7 +314,7 @@ export default {
                         return false;
                     }
 
-                    this.users = res.data;
+                    this.menus = res.data;
                     this.total = res.total;
                 })
                 .finally(() => {
@@ -408,10 +434,13 @@ export default {
             this.showDialog = false;
             this.form.menuName = "";
             this.form.menuCode = "";
-            this.form.type = "";
-            this.form.parentId = "";
+            this.form.type = "CATALOG";
+            this.form.parentId = 0;
             this.form.status = false;
         },
+        changeParentId(){
+
+        }
     },
 };
 </script>

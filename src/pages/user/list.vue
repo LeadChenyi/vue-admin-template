@@ -133,6 +133,17 @@
                         placeholder="请输入用户名称"
                     />
                 </el-form-item>
+                <el-form-item label="分配角色">
+                    <el-checkbox-group v-model="form.roleIds">
+                    <el-checkbox
+                        :label="item.id"
+                        v-for="(item, index) in roles"
+                        :key="index"
+                        >{{ item.roleName }}</el-checkbox
+                    >
+                </el-checkbox-group>
+                </el-form-item>
+                
                 <el-form-item label="是否禁用">
                     <el-switch v-model="form.status" :width="50"></el-switch>
                 </el-form-item>
@@ -155,6 +166,7 @@ export default {
     name: "UserList",
     data() {
         return {
+            roles: [],
             users: [],
             total: 0,
             maxHeightTable: "auto",
@@ -175,6 +187,7 @@ export default {
             form: {
                 userName: "",
                 status: false,
+                roleIds: [0],
             },
             pickerOptions: {
                 shortcuts: [
@@ -215,8 +228,9 @@ export default {
             },
         };
     },
-    created() {
-        this.initData();
+    async created() {
+        await this.initData();
+        await this.getDataRole();
     },
     methods: {
         changeDate(date) {
@@ -375,6 +389,28 @@ export default {
             this.showDialog = false;
             this.form.userName = "";
             this.form.status = false;
+        },
+        getDataRole() {
+            this.$request({
+                url: "/roles",
+            })
+                .then((res) => {
+                    console.log("getDataRole", res);
+                    if (res.code != 200) {
+                        this.$message.error(res.message);
+                        return false;
+                    }
+
+                    this.roles = res.data;
+                })
+                .catch((_) => {});
+        },
+    },
+    watch: {
+        showDialog(newVal, oldVal) {
+            if (newVal && newVal != oldVal) {
+                // this.getDataRole();
+            }
         },
     },
 };

@@ -147,6 +147,15 @@
                         placeholder="请输入角色权限字符"
                     />
                 </el-form-item>
+                <el-form-item label="权限分配">
+                    <el-tree
+                        :data="tree"
+                        show-checkbox
+                        accordion
+                        :default-checked-keys="[]"
+                        @check="checkTree"
+                    ></el-tree>
+                </el-form-item>
                 <el-form-item label="是否禁用">
                     <el-switch v-model="form.status" :width="50"></el-switch>
                 </el-form-item>
@@ -176,6 +185,42 @@ export default {
     name: "UserRole",
     data() {
         return {
+            tree: [
+                {
+                    id: 1,
+                    label: "一级 1",
+                    children: [
+                        {
+                            id: 4,
+                            label: "二级 1-1",
+                            children: [
+                                {
+                                    id: 9,
+                                    label: "三级 1-1-1",
+                                },
+                                {
+                                    id: 10,
+                                    label: "三级 1-1-2",
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    id: 2,
+                    label: "一级 2",
+                    children: [
+                        {
+                            id: 5,
+                            label: "二级 2-1",
+                        },
+                        {
+                            id: 6,
+                            label: "二级 2-2",
+                        },
+                    ],
+                },
+            ],
             roles: [],
             total: 0,
             maxHeightTable: "auto",
@@ -400,6 +445,10 @@ export default {
             this.form.roleCode = "";
             this.form.status = false;
             this.form.remark = "";
+        },
+        checkTree(current, tree) {
+            console.log("current checked status", current);
+            console.log("tree checked status", tree);
         },
     },
 };
