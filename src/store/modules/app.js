@@ -1,4 +1,3 @@
-import { ALLOW_ROUTER_PATH } from '@/common/config.js'
 export default {
     namespaced: true,
     state: {
@@ -7,7 +6,7 @@ export default {
         isMobile: false,                    // 是否为移动模型
         userInfo: null,                     // 用户信息
         routers: null,                      // 动态路由
-        routerPaths: ALLOW_ROUTER_PATH,     // 动态路由路径
+        routerPaths: [],                    // 动态路由路径
         enums: {},                          // 枚举
         tags: null,                         // 标签页
     },

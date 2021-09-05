@@ -54,6 +54,7 @@
                                         >搜索</el-button
                                     >
                                     <el-button
+                                        v-permission="['user:role:create']"
                                         type="primary"
                                         icon="el-icon-document-add"
                                         @click="handleCreate"
@@ -94,6 +95,7 @@
                                 <el-table-column label="操作">
                                     <template slot-scope="scope">
                                         <el-button
+                                            v-permission="['user:role:update']"
                                             type="text"
                                             size="small"
                                             @click="handleEditor(scope.row.id)"
@@ -101,6 +103,7 @@
                                             编辑
                                         </el-button>
                                         <el-button
+                                            v-permission="['user:role:delete']"
                                             type="text"
                                             size="small"
                                             @click="handleDelete(scope.row.id)"
@@ -353,9 +356,11 @@ export default {
                         return false;
                     }
                     Object.assign(this.form, res.data);
-                    this.$nextTick(()=>{
-                        this.$refs.queryTree.setCheckedKeys(this.form.menuCodekeys);
-                    })
+                    this.$nextTick(() => {
+                        this.$refs.queryTree.setCheckedKeys(
+                            this.form.menuCodekeys
+                        );
+                    });
                 })
                 .catch((err) => {
                     console.log(err);

@@ -1,6 +1,31 @@
 import Layout from '@/layout/index';
 export default [
     {
+        path: '/',
+        name: 'Index',
+        component: Layout,
+        meta: {
+            title: '主页',
+            icon: 'el-icon-menu',
+            hidden: false,      // 是否隐藏路由    
+            inherit: true,      // 是否继承路由（只有一个子路由时将视为主目录）
+            hiddenTag: false,
+            hiddenSidebar: false
+        },
+        redirect: '/dashboard',
+        children: [
+            {
+                path: '/dashboard',
+                name: 'Dashboard',
+                component: () => import('@/pages/dashboard'),
+                meta: {
+                    title: '仪表盘',
+                    icon: 'el-icon-menu'
+                }
+            }
+        ]
+    },
+    {
         path: '/unit',
         name: 'Unit',
         component: Layout,
@@ -91,6 +116,22 @@ export default [
                 }
             }
         ]
+    },
+    {
+        path: '/403',
+        name: 'NotPower',
+        component: () => import('@/pages/403'),
+        meta: {
+            hidden: true
+        }
+    },
+    {
+        path: '/404',
+        name: 'NotFound',
+        component: () => import('@/pages/404'),
+        meta: {
+            hidden: true
+        }
     },
     {
         path: '/outside',

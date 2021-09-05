@@ -54,6 +54,7 @@
                                         >搜索</el-button
                                     >
                                     <el-button
+                                        v-permission="['user:list:create']"
                                         type="primary"
                                         icon="el-icon-document-add"
                                         @click="handleCreate"
@@ -88,6 +89,7 @@
                                         <el-button
                                             type="text"
                                             size="small"
+                                            v-permission="['user:list:update']"
                                             @click="handleEditor(scope.row.id)"
                                         >
                                             编辑
@@ -95,6 +97,7 @@
                                         <el-button
                                             type="text"
                                             size="small"
+                                            v-permission="['user:list:delete']"
                                             @click="handleDelete(scope.row.id)"
                                         >
                                             删除

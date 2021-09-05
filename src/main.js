@@ -5,6 +5,10 @@ import '@/router/interceptors.js'
 import store from '@/store'
 import i18n from '@/i18n'
 
+/*--- 全局指令 ---*/
+import Directives from './directives'
+Vue.use(Directives);
+
 /*--- 自定义插件 ---*/
 import Plugins from '@/common/plugins.js'
 Vue.use(Plugins);

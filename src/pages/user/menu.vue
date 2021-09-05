@@ -54,6 +54,7 @@
                                         >搜索</el-button
                                     >
                                     <el-button
+                                        v-permission="['user:menu:create']"
                                         type="primary"
                                         icon="el-icon-document-add"
                                         @click="handleCreate"
@@ -98,6 +99,7 @@
                                 <el-table-column label="操作">
                                     <template slot-scope="scope">
                                         <el-button
+                                            v-permission="['user:menu:update']"
                                             type="text"
                                             size="small"
                                             @click="handleEditor(scope.row.id)"
@@ -105,6 +107,7 @@
                                             编辑
                                         </el-button>
                                         <el-button
+                                            v-permission="['user:menu:delete']"
                                             type="text"
                                             size="small"
                                             @click="handleDelete(scope.row.id)"

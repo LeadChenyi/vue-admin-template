@@ -5,8 +5,8 @@ Vue.use(Vuex)
 
 const files = require.context('./modules', true, /\.js$/)
 const modules = files.keys().reduce((total, item) => {
-    let keyName = item.replace(/^\.\/(.*)\.\w+$/, '$1')
-    total[keyName] = files(item).default
+    let fileName = item.replace(/^\.\/(.*)\.\w+$/, '$1')
+    total[fileName] = files(item).default
     return total
 }, {})
 

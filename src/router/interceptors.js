@@ -1,11 +1,11 @@
-import router from "@/router/index.js";
+import router from "@/router";
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import Cookie from 'js-cookie';
-import { Request } from '@/api/axios/index.js';
+import { Request } from '@/api/axios';
 import { Message } from 'element-ui';
-import Store from '@/store/index.js';
-import StaticMenuBar from '@/router/modules/staticMenuBar.js';
+import Store from '@/store';
+import StaticRouter from '@/router/modules/staticRouter.js';
 
 // 注意 404 等系统页面需要添加到白名单上，因为只要跳转页面就会触发路由守卫，否则会进入死循环
 router.beforeEach((to, from, next) => {
@@ -86,7 +86,7 @@ function getRouters() {
             }
 
             // 已获取的路由权限和静态路由数据进行合并
-            let fullRouters = [...res.data, ...StaticMenuBar];
+            let fullRouters = [...res.data, ...StaticRouter];
             Store.dispatch("app/setRouters", fullRouters);
 
             // 收集可访问路由的path
