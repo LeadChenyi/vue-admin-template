@@ -6,7 +6,8 @@ export default [
         component: Layout,
         meta: {
             title: '用户管理',
-            icon: 'el-icon-menu'
+            icon: 'el-icon-menu',
+            sort: 1
         },
         redirect: '/user/list',
         children: [

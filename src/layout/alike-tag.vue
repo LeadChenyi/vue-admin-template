@@ -34,14 +34,14 @@
 
 <script>
 export default {
-    name: "AlikeTags",
+    name: "AlikeTag",
     data() {
         return {
             tags: [],
         };
     },
     created() {
-        if (!this.$config.DENY_ROUTER_PATH_TAGS.includes(this.$route.path)) {
+        if (!this.$route.meta.excludeTag) {
             this.setTags(this.$route);
         }
     },
@@ -49,7 +49,7 @@ export default {
         $route(newValue, oldValue) {
             if (newValue != oldValue) {
                 if (
-                    !this.$config.DENY_ROUTER_PATH_TAGS.includes(this.$route.path)
+                    !this.$route.meta.excludeTag
                 ) {
                     this.setTags(this.$route);
                 }

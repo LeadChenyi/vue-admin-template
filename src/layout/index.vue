@@ -24,7 +24,7 @@
                     @changeFullScreen="changeFullScreen"
                     @changeSetting="changeSetting"
                 ></alike-navbar>
-                <alike-tags></alike-tags>
+                <alike-tag></alike-tag>
             </div>
             <div class="alike-main">
                 <transition>
@@ -54,7 +54,7 @@
 <script>
 import AlikeSidebar from "./alike-sidebar";
 import AlikeNavbar from "./alike-navbar";
-import AlikeTags from "./alike-tags";
+import AlikeTag from "./alike-tag";
 import Variables from "@/assets/style/variables.scss";
 // 锁定版本，以免将来 Element 升级时受到非兼容性更新的影响。
 const version = require("element-ui/package.json").version;
@@ -65,7 +65,7 @@ export default {
     components: {
         AlikeSidebar,
         AlikeNavbar,
-        AlikeTags,
+        AlikeTag,
     },
     data() {
         return {

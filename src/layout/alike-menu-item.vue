@@ -35,8 +35,7 @@ export default {
     },
     methods: {
         hasSingleRoute(parent, children) {
-            // 晋升路由：当子路由只有一个元素时，当前路由不展示
-            if (parent.meta.inherit && children.length == 1) {
+            if (parent.meta.flat && children.length == 1) {
                 this.only = children[0];
                 return true;
             } else if (children == undefined) {

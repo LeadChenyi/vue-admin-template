@@ -5,8 +5,8 @@ export default {
         isCollapse: false,                  // 是否为折叠模式
         isMobile: false,                    // 是否为移动模型
         userInfo: null,                     // 用户信息
-        routers: null,                      // 动态路由
-        routerPaths: [],                    // 动态路由路径
+        routers: null,                      // 存放全路由（动态路由+静态路由）
+        routerPaths: [],                    // 存放全路由的路径（动态路由+静态路由）
         enums: {},                          // 枚举
         tags: null,                         // 标签页
     },

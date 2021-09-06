@@ -5,12 +5,13 @@ export default [
         name: 'Index',
         component: Layout,
         meta: {
-            title: '主页',
-            icon: 'el-icon-menu',
-            hidden: false,      // 是否隐藏路由    
-            inherit: true,      // 是否继承路由（只有一个子路由时将视为主目录）
-            hiddenTag: false,
-            hiddenSidebar: false
+            title: '主页',          // 目录或菜单标题
+            icon: 'el-icon-menu',   // 目录或菜单图标
+            code: 'index',          // 根目录或主菜单字符表示
+            sort: 100,              // 根目录或主菜单排序（权重越高越靠前）
+            hidden: false,          // 是否隐藏目录或菜单
+            flat: true,             // 是否扁平化目录（当前目录只有一个子菜单时生效）
+            excludeTag: false,      // 是否排除该标签（默认false，即打开的路由自动加入到标签组）
         },
         redirect: '/dashboard',
         children: [
@@ -31,7 +32,8 @@ export default [
         component: Layout,
         meta: {
             title: '组件管理',
-            icon: 'el-icon-menu'
+            icon: 'el-icon-menu',
+            sort: 0
         },
         redirect: '/env',
         children: [
@@ -118,28 +120,44 @@ export default [
         ]
     },
     {
-        path: '/403',
-        name: 'NotPower',
-        component: () => import('@/pages/403'),
-        meta: {
-            hidden: true
-        }
-    },
-    {
-        path: '/404',
-        name: 'NotFound',
-        component: () => import('@/pages/404'),
-        meta: {
-            hidden: true
-        }
-    },
-    {
         path: '/outside',
         name: 'Outside',
         component: () => import('@/pages/outside'),
         meta: {
-            title: '布局外单页',
-            icon: 'el-icon-menu'
+            title: '布局外置单页',
+            icon: 'el-icon-menu',
+            sort: 0
         },
+    },
+    {
+        path: '/builtin',
+        name: 'Builtin',
+        component: Layout,
+        meta: {
+            title: '布局内置路由组',
+            hidden: true,
+            excludeTag: true,
+            sort: 0
+        },
+        children: [
+            {
+                path: '/403',
+                name: 'NotPower',
+                component: () => import('@/pages/403'),
+                meta: {
+                    hidden: true,
+                    excludeTag: true
+                }
+            },
+            {
+                path: '/404',
+                name: 'NotFound',
+                component: () => import('@/pages/404'),
+                meta: {
+                    hidden: true,
+                    excludeTag: true
+                }
+            }
+        ]
     }
 ]
