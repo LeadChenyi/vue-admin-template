@@ -102,19 +102,36 @@ export default [
                 }
             },
             {
-                path: '/chart',
-                name: 'Chart',
-                component: () => import('@/pages/unit/chart'),
-                meta: {
-                    title: '数据图表'
-                }
-            },
-            {
                 path: '/excel',
                 name: 'Excel',
                 component: () => import('@/pages/unit/excel'),
                 meta: {
-                    title: '数据导入导出'
+                    title: '导入导出'
+                }
+            },
+            {
+                path: '/chart',
+                name: 'Chart',
+                component: () => import('@/pages/unit/chart'),
+                meta: {
+                    title: '图表'
+                }
+            },
+            {
+                path: '/map',
+                name: 'Map',
+                component: () => import('@/pages/unit/map'),
+                meta: {
+                    title: '地图'
+                }
+            },
+
+            {
+                path: '/custom',
+                name: 'Custom',
+                component: () => import('@/pages/unit/custom'),
+                meta: {
+                    title: '自定义组件'
                 }
             }
         ]
