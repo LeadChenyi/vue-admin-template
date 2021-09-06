@@ -9,15 +9,6 @@
             />
         </div>
 
-        <!-- 全屏 -->
-        <div class="alike-navbar-collapse" @click="handleFullScreen">
-            <i
-                :class="[
-                    isFullScreen ? 'el-icon-remove' : 'el-icon-circle-plus',
-                ]"
-            />
-        </div>
-
         <!-- 面包屑 -->
         <el-breadcrumb class="alike-navbar-breadcrumb" separator="/">
             <transition-group name="breadcrumb">
@@ -29,6 +20,13 @@
                 </el-breadcrumb-item>
             </transition-group>
         </el-breadcrumb>
+
+        <!-- 全屏 -->
+        <div class="alike-navbar-collapse" @click="handleFullScreen">
+            <i
+                :class="[isFullScreen ? 'el-icon-aim' : 'el-icon-full-screen']"
+            />
+        </div>
 
         <!-- 下拉菜单 -->
         <el-dropdown

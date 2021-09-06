@@ -70,6 +70,14 @@ export default [
                 }
             },
             {
+                path: '/excel',
+                name: 'Excel',
+                component: () => import('@/pages/unit/excel'),
+                meta: {
+                    title: '导入导出'
+                }
+            },
+            {
                 path: '/form',
                 name: 'Form',
                 component: () => import('@/pages/unit/form'),
@@ -83,30 +91,6 @@ export default [
                 component: () => import('@/pages/unit/rule'),
                 meta: {
                     title: '表单验证'
-                }
-            },
-            {
-                path: '/editor',
-                name: 'Editor',
-                component: () => import('@/pages/unit/editor'),
-                meta: {
-                    title: '富文本编辑器'
-                }
-            },
-            {
-                path: '/list',
-                name: 'List',
-                component: () => import('@/pages/unit/list'),
-                meta: {
-                    title: '数据列表'
-                }
-            },
-            {
-                path: '/excel',
-                name: 'Excel',
-                component: () => import('@/pages/unit/excel'),
-                meta: {
-                    title: '导入导出'
                 }
             },
             {
@@ -125,7 +109,14 @@ export default [
                     title: '地图'
                 }
             },
-
+            {
+                path: '/editor',
+                name: 'Editor',
+                component: () => import('@/pages/unit/editor'),
+                meta: {
+                    title: '富文本编辑器'
+                }
+            },
             {
                 path: '/custom',
                 name: 'Custom',
@@ -137,11 +128,11 @@ export default [
         ]
     },
     {
-        path: '/outside',
-        name: 'Outside',
-        component: () => import('@/pages/outside'),
+        path: '/external',
+        name: 'External',
+        component: () => import('@/pages/external'),
         meta: {
-            title: '布局外置单页',
+            title: '布局外的单页',
             icon: 'el-icon-menu',
             sort: 0
         },

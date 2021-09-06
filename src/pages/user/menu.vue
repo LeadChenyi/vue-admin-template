@@ -477,7 +477,6 @@ export default {
                             );
                         }
                     });
-                    console.log(this.menuOptions);
                 }
             },
         },

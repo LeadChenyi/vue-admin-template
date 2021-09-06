@@ -322,6 +322,12 @@ export default {
     z-index: 1001;
     overflow: hidden;
 }
+.alike-sidebar .el-scrollbar {
+    height: 100%;
+}
+.alike-sidebar .el-scrollbar__wrap {
+    overflow-x: hidden;
+}
 .alike-sidebar-board {
     width: 100%;
     height: 80px;
@@ -329,8 +335,9 @@ export default {
     align-items: center;
 }
 .alike-sidebar-board__image {
-    width: 100%;
-    height: 60px;
+    width: 180px;
+    height: 50px;
+    margin-left: 12px;
 }
 .alike-layout-page {
     height: 100%;

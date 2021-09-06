@@ -11,7 +11,7 @@
             <el-menu
                 :default-active="activeMenu"
                 :router="true"
-                :unique-opened="false"
+                :unique-opened="true"
                 :collapse-transition="false"
                 :collapse="activeCollapse"
                 mode="vertical"

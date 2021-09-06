@@ -108,5 +108,24 @@ export default {
         const url = window.URL.createObjectURL(blob);
         // window.location.href = url;
         return url;
+    },
+    filterTree(routers, permission = []) {
+        return routers.filter(item => permission.includes(item.meta.code)).map((item) => {
+            item = Object.assign({}, item);
+            if (item.children) {
+                item['children'] = this.filterTree(item.children)
+            }
+            return item;
+        })
+
+        // return routers.map((item) => {
+        //     if (['user', 'user:role'].includes(item.meta.code)) {
+        //         item = Object.assign({}, item);
+        //         if (item.children) {
+        //             item['children'] = filterTree(item.children)
+        //         }
+        //         return item
+        //     }
+        // }).filter(item => item)
     }
 }

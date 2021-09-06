@@ -3,7 +3,7 @@
         <el-row :gutter="20">
             <el-col :span="24">
                 <el-card>
-                    <div slot="header">访客</div>
+                    <div slot="header">浏量</div>
                     <ve-line
                         :settings="lineSettings"
                         :data="lineData"

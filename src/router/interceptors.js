@@ -85,9 +85,6 @@ function getRouters() {
                 return false;
             }
 
-            // 权限路由过滤
-            console.log(filterTree(res.data));
-
             // 全路由
             const fullRouters = [...res.data, ...StaticRouter]
             fullRouters.sort((a, b) => {
@@ -111,24 +108,4 @@ function getItemPath(routers) {
             getItemPath(routers[i].children);
         }
     }
-}
-
-function filterTree(routers) {
-    return routers.filter(item => ['user', 'user:role'].includes(item.meta.code)).map((item) => {
-        item = Object.assign({}, item);
-        if (item.children) {
-            item['children'] = filterTree(item.children)
-        }
-        return item;
-    })
-
-    // return routers.map((item) => {
-    //     if (['user', 'user:role'].includes(item.meta.code)) {
-    //         item = Object.assign({}, item);
-    //         if (item.children) {
-    //             item['children'] = filterTree(item.children)
-    //         }
-    //         return item
-    //     }
-    // }).filter(item => item)
 }
