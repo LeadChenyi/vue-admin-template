@@ -1,6 +1,17 @@
 # vue-admin-template
 
 ### 框架基础搭建及核心模块
+- [√] env 环境变量
+    ```
+        创建文件：
+            .env.[mode]
+        默认字段配置：
+            NODE_ENV  #可被重置 
+            BASE_URL  #无法被重置
+            ... ...
+        自定义字段配置：
+            VUE_APP_[keyword]
+    ```
 - [√] vue-router 路由搭建
     + [√] router each 路由守卫(访问权限、重定向路由)
     + [√] nprogress 进度条加载
@@ -28,15 +39,15 @@
     + 监控日志
 - [-] 其它需求    
     + 整理常用脚本 
+    + 主题动态变化
+    + 响应式媒体查询
     + [√] 点击元素、按F11、按Esc全屏状态同步更新
         ```
             1、已知如果是按F11进入全屏，那么只能再次按F11退出全屏；如果是点击元素进入全屏，那么可以再次点击元素或者按Esc退出全屏，
             2、全屏模式下是无法监听F11和Esc键盘事件的，所以退出全屏操作全权由resize事件代替；而非全屏下监听F11必定是能触发的，所以阻止F11默认行为，使用自定义的方法进入全屏。
             3、无论进入还是退出全屏都会触发resize事件，所以在此阶段判断是否全屏状态并同步更新
         ```
-    + 预览PDF文件
-    + 主题动态变化
-    + 轮播
+
 
 ### 框架扩展功能及依赖模块
 - [√] underscore 实用工具
@@ -49,6 +60,8 @@
 - [√] vue-quill-editor quill-image-extend-module 富文本编辑器
 - [√] echarts、v-charts 数据图表(v-charts依赖于echarts)
 - [√] pikaz-excel-js / xlsx file-saver script-loader (来自vue-element-admin) 数据导入导出
+- [√] vue-pdf 预览文件
+- [√] vue-awesome-swiper 幻灯图片
 
 
 ### 常见问题
@@ -57,22 +70,6 @@
     1、安装模块依赖包时先注意查看该模块版本支持情况
     2、如果有需要安装依赖于Node的插件包，先查看本地Node版本，再寻找所对应的插件版本安装
     3、最后安装模块依赖包
-```
-- 如何脚手架自定义环境变量
-```
-    创建文件：
-        .env.[mode]
-    默认字段配置：
-        NODE_ENV [可重置]
-        BASE_URL [无法重置]
-    自定义字段配置：
-        VUE_APP_ + 自定义字段
-```
-- vue-awesome-swiper 轮播使用
-```
-    import "swiper/dist/css/swiper.css";
-    import { swiper, swiperSlide } from "vue-awesome-swiper";
-    import * as swiperAni from "@/common/lib/swiper.animate.js";
 ```
 - custom-element-theme.scss 重置主题/动态皮肤
 ```
@@ -87,11 +84,16 @@
 - Syntax Error: Error: Cannot find module 'gifsicle'
 ```
     原因：由于image-webpack-loader依赖包安装不全，导致依赖包所关联的依赖模块丢失
-    解决：删除node_modules 和 package-lock.json 使用淘宝镜像安装模块
+    方案：删除node_modules 和 package-lock.json 使用淘宝镜像安装模块
     源主机资源无法访问：https://www.cnblogs.com/ccti7/p/13956678.html
 ``` 
 - Uncaught SyntaxError: Invalid or unexpected token
 ```
     原因：更新或删除了依赖
-    解决：刷新项目资源管理器，然后重新编译
+    方案：刷新项目资源管理器，然后重新编译
+```
+- Error in render: "TypeError: Cannot set property 'params' of undefined"
+```
+    原因：对象导出时没有设置正确的参数
+    方案：导出默认对象可无需关心对象名称或大小写；导出解构对象则必须按照内置对象命名或者重新取个别名吧
 ```

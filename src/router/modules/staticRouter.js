@@ -62,19 +62,11 @@ export default [
                 }
             },
             {
-                path: '/print',
-                name: 'Print',
-                component: () => import('@/pages/unit/print'),
+                path: '/swiper',
+                name: 'Swiper',
+                component: () => import('@/pages/unit/swiper'),
                 meta: {
-                    title: '打印指定元素'
-                }
-            },
-            {
-                path: '/excel',
-                name: 'Excel',
-                component: () => import('@/pages/unit/excel'),
-                meta: {
-                    title: '导入导出'
+                    title: '幻灯片'
                 }
             },
             {
@@ -91,6 +83,30 @@ export default [
                 component: () => import('@/pages/unit/rule'),
                 meta: {
                     title: '表单验证'
+                }
+            },
+            {
+                path: '/print',
+                name: 'Print',
+                component: () => import('@/pages/unit/print'),
+                meta: {
+                    title: '打印指定元素'
+                }
+            },
+            {
+                path: '/preview',
+                name: 'Preview',
+                component: () => import('@/pages/unit/preview'),
+                meta: {
+                    title: '上传文件预览'
+                }
+            },
+            {
+                path: '/excel',
+                name: 'Excel',
+                component: () => import('@/pages/unit/excel'),
+                meta: {
+                    title: '导入导出数据'
                 }
             },
             {

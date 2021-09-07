@@ -15,4 +15,7 @@ export default {
 .pagination {
     margin-top: 20px;
 }
+.alike-container {
+    padding: 20px;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="alike-navbar">
         <!-- 左侧菜单折叠 -->
-        <div class="alike-navbar-collapse" @click="handleCollapse">
+        <div class="alike-navbar-iconitem" @click="handleCollapse">
             <i
                 :class="[
                     activeCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold',
@@ -22,7 +22,7 @@
         </el-breadcrumb>
 
         <!-- 全屏 -->
-        <div class="alike-navbar-collapse" @click="handleFullScreen">
+        <div class="alike-navbar-iconitem" @click="handleFullScreen">
             <i
                 :class="[
                     fullScreenEnabled ? 'el-icon-aim' : 'el-icon-full-screen',
@@ -140,12 +140,13 @@ export default {
     align-items: center;
     box-sizing: border-box;
 }
-.alike-navbar-collapse {
+.alike-navbar-iconitem {
     height: 100%;
     line-height: 60px;
     padding: 0px 15px;
     display: inline-block;
     cursor: pointer;
+    font-size: 20px;
 }
 .alike-navbar-breadcrumb {
     flex: 1;

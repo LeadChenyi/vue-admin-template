@@ -55,9 +55,9 @@
                 >{{ $t("login.buttonText") }}</el-button
             >
 
-            <div class="tips">
+            <!-- <div class="tips">
                 {{ $t("login.tips") }}
-            </div>
+            </div> -->
         </el-form>
 
         <div class="select-language">
@@ -193,7 +193,8 @@ $cursor: #fff;
     .el-input {
         display: inline-block;
         height: 47px;
-        width: 85%;
+        // width: 85%;  // 图标切换占位
+        width: 100%;
 
         input {
             background: transparent;
@@ -213,8 +214,8 @@ $cursor: #fff;
     }
 
     .el-form-item {
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background-color: rgba(0, 0, 0, 0.2);
         border-radius: 5px;
         color: #454545;
     }
@@ -235,7 +236,7 @@ $light_gray: #eee;
     overflow: hidden;
     position: relative;
     .login-form {
-        width: 520px;
+        width: 500px;
         position: absolute;
         top: 50%;
         left: 50%;

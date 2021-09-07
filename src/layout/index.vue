@@ -348,9 +348,6 @@ export default {
     overflow-y: auto;
     background-color: #f5f6fa;
 }
-.alike-container {
-    padding: 20px;
-}
 
 /* 移动端模式 */
 .alike-layout--mobile .alike-layout-page {
