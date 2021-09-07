@@ -82,79 +82,20 @@ export default {
     beforeMount() {
         window.addEventListener(
             "resize",
-            this.$utils.debounce(this.onWindowResize)
+            this.$utils.debounce(this.onWindowResize, 300)
         );
+        window.addEventListener("keydown", this.onKeyDown);
     },
     mounted() {
-        // get common data
-        // 枚举
+        // 获取枚举
     },
     beforeDestroy() {
         window.removeEventListener("resize", this.onWindowResize);
-    },
-    watch: {
-        async themeColor(val) {
-            const oldVal = this.chalk ? this.themeColor : ORIGINAL_THEME;
-            if (typeof val !== "string") return;
-            const themeCluster = this.getThemeCluster(val.replace("#", ""));
-            const originalCluster = this.getThemeCluster(
-                oldVal.replace("#", "")
-            );
-
-            const getHandler = (variable, id) => {
-                return () => {
-                    const originalCluster = this.getThemeCluster(
-                        ORIGINAL_THEME.replace("#", "")
-                    );
-                    const newStyle = this.updateStyle(
-                        this[variable],
-                        originalCluster,
-                        themeCluster
-                    );
-                    let styleTag = document.getElementById(id);
-                    if (!styleTag) {
-                        styleTag = document.createElement("style");
-                        styleTag.setAttribute("id", id);
-                        styleTag.setAttribute("type", "text/css");
-                        document.head.appendChild(styleTag);
-                    }
-                    styleTag.innerText = newStyle;
-                };
-            };
-
-            if (!this.chalk) {
-                const url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`;
-                await this.getCSSString(url, "chalk");
-            }
-
-            const chalkHandler = getHandler("chalk", "chalk-style");
-
-            chalkHandler();
-
-            const styles = [].slice
-                .call(document.querySelectorAll("style"))
-                .filter((style) => {
-                    const text = style.innerText;
-                    return (
-                        new RegExp(oldVal, "i").test(text) &&
-                        !/Chalk Variables/.test(text)
-                    );
-                });
-
-            styles.forEach((style) => {
-                const { innerText } = style;
-                if (typeof innerText !== "string") return;
-                style.innerText = this.updateStyle(
-                    innerText,
-                    originalCluster,
-                    themeCluster
-                );
-            });
-        },
+        window.removeEventListener("keydown", this.onKeyDown);
     },
     methods: {
         onWindowResize() {
-            // 监听模型状态
+            // 更新设备模型状态
             const rect = document.body.getBoundingClientRect();
             let mobileStatus;
             if (rect.width <= 1024) {
@@ -163,12 +104,71 @@ export default {
                 mobileStatus = false;
             }
             this.$store.dispatch("app/setMobile", mobileStatus);
+
+            // 更新全屏状态
+            this.fullScreenEnabled = this.checkFS();
+        },
+        onKeyDown(event) {
+            let e =
+                event || window.event || arguments.callee.caller.arguments[0];
+            if (e.keyCode == 122) {
+                e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+                this.changeFullScreen(true);
+            }
         },
         closeCollapse() {
             this.$store.dispatch("app/setCollapse", true);
         },
         changeSetting() {
             this.isShowDrawerSetting = !this.isShowDrawerSetting;
+        },
+        changeFullScreen(value) {
+            if (value) {
+                this.openFS(this.$refs.queryLayout);
+            } else {
+                this.closeFS();
+            }
+        },
+        checkFS() {
+            let isFull =
+                document.mozFullScreen ||
+                document.fullScreen ||
+                document.webkitIsFullScreen ||
+                document.webkitRequestFullScreen ||
+                document.mozRequestFullScreen ||
+                document.msFullscreenEnabled;
+            if (isFull === undefined) isFull = false;
+            return isFull;
+        },
+        openFS(ele) {
+            // 开启的时候需要指定元素
+            if (ele.requestFullscreen) {
+                ele.requestFullscreen();
+            } else if (ele.mozRequestFullScreen) {
+                /* Firefox */
+                ele.mozRequestFullScreen();
+            } else if (ele.webkitRequestFullscreen) {
+                /* Chrome, Safari and Opera */
+                ele.webkitRequestFullscreen();
+            } else if (ele.msRequestFullscreen) {
+                /* IE/Edge */
+                ele.msRequestFullscreen();
+            }
+        },
+        closeFS() {
+            // 关闭的时候只需委托给文档（因为一个显示器只有一个浏览器窗口能全屏）
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                /* Firefox */
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                /* Chrome, Safari and Opera */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                /* IE/Edge */
+                document.msExitFullscreen();
+            }
         },
         updateStyle(style, oldCluster, newCluster) {
             console.log("更新了样式...");
@@ -245,44 +245,6 @@ export default {
             // v-model themeColor
             console.log("changeTheme", e);
         },
-        changeFullScreen(value) {
-            this.fullScreenEnabled = value;
-            if (value) {
-                this.openFS(this.$refs.queryLayout);
-            } else {
-                this.closeFS();
-            }
-        },
-        openFS(ele) {
-            // 开启的时候需要指定元素
-            if (ele.requestFullscreen) {
-                ele.requestFullscreen();
-            } else if (ele.mozRequestFullScreen) {
-                /* Firefox */
-                ele.mozRequestFullScreen();
-            } else if (ele.webkitRequestFullscreen) {
-                /* Chrome, Safari and Opera */
-                ele.webkitRequestFullscreen();
-            } else if (ele.msRequestFullscreen) {
-                /* IE/Edge */
-                ele.msRequestFullscreen();
-            }
-        },
-        closeFS() {
-            // 关闭的时候只需委托给文档（因为一个显示器只有一个浏览器窗口能全屏）
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-                /* Firefox */
-                document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
-                /* Chrome, Safari and Opera */
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                /* IE/Edge */
-                document.msExitFullscreen();
-            }
-        },
     },
     computed: {
         isCollapse() {
@@ -293,6 +255,66 @@ export default {
         },
         getTags() {
             return this.$store.getters["app/getTags"];
+        },
+    },
+    watch: {
+        async themeColor(val) {
+            const oldVal = this.chalk ? this.themeColor : ORIGINAL_THEME;
+            if (typeof val !== "string") return;
+            const themeCluster = this.getThemeCluster(val.replace("#", ""));
+            const originalCluster = this.getThemeCluster(
+                oldVal.replace("#", "")
+            );
+
+            const getHandler = (variable, id) => {
+                return () => {
+                    const originalCluster = this.getThemeCluster(
+                        ORIGINAL_THEME.replace("#", "")
+                    );
+                    const newStyle = this.updateStyle(
+                        this[variable],
+                        originalCluster,
+                        themeCluster
+                    );
+                    let styleTag = document.getElementById(id);
+                    if (!styleTag) {
+                        styleTag = document.createElement("style");
+                        styleTag.setAttribute("id", id);
+                        styleTag.setAttribute("type", "text/css");
+                        document.head.appendChild(styleTag);
+                    }
+                    styleTag.innerText = newStyle;
+                };
+            };
+
+            if (!this.chalk) {
+                const url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`;
+                await this.getCSSString(url, "chalk");
+            }
+
+            const chalkHandler = getHandler("chalk", "chalk-style");
+
+            chalkHandler();
+
+            const styles = [].slice
+                .call(document.querySelectorAll("style"))
+                .filter((style) => {
+                    const text = style.innerText;
+                    return (
+                        new RegExp(oldVal, "i").test(text) &&
+                        !/Chalk Variables/.test(text)
+                    );
+                });
+
+            styles.forEach((style) => {
+                const { innerText } = style;
+                if (typeof innerText !== "string") return;
+                style.innerText = this.updateStyle(
+                    innerText,
+                    originalCluster,
+                    themeCluster
+                );
+            });
         },
     },
 };
