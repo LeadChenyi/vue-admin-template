@@ -57,4 +57,12 @@ export default {
 .el-submenu .el-menu-item.is-active {
     background-color: #001528 !important;
 }
+.el-menu--collapse .el-menu-item > span,
+.el-menu--collapse .el-submenu .el-submenu__title > span {
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    visibility: hidden;
+    display: inline-block;
+}
 </style>

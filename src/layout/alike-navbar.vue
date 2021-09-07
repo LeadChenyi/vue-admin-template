@@ -36,9 +36,9 @@
             trigger="click"
             @command="onCommandSetting"
         >
-            <div class="user-wrap">
+            <div class="alike-navbar-user-wrap">
                 <img
-                    class="user-avatar"
+                    class="alike-navbar-user-avatar"
                     :src="getUserInfo && getUserInfo.avatar"
                 />
                 <i class="el-icon-caret-bottom" />
@@ -67,7 +67,7 @@ export default {
     computed: {
         getBreadcrumbs() {
             return this.$route.matched.filter((item) => {
-                return !item.meta.inherit;
+                return !item.meta.flat;
             });
         },
         activeCollapse() {
@@ -129,4 +129,41 @@ export default {
 </script>
 
 <style>
+.alike-navbar {
+    height: 60px;
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff;
+    /* box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08); */
+    border-bottom: 1px solid #f6f6f6;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+.alike-navbar-collapse {
+    height: 100%;
+    line-height: 60px;
+    padding: 0px 15px;
+    display: inline-block;
+    cursor: pointer;
+}
+.alike-navbar-breadcrumb {
+    flex: 1;
+    font-size: 16px !important;
+}
+.alike-navbar-breadcrumb .el-breadcrumb__item .el-breadcrumb__inner {
+    color: #999999;
+}
+.alike-navbar-breadcrumb .el-breadcrumb__item:last-child .el-breadcrumb__inner {
+    color: #666666;
+}
+.alike-navbar-dropdown {
+    margin-right: 15px;
+}
+.alike-navbar-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+}
 </style>

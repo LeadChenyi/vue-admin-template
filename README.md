@@ -14,7 +14,8 @@
     + [√] 表单验证
     + [√] 错误处理
     + [√] 本地缓存
-    + [√] 重定向路由
+    + [√] 重定向路由   
+- [√] 标签栏
 - [√] 菜单栏
 - [√] 用户鉴权
     + [√] user 用户管理
@@ -33,9 +34,9 @@
             2、全屏模式下是无法监听F11和Esc键盘事件的，所以退出全屏操作全权由resize事件代替；而非全屏下监听F11必定是能触发的，所以阻止F11默认行为，使用自定义的方法进入全屏。
             3、无论进入还是退出全屏都会触发resize事件，所以在此阶段判断是否全屏状态并同步更新
         ```
-    + 优化导航栏
     + 预览PDF文件
     + 主题动态变化
+    + 轮播
 
 ### 框架扩展功能及依赖模块
 - [√] underscore 实用工具
@@ -48,15 +49,6 @@
 - [√] vue-quill-editor quill-image-extend-module 富文本编辑器
 - [√] echarts、v-charts 数据图表(v-charts依赖于echarts)
 - [√] pikaz-excel-js / xlsx file-saver script-loader (来自vue-element-admin) 数据导入导出
-
-
-### 参考文档或案例
-- [SortableJS](https://github.com/SortableJS/Sortable#options)
-- [vuedraggable](https://www.itxst.com/vue-draggable/yvq3mifz.html)
-- [vue-quill-editor](https://github.surmon.me/vue-quill-editor/)
-- [v-charts](https://v-charts.js.org/#/)
-- [excel Pikez](https://juejin.cn/post/6844904151667720205)
-- [excel PanJiaChen](https://panjiachen.github.io/vue-element-admin-site/feature/component/excel.html#excel-export)
 
 
 ### 常见问题

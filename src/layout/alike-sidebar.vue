@@ -59,4 +59,37 @@ export default {
 </script>
 
 <style>
+.alike-sidebar {
+    transition: width 0.28s;
+    width: 210px;
+    background-color: #304156;
+    height: 100%;
+    position: fixed;
+    font-size: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    overflow: hidden;
+}
+.alike-sidebar .el-scrollbar {
+    height: 100%;
+}
+.alike-sidebar .el-scrollbar__wrap {
+    overflow-x: hidden;
+}
+.alike-sidebar .el-menu {
+    border-right: none !important;
+}
+.alike-sidebar-board {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+.alike-sidebar-board__image {
+    width: 180px;
+    height: 50px;
+    margin-left: 12px;
+}
 </style>

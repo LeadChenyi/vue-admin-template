@@ -320,7 +320,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .alike-layout {
     width: 100%;
     height: 100%;
@@ -335,74 +335,11 @@ export default {
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
 }
-.alike-sidebar {
-    transition: width 0.28s;
-    width: 210px;
-    background-color: #304156;
-    height: 100%;
-    position: fixed;
-    font-size: 0px;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1001;
-    overflow: hidden;
-}
-.alike-sidebar .el-scrollbar {
-    height: 100%;
-}
-.alike-sidebar .el-scrollbar__wrap {
-    overflow-x: hidden;
-}
-.alike-sidebar-board {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-}
-.alike-sidebar-board__image {
-    width: 180px;
-    height: 50px;
-    margin-left: 12px;
-}
 .alike-layout-page {
     height: 100%;
     transition: margin-left 0.28s;
     margin-left: 210px;
     position: relative;
-}
-.alike-navbar {
-    height: 60px;
-    position: relative;
-    overflow: hidden;
-    background-color: #ffffff;
-    /* box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08); */
-    border-bottom: 1px solid #f6f6f6;
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-}
-.alike-sidebar .el-menu {
-    border-right: none !important;
-}
-.alike-navbar-collapse {
-    height: 100%;
-    line-height: 60px;
-    padding: 0px 15px;
-    display: inline-block;
-    cursor: pointer;
-}
-.alike-navbar-breadcrumb {
-    flex: 1;
-}
-.alike-navbar-dropdown {
-    margin-right: 15px;
-}
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    cursor: pointer;
 }
 .alike-main {
     width: 100%;
@@ -426,13 +363,5 @@ export default {
 }
 .alike-layout--collapse .alike-layout-page {
     margin-left: 64px !important;
-}
-.el-menu--collapse .el-menu-item > span,
-.el-menu--collapse .el-submenu .el-submenu__title > span {
-    height: 0;
-    width: 0;
-    overflow: hidden;
-    visibility: hidden;
-    display: inline-block;
 }
 </style>
