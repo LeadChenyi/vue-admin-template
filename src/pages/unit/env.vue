@@ -1,5 +1,5 @@
 <template>
-    <div class="env-page">
+    <div class="alike-container">
         <div>mode：{{ mode }}</div>
         <div>baseUrl：{{ baseUrl }}</div>
     </div>

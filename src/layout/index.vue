@@ -21,6 +21,7 @@
         <div class="alike-layout-page">
             <div class="alike-header">
                 <alike-navbar
+                    :fullScreenEnabled="fullScreenEnabled"
                     @changeFullScreen="changeFullScreen"
                     @changeSetting="changeSetting"
                 ></alike-navbar>
@@ -69,6 +70,7 @@ export default {
     },
     data() {
         return {
+            fullScreenEnabled: false,
             isShowDrawerSetting: false,
             themeColor: Variables.colorPrimary,
         };
@@ -152,6 +154,7 @@ export default {
     },
     methods: {
         onWindowResize() {
+            // 监听模型状态
             const rect = document.body.getBoundingClientRect();
             let mobileStatus;
             if (rect.width <= 1024) {
@@ -243,6 +246,7 @@ export default {
             console.log("changeTheme", e);
         },
         changeFullScreen(value) {
+            this.fullScreenEnabled = value;
             if (value) {
                 this.openFS(this.$refs.queryLayout);
             } else {

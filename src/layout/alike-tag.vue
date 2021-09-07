@@ -1,21 +1,28 @@
 <template>
     <div class="alike-tag" v-if="tags.length">
-        <div class="alike-tag-left">
-            <router-link
-                tag="div"
-                :to="item.path"
-                class="alike-tag-button"
-                v-for="(item, index) in tags"
-                :class="{ active: isActive(item.path) }"
-                :key="index"
-            >
-                <span class="alike-tag-button__text">{{ item.title }}</span>
-                <i
-                    class="alike-tag-button__icon el-icon-close"
-                    @click.stop="closeTag(index)"
-                ></i>
-            </router-link>
-        </div>
+        <draggable
+            class="alike-tag-left"
+            v-model="tags"
+            @start="drag = true"
+            @end="drag = false"
+            animation="500"
+        >
+            <transition-group class="alike-tag-left-group">
+                <div
+                    class="alike-tag-button"
+                    v-for="(item, index) in tags"
+                    :key="index"
+                    :class="{ active: isActive(item.path) }"
+                    @click="linkRouter(item.path)"
+                >
+                    <span class="alike-tag-button__text">{{ item.title }}</span>
+                    <i
+                        class="alike-tag-button__icon el-icon-close"
+                        @click.stop="closeTag(index)"
+                    ></i>
+                </div>
+            </transition-group>
+        </draggable>
         <div class="alike-tag-right">
             <el-dropdown @command="handleTags">
                 <el-button size="mini" type="primary">
@@ -33,8 +40,13 @@
 </template>
 
 <script>
+import Draggable from "vuedraggable";
+
 export default {
     name: "AlikeTag",
+    components: {
+        Draggable,
+    },
     data() {
         return {
             tags: [],
@@ -48,9 +60,7 @@ export default {
     watch: {
         $route(newValue, oldValue) {
             if (newValue != oldValue) {
-                if (
-                    !this.$route.meta.excludeTag
-                ) {
+                if (!this.$route.meta.excludeTag) {
                     this.setTags(this.$route);
                 }
             }
@@ -118,6 +128,9 @@ export default {
                 this.$router.push("/");
             }
         },
+        linkRouter(path) {
+            this.$router.push(path);
+        },
     },
 };
 </script>
@@ -137,7 +150,9 @@ export default {
     align-items: center;
     flex: 1;
 }
-
+.alike-tag-left-group {
+    display: flex;
+}
 .alike-tag-button {
     margin-left: 5px;
     border-radius: 4px;
@@ -151,11 +166,7 @@ export default {
     border: 1px solid #cccccc;
     background-color: #ffffff;
     padding: 0 5px 0 12px;
-
-    -webkit-transition: all 0.3s ease-in;
-    -moz-transition: all 0.3s ease-in;
-    transition: all 0.3s ease-in;
-    cursor: pointer;
+    cursor: move;
     position: relative;
     overflow: hidden;
     white-space: nowrap;
@@ -167,11 +178,13 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 .alike-tag-button__icon {
     position: relative;
     overflow: hidden;
     margin-left: 5px;
+    cursor: pointer;
 }
 .alike-tag-button:not(.active):hover {
     background-color: #f8f8f8;

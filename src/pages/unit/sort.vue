@@ -58,6 +58,7 @@
                         animation="1000"
                     >
                         <transition-group>
+                            <!-- <p>组件内的子元素不得设置过渡样式，否则animation属性将一同失效</p> -->
                             <div
                                 class="sort-item"
                                 v-for="item in sorts3"

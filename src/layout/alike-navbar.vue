@@ -24,7 +24,9 @@
         <!-- 全屏 -->
         <div class="alike-navbar-collapse" @click="handleFullScreen">
             <i
-                :class="[isFullScreen ? 'el-icon-aim' : 'el-icon-full-screen']"
+                :class="[
+                    fullScreenEnabled ? 'el-icon-aim' : 'el-icon-full-screen',
+                ]"
             />
         </div>
 
@@ -56,10 +58,11 @@
 <script>
 export default {
     name: "AlikeNavbar",
-    data() {
-        return {
-            isFullScreen: false,
-        };
+    props: {
+        fullScreenEnabled: {
+            type: Boolean,
+            default: false,
+        },
     },
     computed: {
         getBreadcrumbs() {
@@ -93,8 +96,7 @@ export default {
             );
         },
         handleFullScreen() {
-            this.isFullScreen = !this.isFullScreen;
-            this.$emit("changeFullScreen", this.isFullScreen);
+            this.$emit("changeFullScreen", !this.fullScreenEnabled);
         },
         logout() {
             this.$request({
