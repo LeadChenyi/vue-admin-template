@@ -38,6 +38,11 @@ module.exports = {
         //     .loader('image-webpack-loader')
         //     .options({ bypassOnDebug: true })
 
+        config.module.rule('md')
+            .test(/\.md$/)
+            .use('text-loader')
+            .loader('text-loader')
+
         // 生成模式下进行文件资源压缩
         if (process.env.NODE_ENV === 'production') {
             config.plugin('compressionPlugin')

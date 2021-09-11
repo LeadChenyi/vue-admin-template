@@ -233,6 +233,7 @@ $light_gray: #eee;
     background-color: $bg;
     background: url("../assets/image/backdrop/backdrop_9.jpg") 0 0 / 100% 100%
         no-repeat;
+    object-fit: cover;
     overflow: hidden;
     position: relative;
     .login-form {

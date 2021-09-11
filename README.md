@@ -38,9 +38,9 @@
     + 城市分布图
     + 监控日志
 - [-] 其它需求    
-    + 整理常用脚本 
+    + 整理常用脚本（队列执行弹窗） 
     + 主题动态变化
-    + 响应式媒体查询
+    + 响应式媒体查询（login页等适配）
     + [√] 点击元素、按F11、按Esc全屏状态同步更新
         ```
             1、已知如果是按F11进入全屏，那么只能再次按F11退出全屏；如果是点击元素进入全屏，那么可以再次点击元素或者按Esc退出全屏，
@@ -62,6 +62,7 @@
 - [√] pikaz-excel-js / xlsx file-saver script-loader (来自vue-element-admin) 数据导入导出
 - [√] vue-pdf 预览文件
 - [√] vue-awesome-swiper 幻灯图片
+- [√] vue-markdown、github-markdown-css、highlight.js、mavon-editor 文档编辑与解析（解析md文件需要安装text-loader开发依赖）
 
 
 ### 常见问题
@@ -78,7 +79,11 @@
     
     const version = require("element-ui/package.json").version;（锁定版本）
 ```
-
+- 模块依赖包的文档没有说明如何局部注册
+```
+    1、先查看全局导出对象的上下文
+    2、找到正确的模板导出对象，在组件中进行结构注册
+```
 
 ### 排错问题
 - Syntax Error: Error: Cannot find module 'gifsicle'
@@ -96,4 +101,9 @@
 ```
     原因：对象导出时没有设置正确的参数
     方案：导出默认对象可无需关心对象名称或大小写；导出解构对象则必须按照内置对象命名或者重新取个别名吧
+```
+- <transition-group> children, this is the same as not using keys.
+```
+    原因：transition-group 组件内的循环元素的key不能设为index
+    方案：采用唯一性的值作为key值即可
 ```

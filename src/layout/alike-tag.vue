@@ -11,7 +11,7 @@
                 <div
                     class="alike-tag-button"
                     v-for="(item, index) in tags"
-                    :key="index"
+                    :key="item.path"
                     :class="{ active: isActive(item.path) }"
                     @click="linkRouter(item.path)"
                 >

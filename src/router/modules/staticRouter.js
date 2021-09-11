@@ -130,7 +130,15 @@ export default [
                 name: 'Editor',
                 component: () => import('@/pages/unit/editor'),
                 meta: {
-                    title: '富文本编辑器'
+                    title: 'Editor'
+                }
+            },
+            {
+                path: '/markdown',
+                name: 'Markdown',
+                component: () => import('@/pages/unit/markdown'),
+                meta: {
+                    title: 'Markdown'
                 }
             },
             {

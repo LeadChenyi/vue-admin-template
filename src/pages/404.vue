@@ -1,5 +1,5 @@
 <template>
-    <div class="not-fount-page">
+    <div class="not-found-page">
         <div class="wscn-http404">
             <div class="pic-404">
                 <img
@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.not-fount-page {
+.not-found-page {
     width: 100%;
     height: 100%;
 }
