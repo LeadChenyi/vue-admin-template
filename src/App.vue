@@ -7,6 +7,15 @@
 <script>
 export default {
     name: "App",
+    data() {
+        return {
+            resocures: ["https://map.qq.com/api/js"],
+        };
+    },
+    created() {
+        // this.$utils.createAsyncLoadScript(this.resocures);
+        // console.log(this.$utils.zeroize("15", 100));
+    },
 };
 </script>
 

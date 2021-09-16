@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import Print from "@/common/lib/print.js";
+import Print from "@/common/public/print.js";
 import print from "vue-print-nb";
 export default {
     name: "Print",

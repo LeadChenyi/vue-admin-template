@@ -56,6 +56,23 @@
                 </el-card>
             </el-col>
         </el-row>
+
+        <el-dialog
+            ref="queryDialog1"
+            title="dialog1"
+            width="30%"
+            @close="closeDialog"
+        >
+            <span>这是一段信息</span>
+        </el-dialog>
+        <el-dialog
+            ref="queryDialog2"
+            title="dialog2"
+            width="30%"
+            @close="closeDialog"
+        >
+            <span>这是二段信息</span>
+        </el-dialog>
     </div>
 </template>
 
@@ -102,7 +119,12 @@ export default {
                     ],
                 },
             ],
+            dialogs: ["queryDialog1", "queryDialog2"],
         };
+    },
+    mounted() {
+        // 通过队列和监听的方式依次自动展示弹窗
+        // this.$refs[this.dialogs[0]].visible = true;
     },
     methods: {
         getData(key) {
@@ -110,6 +132,25 @@ export default {
                 type: "success",
                 message: `${key}：${this[key]}`,
             });
+        },
+        closeDialog() {
+            this.$refs[this.dialogs[0]].visible = false;
+            if (this.dialogs.length) {
+                this.dialogs.shift();
+            }
+        },
+    },
+    watch: {
+        dialogs: {
+            handler(newVal) {
+                if (newVal && newVal.length) {
+                    let timer = setTimeout(() => {
+                        this.$refs[newVal[0]].visible = true;
+                        clearTimeout(timer);
+                    }, 300);
+                }
+            },
+            deep: true,
         },
     },
 };

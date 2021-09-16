@@ -1,4 +1,4 @@
-import jweixin from '@/common/lib/jweixin.js'
+import jweixin from '@/common/public/jweixin.js'
 import Axios from 'axios'
 
 export default {

@@ -159,7 +159,7 @@ export default {
             this.tableData4 = [...this.tableData4, ...results];
         },
         handleExport() {
-            import("@/common/lib/export2excel").then((excel) => {
+            import("@/common/public/export2excel").then((excel) => {
                 const tHead = ["date", "name", "address"];
                 const data = this.JsonToArray(tHead, this.tableData3);
                 excel.export_json_to_excel({

@@ -239,24 +239,44 @@ export default {
     //     }
     //     return newNum;
     // },
-    calcMath(operation, retain) {//参数1 =>运算式  参数2 =>实际运算结果至少需预留小数后几位
-        return Math.round(operation * Math.pow(10, retain)) / Math.pow(10, retain);
-    },
-    copyText(text) {
-        let input = document.createElement('input');
-        input.setAttribute('id', 'copyId');
-        input.value = text;
-        document.querySelector('body').appendChild(input);
-
-        const range = document.createRange();
-        range.selectNode(document.getElementById('copyId'));
-
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-            selection.removeAllRanges();
-        }
-        selection.addRange(range);
-        document.execCommand('copy');
-        document.getElementById('copyId').remove();
-    }
+    // encodeHTML(str){//转义html标签
+    //     return str.replace(/&/g, '&amp;')
+    //         .replace(/\"/g, '&quot;')
+    //         .replace(/\'/g,'&acute;')
+    //         .replace(/\//g,'&frasl;')
+    //         .replace(/</g, '&lt;')
+    //         .replace(/>/g, '&gt;')
+    // },
+    // decodeHTML(str){//还原html标签
+    //     return str.replace(/&amp;/g, '&')
+    //         .replace(/&quot;/g, '\"')
+    //         .replace(/&acute;/g, '\'')
+    //         .replace(/&frasl;/g, '\/')
+    //         .replace(/&lt;/g, '<')
+    //         .replace(/&gt;/g, '>')
+    // },
+    // cutString(str, limit) {//截取字符串
+    //     let cutNum = 0;
+    //     let tempStr;
+    //     let pattern = /[^\x00-\xff]/;
+    //     let resStr = "";
+    //     for (let i = 0; i < str.length; i++) {
+    //         //如果已截取的长度超过限定长度直接跳转循环
+    //         if (cutNum < limit) {
+    //             //截取到某个当前字符
+    //             tempStr = str.substr(i, 1);
+    //             //对当前截取字符进行匹配如果是中文字符已截取长度+2否则+1
+    //             if (pattern.exec(tempStr) != null) {
+    //                 cutNum = cutNum + 2
+    //             } else {
+    //                 cutNum = cutNum + 1
+    //             }
+    //             //将当前截取字符累加给结果集
+    //             resStr += tempStr
+    //         } else {
+    //             break
+    //         }
+    //     }
+    //     return resStr + "...";
+    // }
 }

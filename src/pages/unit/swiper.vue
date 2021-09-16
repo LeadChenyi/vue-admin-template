@@ -38,9 +38,9 @@
 
 <script>
 import "swiper/dist/css/swiper.css";
-import "@/common/lib/swiper/swiper.animate.min.css";
+import "@/common/public/swiper/swiper.animate.min.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
-import * as swiperAni from "@/common/lib/swiper/swiper.animate.js";
+import * as swiperAni from "@/common/public/swiper/swiper.animate.js";
 export default {
     name: "Swiper",
     components: {
