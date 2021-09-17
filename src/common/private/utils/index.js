@@ -13,7 +13,9 @@
  * 按返回类型排列函数 Void、Boolean、String、Number、Object、Array、Date、Function
  * 
  * 1、暂不完全考虑语法兼容性，多参考Github
- * 2、考虑通用性，如支持String、Array的方法，比如indexOf这类的
+ * 2、考虑通用性，如支持String、Array的方法，比如indexOf、for of这类的
+ *      indexOf 支持String、Array
+ *      for of  支持String、Object、Array
  * 3、队列、发布订阅与管理、数据劫持与监听
  */
 
