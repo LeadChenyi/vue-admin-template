@@ -44,9 +44,9 @@
                 <i class="el-icon-caret-bottom" />
             </div>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="setting">设置</el-dropdown-item>
-                <el-dropdown-item command="notice">通知</el-dropdown-item>
                 <el-dropdown-item command="center">中心</el-dropdown-item>
+                <el-dropdown-item command="notice">通知</el-dropdown-item>
+                <el-dropdown-item command="setting">设置</el-dropdown-item>
                 <el-dropdown-item divided command="logout"
                     >退出</el-dropdown-item
                 >
@@ -85,7 +85,7 @@ export default {
                     this.logout();
                     break;
                 case "setting":
-                    this.$emit("changeSetting");
+                    this.$emit("clickSetting");
                     break;
             }
         },

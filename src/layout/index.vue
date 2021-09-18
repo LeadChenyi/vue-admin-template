@@ -23,7 +23,7 @@
                 <alike-navbar
                     :fullScreenEnabled="fullScreenEnabled"
                     @changeFullScreen="changeFullScreen"
-                    @changeSetting="changeSetting"
+                    @clickSetting="clickSetting"
                 ></alike-navbar>
                 <alike-tag></alike-tag>
             </div>
@@ -41,13 +41,9 @@
             title="设置"
             :visible.sync="isShowDrawerSetting"
             direction="rtl"
+            size="25%"
         >
-            <div class="drawer-setting">
-                <el-color-picker
-                    v-model="themeColor"
-                    @change="changeTheme"
-                ></el-color-picker>
-            </div>
+            <alike-drawer-setting></alike-drawer-setting>
         </el-drawer>
     </div>
 </template>
@@ -56,10 +52,7 @@
 import AlikeSidebar from "./alike-sidebar";
 import AlikeNavbar from "./alike-navbar";
 import AlikeTag from "./alike-tag";
-import Variables from "@/assets/style/variables.scss";
-// 锁定版本，以免将来 Element 升级时受到非兼容性更新的影响。
-const version = require("element-ui/package.json").version;
-const ORIGINAL_THEME = Variables.colorPrimary;
+import AlikeDrawerSetting from "./alike-drawer-setting";
 
 export default {
     name: "Index",
@@ -67,12 +60,12 @@ export default {
         AlikeSidebar,
         AlikeNavbar,
         AlikeTag,
+        AlikeDrawerSetting,
     },
     data() {
         return {
             fullScreenEnabled: false,
             isShowDrawerSetting: false,
-            themeColor: Variables.colorPrimary,
         };
     },
     created() {
@@ -85,9 +78,6 @@ export default {
             this.$utils.debounce(this.onWindowResize, 300)
         );
         window.addEventListener("keydown", this.onKeyDown);
-    },
-    mounted() {
-        // 获取枚举
     },
     beforeDestroy() {
         window.removeEventListener("resize", this.onWindowResize);
@@ -119,7 +109,7 @@ export default {
         closeCollapse() {
             this.$store.dispatch("app/setCollapse", true);
         },
-        changeSetting() {
+        clickSetting() {
             this.isShowDrawerSetting = !this.isShowDrawerSetting;
         },
         changeFullScreen(value) {
@@ -170,81 +160,6 @@ export default {
                 document.msExitFullscreen();
             }
         },
-        updateStyle(style, oldCluster, newCluster) {
-            console.log("更新了样式...");
-            let newStyle = style;
-            oldCluster.forEach((color, index) => {
-                newStyle = newStyle.replace(
-                    new RegExp(color, "ig"),
-                    newCluster[index]
-                );
-            });
-            return newStyle;
-        },
-        getCSSString(url, variable) {
-            return new Promise((resolve) => {
-                const xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = () => {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        this[variable] = xhr.responseText.replace(
-                            /@font-face{[^}]+}/,
-                            ""
-                        );
-                        resolve();
-                    }
-                };
-                xhr.open("GET", url);
-                xhr.send();
-            });
-        },
-        getThemeCluster(theme) {
-            const tintColor = (color, tint) => {
-                let red = parseInt(color.slice(0, 2), 16);
-                let green = parseInt(color.slice(2, 4), 16);
-                let blue = parseInt(color.slice(4, 6), 16);
-
-                if (tint === 0) {
-                    return [red, green, blue].join(",");
-                } else {
-                    red += Math.round(tint * (255 - red));
-                    green += Math.round(tint * (255 - green));
-                    blue += Math.round(tint * (255 - blue));
-
-                    red = red.toString(16);
-                    green = green.toString(16);
-                    blue = blue.toString(16);
-
-                    return `#${red}${green}${blue}`;
-                }
-            };
-
-            const shadeColor = (color, shade) => {
-                let red = parseInt(color.slice(0, 2), 16);
-                let green = parseInt(color.slice(2, 4), 16);
-                let blue = parseInt(color.slice(4, 6), 16);
-
-                red = Math.round((1 - shade) * red);
-                green = Math.round((1 - shade) * green);
-                blue = Math.round((1 - shade) * blue);
-
-                red = red.toString(16);
-                green = green.toString(16);
-                blue = blue.toString(16);
-
-                return `#${red}${green}${blue}`;
-            };
-
-            const clusters = [theme];
-            for (let i = 0; i <= 9; i++) {
-                clusters.push(tintColor(theme, Number((i / 10).toFixed(2))));
-            }
-            clusters.push(shadeColor(theme, 0.1));
-            return clusters;
-        },
-        changeTheme(e) {
-            // v-model themeColor
-            console.log("changeTheme", e);
-        },
     },
     computed: {
         isCollapse() {
@@ -255,66 +170,6 @@ export default {
         },
         getTags() {
             return this.$store.getters["app/getTags"];
-        },
-    },
-    watch: {
-        async themeColor(val) {
-            const oldVal = this.chalk ? this.themeColor : ORIGINAL_THEME;
-            if (typeof val !== "string") return;
-            const themeCluster = this.getThemeCluster(val.replace("#", ""));
-            const originalCluster = this.getThemeCluster(
-                oldVal.replace("#", "")
-            );
-
-            const getHandler = (variable, id) => {
-                return () => {
-                    const originalCluster = this.getThemeCluster(
-                        ORIGINAL_THEME.replace("#", "")
-                    );
-                    const newStyle = this.updateStyle(
-                        this[variable],
-                        originalCluster,
-                        themeCluster
-                    );
-                    let styleTag = document.getElementById(id);
-                    if (!styleTag) {
-                        styleTag = document.createElement("style");
-                        styleTag.setAttribute("id", id);
-                        styleTag.setAttribute("type", "text/css");
-                        document.head.appendChild(styleTag);
-                    }
-                    styleTag.innerText = newStyle;
-                };
-            };
-
-            if (!this.chalk) {
-                const url = `https://unpkg.com/element-ui@${version}/lib/theme-chalk/index.css`;
-                await this.getCSSString(url, "chalk");
-            }
-
-            const chalkHandler = getHandler("chalk", "chalk-style");
-
-            chalkHandler();
-
-            const styles = [].slice
-                .call(document.querySelectorAll("style"))
-                .filter((style) => {
-                    const text = style.innerText;
-                    return (
-                        new RegExp(oldVal, "i").test(text) &&
-                        !/Chalk Variables/.test(text)
-                    );
-                });
-
-            styles.forEach((style) => {
-                const { innerText } = style;
-                if (typeof innerText !== "string") return;
-                style.innerText = this.updateStyle(
-                    innerText,
-                    originalCluster,
-                    themeCluster
-                );
-            });
         },
     },
 };
@@ -347,6 +202,9 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
     background-color: #f5f6fa;
+}
+.alike-drawer-setting {
+    padding: 20px;
 }
 
 /* 移动端模式 */

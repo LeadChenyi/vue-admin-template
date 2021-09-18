@@ -1,6 +1,6 @@
 import ElementUI from 'element-ui'
-// import 'element-ui/lib/theme-chalk/index.css'
-import '@/assets/style/custom-element-theme.scss'
+import 'element-ui/lib/theme-chalk/index.css'
+// import '@/assets/style/custom-element-theme.scss'
 import VueClipboard from 'vue-clipboard-plus'
 
 import Cookie from 'js-cookie'
