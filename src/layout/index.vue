@@ -41,7 +41,7 @@
             title="设置"
             :visible.sync="isShowDrawerSetting"
             direction="rtl"
-            size="25%"
+            size="20%"
         >
             <alike-drawer-setting></alike-drawer-setting>
         </el-drawer>

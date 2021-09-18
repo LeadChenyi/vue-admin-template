@@ -42,7 +42,8 @@
         3、无论进入还是退出全屏都会触发resize事件，所以在此阶段判断是否全屏状态并同步更新
     ```
 - [√] 首页仪表盘
-- [-] 个人中心、通知、设置（动态换皮肤）
+- [-] 个人中心、通知、设置
+    + [√] 动态更换主题（暂未本地缓存）
 
 
 ### 框架扩展功能及依赖模块
@@ -73,11 +74,7 @@
     1、先查看全局导出对象的上下文
     2、找到正确的模板导出对象，在组件中进行结构注册
 ```
-- custom-element-theme.scss 重置主题/动态皮肤
-```
-    import 'element-ui/lib/theme-chalk/index.css'       （动态换肤无效，默认样式在后置位打包渲染，依旧会覆盖样式）
-    import '@/assets/style/custom-element-theme.scss'   （动态换肤无效）
-```
+
 
 ### 排错问题
 - Syntax Error: Error: Cannot find module 'gifsicle'

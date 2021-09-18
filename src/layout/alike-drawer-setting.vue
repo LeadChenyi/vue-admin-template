@@ -1,11 +1,8 @@
 <template>
     <div class="alike-drawer-setting">
         <el-form ref="formSetting" label-position="left" label-width="100px">
-            <el-form-item label="皮肤更换">
-                <el-color-picker
-                    v-model="themeColor"
-                    @change="changeTheme"
-                ></el-color-picker>
+            <el-form-item label="更换主题">
+                <el-color-picker v-model="themeColor"></el-color-picker>
             </el-form-item>
         </el-form>
     </div>
@@ -14,16 +11,16 @@
 <script>
 import Variables from "@/assets/style/variables.scss";
 const version = require("element-ui/package.json").version; // 锁定版本
-const ORIGINAL_THEME = Variables.colorPrimary;
+const ORIGINAL_THEME = "#409EFF"; // 注意：这里的值是饿了么UI库的主色，而不是你自定义后的主题颜色，所以只能是 "#409EFF"，否则替换无法生效。
 export default {
     data() {
         return {
+            chalk: "",
             themeColor: Variables.colorPrimary,
         };
     },
     methods: {
         updateStyle(style, oldCluster, newCluster) {
-            console.log("更新了样式...");
             let newStyle = style;
             oldCluster.forEach((color, index) => {
                 newStyle = newStyle.replace(
@@ -93,10 +90,6 @@ export default {
             clusters.push(shadeColor(theme, 0.1));
             return clusters;
         },
-        changeTheme(e) {
-            // v-model themeColor
-            console.log("changeTheme", e);
-        },
     },
     watch: {
         async themeColor(val) {
@@ -122,7 +115,7 @@ export default {
                         styleTag = document.createElement("style");
                         styleTag.setAttribute("id", id);
                         styleTag.setAttribute("type", "text/css");
-                        document.head.appendChild(styleTag);
+                        document.body.appendChild(styleTag);
                     }
                     styleTag.innerText = newStyle;
                 };
