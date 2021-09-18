@@ -3,7 +3,7 @@
         <el-row :gutter="20">
             <el-col :span="24">
                 <el-card>
-                    <div slot="header">浏量</div>
+                    <div slot="header">活跃量</div>
                     <ve-line
                         :settings="lineSettings"
                         :data="lineData"
@@ -21,7 +21,12 @@
             <el-col :span="12">
                 <el-card>
                     <div slot="header">监控日志</div>
-                    <el-table :data="users" style="width: 100%">
+                    <el-table
+                        :data="logs"
+                        v-loading="isLoadingTable"
+                        element-loading-text="数据加载中..."
+                        style="width: 100%"
+                    >
                         <el-table-column prop="date" label="日期" width="180">
                         </el-table-column>
                         <el-table-column
@@ -62,15 +67,6 @@ export default {
             },
             lineData: {
                 columns: ["日期", "PV", "UV"],
-                rows: [
-                    { 日期: "1月1日", PV: 123, UV: 323 },
-                    { 日期: "1月2日", PV: 124, UV: 423 },
-                    { 日期: "1月3日", PV: 223, UV: 523 },
-                    { 日期: "1月4日", PV: 224, UV: 423 },
-                    { 日期: "1月5日", PV: 133, UV: 323 },
-                    { 日期: "1月6日", PV: 132, UV: 223 },
-                    { 日期: "1月7日", PV: 121, UV: 213 },
-                ],
             },
             mapSettings: {
                 position: "china",
@@ -83,44 +79,50 @@ export default {
                 zoom: 1,
             },
             mapData: {
-                columns: ["位置", "客流量"],
-                rows: [
-                    { 位置: "北京", 客流量: 1998 },
-                    { 位置: "上海", 客流量: 2010 },
-                    { 位置: "广东", 客流量: 3688 },
-                ],
+                columns: ["位置", "活跃量"],
             },
-            users: [
-                {
-                    date: "2021-08-25 12:12:12",
-                    name: "陈先生",
-                    type: "sign",
-                    label: "签到",
-                    comment: "完成了签到",
-                },
-                {
-                    date: "2021-08-25 17:17:17",
-                    name: "陈先生",
-                    type: "invite",
-                    label: "邀请",
-                    comment: "发起了好友邀请",
-                },
-                {
-                    date: "2021-08-25 18:18:18",
-                    name: "陈先生",
-                    type: "invite",
-                    label: "邀请",
-                    comment: "好友接收了邀请",
-                },
-            ],
+            logs: [],
+            loading: null,
+            isLoadingTable: false,
         };
     },
-    mounted() {
-        // test local mock data
-        // this.getProjects();
+    created() {
+        this.loading = this.$loading({
+            lock: true,
+            text: "Loading",
+            spinner: "el-icon-loading",
+            background: "rgba(0, 0, 0, 0.7)",
+        });
+        this.initData();
     },
     methods: {
+        initData() {
+            this.isLoadingTable = true;
+            Promise.all([
+                this.$request({
+                    url: "/flows",
+                }),
+                this.$request({
+                    url: "/cityFlows",
+                }),
+                this.$request({
+                    url: "/logs",
+                }),
+            ])
+                .then((res) => {
+                    // console.log(res);
+                    // 动态添加属性可同步视图渲染
+                    this.$set(this.lineData, "rows", res[0].data);
+                    this.$set(this.mapData, "rows", res[1].data);
+                    this.logs = res[2].data;
+                })
+                .finally(() => {
+                    this.loading.close();
+                    this.isLoadingTable = false;
+                });
+        },
         getProjects() {
+            // mock data
             this.$request({
                 url: `/index/projects`,
             })
