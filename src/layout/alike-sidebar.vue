@@ -16,7 +16,6 @@
                 :collapse="activeCollapse"
                 mode="vertical"
                 text-color="#bfcbd9"
-                :active-text-color="getColorPrimary"
                 background-color="#304156"
             >
                 <alike-menu-item
@@ -31,7 +30,6 @@
 
 <script>
 import AlikeMenuItem from "./alike-menu-item";
-import Variables from "@/assets/style/variables.scss";
 export default {
     name: "AlikeSidebar",
     components: {
@@ -46,10 +44,6 @@ export default {
         },
         activeCollapse() {
             return this.$store.getters["app/getCollapse"];
-        },
-        getColorPrimary() {
-            // 改为数据状态管理
-            return Variables.colorPrimary;
         },
     },
     mounted() {

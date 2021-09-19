@@ -6,21 +6,21 @@
             @start="drag = true"
             @end="drag = false"
             animation="500"
+            handle=".alike-move"
         >
             <transition-group class="alike-tag-left-group">
-                <div
-                    class="alike-tag-button"
+                <el-button
+                    size="mini"
+                    type="primary"
+                    :plain="!isActive(item.path)"
                     v-for="(item, index) in tags"
                     :key="item.path"
-                    :class="{ active: isActive(item.path) }"
                     @click="linkRouter(item.path)"
                 >
-                    <span class="alike-tag-button__text">{{ item.title }}</span>
-                    <i
-                        class="alike-tag-button__icon el-icon-close"
-                        @click.stop="closeTag(index)"
-                    ></i>
-                </div>
+                    <i class="el-icon-rank alike-move"></i>
+                    <span>{{ item.title }}</span>
+                    <i class="el-icon-close" @click.stop="closeTag(index)"></i>
+                </el-button>
             </transition-group>
         </draggable>
         <div class="alike-tag-right">
@@ -149,53 +149,18 @@ export default {
     display: flex;
     align-items: center;
     flex: 1;
+    overflow-x: auto;
 }
 .alike-tag-left-group {
     display: flex;
+    margin: 0 20px;
 }
-.alike-tag-button {
-    margin-left: 5px;
-    border-radius: 4px;
-    font-size: 12px;
-    color: #666;
-    max-width: 80px;
-    height: 24px;
-    line-height: 24px;
-    display: flex;
-    align-items: center;
-    border: 1px solid #cccccc;
-    background-color: #ffffff;
-    padding: 0 5px 0 12px;
+.alike-tag-left-group .el-button {
+    transition: none;
+}
+.alike-tag-left-group .el-button .alike-move {
     cursor: move;
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
-.alike-tag-button__text {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    cursor: pointer;
-}
-.alike-tag-button__icon {
-    position: relative;
-    overflow: hidden;
-    margin-left: 5px;
-    cursor: pointer;
-}
-.alike-tag-button:not(.active):hover {
-    background-color: #f8f8f8;
-}
-
-.alike-tag-button.active {
-    border: 1px solid $--color-primary;
-    background-color: $--color-primary;
-    color: #ffffff;
-}
-
 .alike-tag-right {
     display: flex;
     align-items: center;

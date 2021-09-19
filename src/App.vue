@@ -5,14 +5,19 @@
 </template>
 
 <script>
+import theme from "@/mixins/theme.js";
 export default {
     name: "App",
+    mixins: [theme],
     data() {
         return {
             resocures: ["https://map.qq.com/api/js"],
         };
     },
     created() {
+        // 同步主题颜色
+        this.syncThemeColor();
+
         // this.$utils.createAsyncLoadScript(this.resocures);
         // console.log(this.$utils.zeroize("15", 100));
     },
