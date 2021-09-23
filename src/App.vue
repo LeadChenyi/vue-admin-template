@@ -18,8 +18,17 @@ export default {
         // 同步主题颜色
         this.syncThemeColor();
 
-        // this.$utils.createAsyncLoadScript(this.resocures);
-        // console.log(this.$utils.zeroize("15", 100));
+        // utils test area
+        const scores1 = [100, [99, [88, [77, 66, 55]]]];
+        const scores2 = [100, 99, 88, 77, 66, 55];
+        const people = {
+            name: "陈先生",
+            age: 18,
+            gender: "男",
+        };
+        const hello = "北京欢迎你";
+
+        console.log(this.$utils.simple(scores1));
     },
 };
 </script>

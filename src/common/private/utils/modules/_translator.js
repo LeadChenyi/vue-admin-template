@@ -1,5 +1,9 @@
 export default {
     index(data, value) {// 返回数据中某个指定值的索引
+        if (typeof data !== 'string' || !(data instanceof Array)) {
+            throw new Error('请传递正确参数：仅支持String、Array类型的数据');
+        }
+
         return data.indexOf(value);
     },
     percent(currVal, totalVal, totalPct) {// 百分率
@@ -93,9 +97,9 @@ export default {
         // window.location.href = url;
         return url;
     },
-    getLocationQuery(fullPath) {
+    getLocationQuery(fullPath = location.href) {
         let obj = {};
-        let query = fullPath ? fullPath.split('?')[1] : location.href.split('?')[1];
+        let query = fullPath.split('?')[1];
         if (query) {
             let param = query.split('&');
             for (let i of param) {

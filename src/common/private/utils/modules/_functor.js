@@ -1,13 +1,14 @@
 export default {
     each(list, callback) {
         if (list instanceof Array) {
-            list.forEach(function (item, index) {
-                callback && callback(item, index);
-            })
+            for (let [key, value] of list) {
+                callback && callback(key, value);
+            }
         } else {
-            //获取对象属性的值两种方式：1、对象.属性  2、对象["属性"] 或 对象[变量]
+            // 对象、数组、字符串类型的数据都能遍历，尤其对字符串尤为友好能返回拆分后索引值
             for (let key in list) {
-                callback && callback(list[key], key);
+                let value = list[key];
+                callback && callback(key, value);
             }
         }
     },
@@ -46,24 +47,24 @@ export default {
         }
         xhr.send();
     },
-    ajaxPolling(
+    ajaxLong(
         {
             method = 'get',
             url = '/'
-        } = {}, callback) {// 请求轮询（自调）
+        } = {}, callback) {// 长轮询请求（自调）
         let xhr = new XMLHttpRequest();
         xhr.open(method, url);
         xhr.onreadystatechange = (res) => {
             callback && callback(res);
-            this.ajaxPolling();
+            this.ajaxLong();
         }
         xhr.send();
     },
-    ajaxPollingTimer(
+    ajaxShort(
         {
             method = 'get',
             url = '/'
-        } = {}, callback, duration = 1500) {// 请求轮询（定时）
+        } = {}, callback, duration = 1500) {// 短轮询请求（定时）
         let xhr = new XMLHttpRequest();
         setInterval(() => {
             xhr.open(method, url);
@@ -105,7 +106,7 @@ export default {
         el.remove();
         console.info('%c download success!', 'color:#0099ff');
     },
-    calcMath(operation, retain) {//参数1 =>运算式  参数2 =>实际运算结果至少需预留小数后几位
+    mathCalc(operation, retain) {//参数1 =>运算式  参数2 =>实际运算结果至少需预留小数后几位
         return Math.round(operation * Math.pow(10, retain)) / Math.pow(10, retain);
     },
     copyText(text) {

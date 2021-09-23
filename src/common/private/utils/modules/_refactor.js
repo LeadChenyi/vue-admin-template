@@ -10,33 +10,47 @@ export default {
             }
         }
         return res;
-
-        // return arr.flat();   // 默认只能扁平化二维数组（嵌套更深的数组只能指定消除层数）
     },
-    simple2(nestArr) {
-        let newArr = [];
-        function recursion(arr) {
-            for (var i = 0; i < arr.length; i++) {
-                if (Array.isArray(arr[i])) {
-                    recursion(arr[i]);
-                } else {
-                    newArr.push(arr[i]);
-                }
+    deepFlat(arr) {// 数组扁平化
+        return arr.reduce((total, current) => {
+            if (Array.isArray(current)) {
+                return [...total, ...this.deepFlat(current)];
+            } else {
+                return [...total, current];
+            }
+        }, [])
+    },
+    currying(fn, ...args) {// 高阶柯里化
+        if (fn.length > args.length) {
+            return (...newArgs) => this.currying(fn, ...args, ...newArgs)
+        } else {
+            return fn(...args)
+        }
+    },
+    deepClone() {
+        if (typeof obj !== 'object' || obj == null) {
+            return obj
+        }
+
+        let result = Array.isArray(obj) ? [] : {}
+        for (let key in obj) {
+            // 判断是否是自己的属性方法，而不是原型属性方法
+            if (obj.hasOwnProperty(key)) {
+                result[key] = this.deepClone(obj[key])
             }
         }
-        recursion(nestArr);
-        return newArr;
+        return result;
     },
-    repeat(arr) {// 数组去重：去掉数组中重复的元素
+    unrepeatable(arr) {// 数组去重：去掉数组中重复的元素
         // return Array.from(new Set(arr));
 
-        let res = [];
+        let result = [];
         arr.forEach((item) => {
-            if (res.indexOf(item) < 0) {// res.includes(item)
-                res.push(item);
+            if (result.indexOf(item) == -1 || !result.includes(item)) {
+                result.push(item);
             }
         })
-        return res;
+        return result;
     },
     group(arr, limit) {// 数组分组：按条数分组
         let res = [];
