@@ -60,12 +60,6 @@ export default {
         return Math.max.apply(this, arr);
     },
     sum(arr) {// 累计数组中值的和
-        /*let total = 0;
-        arr.forEach((item)=>{
-            total += item;
-        });
-        return total;*/
-
         return arr.reduce((total, num) => {
             return total += num;
         })

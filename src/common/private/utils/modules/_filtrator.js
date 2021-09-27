@@ -53,5 +53,19 @@ export default {
         //         return item
         //     }
         // }).filter(item => item)
+    },
+    filterNonexistent(resource, data, field = 'name', children = 'children') {// 对比data数据过滤出resource现有的
+        const result = [];
+        resource.forEach((item) => {
+            data.forEach((cItem) => {
+                if (item[field] === cItem[field]) {
+                    if (cItem[children] && cItem[children].length) {
+                        item[children] = this.filterNonexistent(item[children], cItem[children], field, children);
+                    }
+                    result.push(item);
+                }
+            })
+        })
+        return result;
     }
 }

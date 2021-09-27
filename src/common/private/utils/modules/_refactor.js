@@ -1,15 +1,15 @@
 export default {
     simple(arr) {// 数组化简：多维数组化成一维数组
-        let res = [];
+        let result = [];
         for (var i = 0; i < arr.length; i++) {
             if (Array.isArray(arr[i])) {
                 let temp = this.simple(arr[i]);
-                res = [...res, ...temp];
+                result = [...result, ...temp];
             } else {
-                res.push(arr[i]);
+                result.push(arr[i]);
             }
         }
-        return res;
+        return result;
     },
     deepFlat(arr) {// 数组扁平化
         return arr.reduce((total, current) => {
@@ -27,16 +27,22 @@ export default {
             return fn(...args)
         }
     },
-    deepClone() {
-        if (typeof obj !== 'object' || obj == null) {
-            return obj
+    clone(data) {// 浅拷贝
+        if (Array.isArray(data)) {
+            return [].concat(data);
+        } else {
+            return Object.assign({}, data);
+        }
+    },
+    deepClone(data) {// 深拷贝
+        if (typeof data !== 'object') {// 递归检索对象属性时，将非引用类型的数据直接返回
+            return data;
         }
 
-        let result = Array.isArray(obj) ? [] : {}
-        for (let key in obj) {
-            // 判断是否是自己的属性方法，而不是原型属性方法
-            if (obj.hasOwnProperty(key)) {
-                result[key] = this.deepClone(obj[key])
+        let result = Array.isArray(data) ? [] : {}
+        for (let key in data) {
+            if (Object.prototype.hasOwnProperty.call(data, key)) {
+                result[key] = this.deepClone(data[key])
             }
         }
         return result;
@@ -52,24 +58,45 @@ export default {
         })
         return result;
     },
-    group(arr, limit) {// 数组分组：按条数分组
-        let res = [];
+    group(arr, size) {// 数组分组：按条数分组
+        let result = [];
         for (let i = 0; i < arr.length; i++) {
-            let index = Math.floor(i / limit);
-            if (res.length <= index) {
-                res.push([]);
+            let index = Math.floor(i / size);
+            if (result.length <= index) {
+                result.push([]);
             }
-            res[index].push(arr[i]);
+            result[index].push(arr[i]);
         }
-        return res;
+        return result;
     },
-    sort(arr, asc = true) {// 默认字典排序
+    sort(arr, property, order = true) {// 字典排序（默认升序）
+        if (property !== undefined && typeof property !== 'boolean' && typeof property !== 'string') {
+            throw new Error('Please pass a valid argument: $utils.sort() <property>');
+        }
+
+        if (property !== undefined && typeof property === 'boolean') {
+            order = property;
+        }
+
         return arr.sort((a, b) => {
-            if (asc) {
-                return a - b;
+            if (order) {
+                if (property !== undefined && typeof property === 'string') {
+                    return a[property] - b[property];
+                } else {
+                    return a - b;
+                }
             } else {
-                return b - a;
+                if (property !== undefined && typeof property === 'string') {
+                    return b[property] - a[property];
+                } else {
+                    return b - a;
+                }
             }
+        })
+    },
+    sortRandom(arr) {// 随机排序
+        return arr.sort(() => {
+            return Math.random() > 0.5 ? 1 : -1
         })
     },
     sortBubble(arr) {// 冒泡排序
@@ -84,91 +111,62 @@ export default {
         }
         return arr;
     },
-    shuffle() {// 随机打乱
+    sortPropertyOrder(data, keys) {// 自定义每个对象属性的排列顺序
+        for (let i = 0; i < data.length; i++) {
+            let temp = {};
+            for (let j = 0; j < keys.length; j++) {
+                temp[keys[j]] = data[i][keys[j]];
+            }
+            data[i] = temp;
+        }
+        return data;
+    },
+    addProperty(data, key = 'name', values) {// 给数组每个对象都新增属性和值
+        for (let i = 0; i < data.length; i++) {
+            data[i][key] = values[i];
+        }
+        return data;
+    },
+    getPropertyArray(data, key = 'name') {// 获取数组对象中某个属性值组成新数组
+        let newArr = [];
+        for (let i = 0; i < data.length; i++) {
+            newArr.push(data[i][key]);
+        }
+        return newArr;
+    },
+    getPropertyArrayTree(data, key = 'name') {// 递归遍历数组对象获取某个属性值组成新数组返回
+        let newArr = [];
+        data.forEach((item) => {
+            newArr.push(item[key]); // 当前项
 
-    },
-    contrast(sources, holds, field = 'name', children = 'children') {
-        const res = [];
-        sources.forEach((item, index) => {
-            holds.forEach((c, i) => {
-                if (item[field] === c[field]) {
-                    if (c[children] && c[children].length) {
-                        item[children] = this.contrast(item[children], c[children], field, children);
-                    }
-                    res.push(item);
-                }
-            })
-        })
-        return res;
-    },
-    addAttr(mainJson, valArr, attrStr) {//给数组对象添加新属性
-        for (let i = 0; i < mainJson.length; i++) {
-            mainJson[i][attrStr] = valArr[i];
-        }
-        return mainJson;
-    },
-    getAttrArray(mainJson, attrStr) {//获取数组对象中某个属性值组成新数组
-        let newArr = [];
-        for (let i = 0; i < mainJson.length; i++) {
-            newArr.push(mainJson[i][attrStr]);
-        }
-        return newArr;
-    },
-    attrSequ(mainJson, attrArr) {//自定义显示数组对象中属性的顺序
-        for (let i = 0; i < mainJson.length; i++) {
-            let tempObj = {};                   //每次循环前清空对象，否则浅拷贝的关系数据重叠都为最后一条
-            for (let j = 0; j < attrArr.length; j++) {
-                tempObj[attrArr[j]] = mainJson[i][attrArr[j]];
-            }
-            mainJson[i] = tempObj;
-        }
-        return mainJson;
-    },
-    attrSort(mainJson, attrStr, sort = true) {//排序方式为某个属性的值
-        return mainJson.sort(function (a, b) {
-            if (sort) {
-                return a[attrStr] - b[attrStr];
-            } else {
-                return b[attrStr] - a[attrStr];
+            if (item.children && item.children.length) {// 子孙后代项
+                newArr.push(...this.getPropertyArrayTree(item.children, key));
+                // newArr = [...newArr, ...this.getPropertyArrayTree(item.children, key)]    
+                // newArr = newArr.concat(this.getPropertyArrayTree(item.children, key));    
             }
         })
-    },
-    getAttrArrayTree(treeJson, attrStr) {//遍历数组对象中某个属性值组成新数组
-        let newArr = [];
-        function recursion(data) {
-            data.forEach(function (item) {
-                newArr.push(item[attrStr]);
-                if (item.children) {
-                    recursion(item.children);
-                }
-            })
-        }
-        recursion(treeJson)
         return newArr;
     },
-    toTreeChild(item, oldJson) {
-        let self = this;
-        let children = new Array();
-        for (let i = 0; i < oldJson.length; i++) {
-            if (item.id == oldJson[i].pid) {//查找当前父元素下的子元素
-                self.toTreeChild(oldJson[i], oldJson);
-                oldJson[i].elder = item.name;
-                children.push(oldJson[i]);
+    lavalGroupTree(item, tree, key = 'pid') {
+        let children = [];
+        tree.forEach((son) => {
+            if (item.id == son[key]) {
+                this.lavalGroupTree(son, tree, key);
+                children.push(son);
             }
-        }
-        if (children.length > 0) {//如果存在子级数据则赋值给当前item对象
+        });
+        if (children.length) {
             item.children = children;
         }
         return item;
     },
-    toTreeClassify(oldJson) {//根据pid将数组对象按辈分级归类
-        let self = this;
-        let newJson = [];
-        for (let i = 0; i < oldJson.length; i++) {
-            if (oldJson[i].pid == 0 || oldJson[i].pid == null) {//查找父元素
-                newJson.push(self.toTreeChild(oldJson[i], oldJson));
+    infiniteClassify(data, key = 'pid') {
+        const newArr = [];
+        data.forEach((item) => {
+            if (item[key] == 0 || item[key] == null) {
+                newArr.push(this.lavalGroupTree(item, data, key));
             }
-        }
-        return newJson;
+        });
+        return newArr;
     }
 }

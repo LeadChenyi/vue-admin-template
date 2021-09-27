@@ -106,8 +106,8 @@ export default {
         el.remove();
         console.info('%c download success!', 'color:#0099ff');
     },
-    mathCalc(operation, retain) {//参数1 =>运算式  参数2 =>实际运算结果至少需预留小数后几位
-        return Math.round(operation * Math.pow(10, retain)) / Math.pow(10, retain);
+    mathCalc(expression, toFixed = 2) {// 四则运算时防止精度丢失
+        return Math.round(expression * Math.pow(10, toFixed)) / Math.pow(10, toFixed);
     },
     copyText(text) {
         let input = document.createElement('input');

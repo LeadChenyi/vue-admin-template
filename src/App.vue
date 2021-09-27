@@ -21,6 +21,65 @@ export default {
         // utils test area
         const scores1 = [100, [99, [88, [77, 66, 55]]]];
         const scores2 = [100, 99, 88, 77, 66, 55];
+        const logs = [
+            {
+                name: "签到",
+                content: "完成了签到",
+                value: 1,
+            },
+            {
+                name: "打卡",
+                content: "完成了打卡",
+                value: 2,
+            },
+            {
+                name: "登记",
+                content: "完成了登记",
+                value: 3,
+            },
+            {
+                name: "打榜",
+                content: "完成了打榜",
+                value: 4,
+            },
+            {
+                name: "邀请",
+                content: "完成了邀请",
+                value: 5,
+            },
+        ];
+
+        const books = [
+            {
+                name: "金庸小说",
+                children: [
+                    {
+                        name: "天龙八部",
+                    },
+                    {
+                        name: "射雕英雄传",
+                    },
+                ],
+            },
+            {
+                name: "四大名著",
+                children: [
+                    {
+                        name: "水浒传",
+                    },
+                    {
+                        name: "三国演义",
+                    },
+                    {
+                        name: "红楼梦",
+                    },
+                    {
+                        name: "西游记",
+                    },
+                ],
+            },
+        ];
+
         const people = {
             name: "陈先生",
             age: 18,
@@ -28,7 +87,7 @@ export default {
         };
         const hello = "北京欢迎你";
 
-        console.log(this.$utils.simple(scores1));
+        console.log(this.$utils.getPropertyArrayTree(books));
     },
 };
 </script>
