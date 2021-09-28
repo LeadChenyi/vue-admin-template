@@ -21,6 +21,7 @@ export default {
         // utils test area
         const scores1 = [100, [99, [88, [77, 66, 55]]]];
         const scores2 = [100, 99, 88, 77, 66, 55];
+        const scores3 = [100, 99, 88, 77, 66, 55, 66, 77, 88, 99];
         const logs = [
             {
                 name: "签到",
@@ -87,7 +88,6 @@ export default {
         };
         const hello = "北京欢迎你，北京欢迎你，北京欢迎你";
         const message = "什么是快乐星球，色情你我他？你妈的？";
-        console.log(this.$utils.toForbidden(message));
     },
 };
 </script>

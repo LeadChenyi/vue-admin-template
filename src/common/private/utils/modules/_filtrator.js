@@ -29,7 +29,7 @@ export default {
     tohtml(str) {// 过滤HTMl标签
         return str.replace(/<[^>]+>|&[^>]+;/g, "").trim();
     },
-    toHtmlTrim(str, direction = "both") {// 过滤HTMl标签及文本空格
+    toHtmlTrim(str, direction = "both") {// 过滤HTMl标签及空格字符
         let text = str.replace(/<\/?.+?>/g, "");
         let result = "";
         if (direction == "both") {
@@ -39,7 +39,7 @@ export default {
         }
         return result;
     },
-    toTreePower(routers, permission = []) {
+    toTreePower(routers, permission = []) {// 过滤未授权数据
         return routers.filter(item => permission.includes(item.meta.code)).map((item) => {
             item = Object.assign({}, item);
             if (item.children) {
@@ -58,7 +58,7 @@ export default {
         //     }
         // }).filter(item => item)
     },
-    toTreeCompare(resource, data, field = 'name', children = 'children') {// 对比data数据过滤出resource现有的
+    toTreeCompare(resource, data, field = 'name', children = 'children') {// 过滤不存在的数据
         const result = [];
         resource.forEach((item) => {
             data.forEach((cItem) => {

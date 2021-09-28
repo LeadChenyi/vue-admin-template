@@ -1,5 +1,5 @@
 export default {
-    isMobileOrMiniClient(limitWidth = 1024) {// 移动屏模型检测
+    isMobileOrMiniClient(limitWidth = 1024) {// 是否为移动端或PC端小屏幕
         if (
             navigator.userAgent.match(
                 /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
@@ -15,7 +15,7 @@ export default {
 
         return false
     },
-    isExternal(path) {
+    isExternal(path) {// 是否为外部连接
         return /^(https?:|mailto:|tel:)/.test(path)
     },
     isTokenExpirationTime(recordTimestamp, seconds = 7200) {// 令牌是否过期
@@ -37,8 +37,8 @@ export default {
     },
     isEveryDayNotice(key) {// 是否每日进行一次性通知
         let _local = localStorage.getItem(key);
-        let currentTime = this.getDayFormat(false, '{y}-{m}-{d}');
-        let recodeTime = _local ? this.getDayFormat(_local, '{y}-{m}-{d}') : this.getDayFormat(false, '{y}-{m}-{d}');
+        let currentTime = this.formatDate(false, '{Y}-{M}-{D}');
+        let recodeTime = _local ? this.formatDate(_local, '{Y}-{M}-{D}') : this.formatDate(false, '{Y}-{M}-{D}');
         if (currentTime != recodeTime) {
             let currentTimestamp = new Date().getTime();
             localStorage.setItem(key, currentTimestamp);

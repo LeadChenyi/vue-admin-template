@@ -1,5 +1,5 @@
 export default {
-    simple(arr) {// 数组化简：多维数组化成一维数组
+    simple(arr) {// 数组化简（多维数组化成普通数组）
         let result = [];
         for (var i = 0; i < arr.length; i++) {
             if (Array.isArray(arr[i])) {
@@ -35,7 +35,7 @@ export default {
         }
     },
     deepClone(data) {// 深拷贝
-        if (typeof data !== 'object') {// 递归检索对象属性时，将非引用类型的数据直接返回
+        if (typeof data !== 'object') {// 注意：递归检索对象属性时，将非引用类型的数据直接返回
             return data;
         }
 
@@ -47,18 +47,20 @@ export default {
         }
         return result;
     },
-    unrepeatable(arr) {// 数组去重：去掉数组中重复的元素
-        // return Array.from(new Set(arr));
-
-        let result = [];
-        arr.forEach((item) => {
-            if (result.indexOf(item) == -1 || !result.includes(item)) {
-                result.push(item);
-            }
-        })
-        return result;
+    unrepeatable(arr) {// 数组去重（去掉数组中重复的元素）
+        if (new Set) {
+            return Array.from(new Set(arr));
+        } else {
+            let result = [];
+            arr.forEach((item) => {
+                if (result.indexOf(item) == -1 || !result.includes(item)) {
+                    result.push(item);
+                }
+            })
+            return result;
+        }
     },
-    group(arr, size) {// 数组分组：按条数分组
+    group(arr, size) {// 数组分组（按条数分组）
         let result = [];
         for (let i = 0; i < arr.length; i++) {
             let index = Math.floor(i / size);
@@ -111,7 +113,7 @@ export default {
         }
         return arr;
     },
-    sortPropertyOrder(data, keys) {// 自定义每个对象属性的排列顺序
+    sortPropertyOrder(data, keys) {// 自定义数组对象中每个属性的排列顺序
         for (let i = 0; i < data.length; i++) {
             let temp = {};
             for (let j = 0; j < keys.length; j++) {
@@ -121,20 +123,20 @@ export default {
         }
         return data;
     },
-    addProperty(data, key = 'name', values) {// 给数组每个对象都新增属性和值
+    addProperty(data, key = 'name', values) {// 新增属性值给每个数组对象
         for (let i = 0; i < data.length; i++) {
             data[i][key] = values[i];
         }
         return data;
     },
-    getPropertyArray(data, key = 'name') {// 获取数组对象中某个属性值组成新数组
+    getPropertyArray(data, key = 'name') {// 获取某个属性值组成新数组返回
         let newArr = [];
         for (let i = 0; i < data.length; i++) {
             newArr.push(data[i][key]);
         }
         return newArr;
     },
-    getPropertyArrayTree(data, key = 'name') {// 递归遍历数组对象获取某个属性值组成新数组返回
+    getPropertyArrayTree(data, key = 'name') {// 获取某个属性值组成新数组返回（递归遍历整个树形对象）
         let newArr = [];
         data.forEach((item) => {
             newArr.push(item[key]); // 当前项
@@ -147,7 +149,7 @@ export default {
         })
         return newArr;
     },
-    lavalTree(item, tree, key = 'pid') {
+    lavalTree(item, tree, key = 'pid') {// 递归遍历数组对象按上下级关系生成树形对象
         let children = [];
         tree.forEach((son) => {
             if (item.id == son[key]) {
@@ -160,7 +162,7 @@ export default {
         }
         return item;
     },
-    infiniteTree(data, key = 'pid') {
+    infiniteTree(data, key = 'pid') {// 无限极分类
         const newArr = [];
         data.forEach((item) => {
             if (item[key] == 0 || item[key] == null) {

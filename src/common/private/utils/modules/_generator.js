@@ -1,8 +1,5 @@
 export default {
-    /**
-     * @param {array} locations 预链接地址
-     */
-    createPreconnect(locations) {
+    createPreconnect(locations) {// 预链接地址
         for (let i = 0; i < locations.length; i++) {
             let el = document.createElement("link");
             el.rel = "preconnect";
@@ -14,16 +11,8 @@ export default {
             el2.href = locations[i].href || locations[i];
             document.head.appendChild(el2);
         }
-        console.info('%c preconnect success!', 'color:#0099ff');
     },
-    /**
-     * @param {array} resources 预加载资源数据
-     * 
-     * @property {as,href} 
-     * as 资源类型，默认为image
-     * href 资源地址
-     */
-    createPreload(resources) {
+    createPreload(resources) {// 预加载资源数据
         for (let i = 0; i < resources.length; i++) {
             let el = document.createElement("link");
             el.rel = "preload";
@@ -31,20 +20,15 @@ export default {
             el.href = resources[i].href || resources[i];
             document.head.appendChild(el);
         }
-        console.info('%c preload success!', 'color:#0099ff');
     },
-    /**
-     * @param {array} resources 异步加载脚本资源
-     * 
-     */
-    createAsyncLoadScript(resources) {
+    createAsyncLoadScript(resources) {// 异步加载脚本资源
         for (let i = 0; i < resources.length; i++) {
             let el = document.createElement("script");
             el.type = "text/javascript";
             el.src = resources[i].src || resources[i];
             document.head.appendChild(el);
         }
-        console.info('%c asyncload script success!', 'color:#0099ff');
+        console.info('%c async load script success!', 'color:#0099ff');
     },
     min(arr) {// 获取数组中最小值
         return Math.min.apply(this, arr);
@@ -52,25 +36,29 @@ export default {
     max(arr) {// 获取数组中最大值
         return Math.max.apply(this, arr);
     },
-    sum(arr) {// 累计数组中值的和
+    sum(arr) {// 获取数组中值的求和
         return arr.reduce((total, num) => {
             return total += num;
         })
     },
-    range(min, max, isContainMax = true) {// 获取随机范围数，默认包含最大值
+    range(min, max, isContainMax = true) {// 获取随机范围数（包含最大值和最小值，可选择不包含最大值）
         return Math.floor(Math.random() * (max - min + (!!isContainMax)) + min);
     },
-    rangeMax(min, max) {// 获取随机范围数，仅含最大值
-        return Math.ceil(Math.random() * (max - min) + min);
+    rangeWithIn(min, max) {// 获取随机范围数（不包含最小值和最大值）
+        return Math.ceil(Math.random() * (max - min - 1) + min);
     },
-    color() {
+    rangeFullIn(num = 1) {// 获取随机范围数（最小随机数为0，最大随机数默认为1，可指定最大值）
+        num++;
+        return ((Math.random() * num) | 0);
+    },
+    color() {// 随机获取颜色值
         let color = "#";
         for (let i = 0; i < 6; i++) {
-            color += (Math.random() * 16 | 0).toString(16);
+            color += ((Math.random() * 16) | 0).toString(16);
         }
         return color;
     },
-    rgba(value = 255, opacity = 1) {
+    rgba(value = 255, opacity = 1) {// 随机获取颜色值
         let r = Math.ceil(Math.random() * value);
         let g = Math.ceil(Math.random() * value);
         let b = Math.ceil(Math.random() * value);
@@ -101,20 +89,5 @@ export default {
         }
 
         return codes.join();
-    },
-    rate(num, isHalf = false) {
-        let tempArr = [];
-        for (let i = 0; i < Math.floor(num); i++) {// 生产全星
-            tempArr.push("★");
-        }
-        if (isHalf && (num % 1) !== 0) {// 判断是否生成半星
-            let floatArr = num.toFixed(1).split(".");
-            let floatStr = floatArr[1];
-            tempArr.push(floatStr);
-        }
-        while (tempArr.length < 5) {// 补全剩余的空星
-            tempArr.push("☆");
-        }
-        return tempArr.join("");
-    },
+    }
 }

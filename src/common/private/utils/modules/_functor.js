@@ -1,11 +1,10 @@
 export default {
-    each(list, callback) {
+    each(list, callback) {// 数据遍历
         if (list instanceof Array) {
             for (let [key, value] of list) {
                 callback && callback(key, value);
             }
         } else {
-            // 对象、数组、字符串类型的数据都能遍历，尤其对字符串尤为友好能返回拆分后索引值
             for (let key in list) {
                 let value = list[key];
                 callback && callback(key, value);
@@ -74,20 +73,19 @@ export default {
             xhr.send();
         }, duration);
     },
-    setCookit(cookitKey, cookitVal, exdays) {
+    setCookie(key, value, expires) {// 设置Cookie缓存数据
         let date = new Date();
-        //失效时间 = 当前时间 + 有效期N天
-        date.setTime(date.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        //根据世界时把Date对象转换为字符串
-        document.cookie = cookitKey + "=" + cookitVal + "; expires=" + date.toUTCString();
+        // 失效时间 = 当前时间 + 有效期N天
+        date.setTime(date.getTime() + (expires * 24 * 60 * 60 * 1000));
+        // 根据世界时把Date对象转换为字符串
+        document.cookie = key + "=" + value + "; expires=" + date.toUTCString();
     },
-    getCookit(cookieKey) {
-        let key = cookieKey + "=";
-        let group = document.cookie.split(';');
-        for (let i = 0; i < group.length; i++) {
-            let item = group[i].trim();
-            if (item.indexOf(key) == 0) {
-                //返回的字符串包括开始处的字符，但不包括结束处的字符
+    getCookie(key) {// 获取Cookie缓存数据
+        key = key + "=";
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let item = cookies[i].trim();
+            if (item.indexOf(key) == 0) {// 匹配的是key+=，所以索引只能是0
                 return item.substring(key.length, item.length);
             }
         }
@@ -106,10 +104,10 @@ export default {
         el.remove();
         console.info('%c download success!', 'color:#0099ff');
     },
-    mathCalc(expression, toFixed = 2) {// 四则运算时防止精度丢失
+    mathCalc(expression, toFixed = 2) {// 四则运算（防止小数点精度丢失）
         return Math.round(expression * Math.pow(10, toFixed)) / Math.pow(10, toFixed);
     },
-    copyText(text) {
+    copyText(text) {// 拷贝文本到剪切板
         let input = document.createElement('input');
         input.setAttribute('id', 'copyId');
         input.value = text;

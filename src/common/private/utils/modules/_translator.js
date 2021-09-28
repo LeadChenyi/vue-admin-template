@@ -1,12 +1,12 @@
 export default {
-    index(data, value) {// 返回数据中指定元素值的索引
+    getIndex(data, value) {// 返回数据中指定元素值的索引
         if (typeof data !== 'string' || !(data instanceof Array)) {
             throw new Error('Please pass a valid argument：$utils.index() <data>');
         }
 
         return data.indexOf(value);
     },
-    item(data, index) {// 返回数据中指定索引的元素值
+    getItem(data, index) {// 返回数据中指定索引的元素值
         if (typeof data !== 'string' || !(data instanceof Array)) {
             throw new Error('Please pass a valid argument：$utils.item() <data>');
         }
@@ -16,6 +16,24 @@ export default {
         } else {
             return data[index];
         }
+    },
+    getBlobToUrl(data, type = 'application/zip') {// 获取资源文件二进制数据
+        const blob = new Blob([data], { type });
+        const url = window.URL.createObjectURL(blob);
+        // window.location.href = url;
+        return url;
+    },
+    getLocationQuery(fullPath = location.href) {// 获取地址参数
+        let obj = {};
+        let query = fullPath.split('?')[1];
+        if (query) {
+            let param = query.split('&');
+            for (let i of param) {
+                let arr = i.split('=');
+                obj[arr[0]] = arr[1];
+            }
+        }
+        return obj;
     },
     percent(current, total, percent = '100%') {// 百分率
         return parseInt(current / total * percent);
@@ -40,7 +58,22 @@ export default {
         }
         return mark;
     },
-    toRate(value, rates) {
+    star(num, isHalf = false) {// 获取星星
+        let tempArr = [];
+        for (let i = 0; i < Math.floor(num); i++) {// 生产全星
+            tempArr.push("★");
+        }
+        if (isHalf && (num % 1) !== 0) {// 判断是否生成半星
+            let floatArr = num.toFixed(1).split(".");
+            let floatStr = floatArr[1];
+            tempArr.push(floatStr);
+        }
+        while (tempArr.length < 5) {// 补全剩余的空星
+            tempArr.push("☆");
+        }
+        return tempArr.join("");
+    },
+    rate(value, rates) {// 获取评价
         if (!rates) {
             rates = [
                 { text: "极差", color: "#95989D" },
@@ -52,10 +85,10 @@ export default {
         }
         return rates[Math.floor(value) - 1];
     },
-    totalString(str, mark) {// 统计某个字符出现的次数
+    countString(str, mark) {// 统计某个字符出现的次数
         return str.split(mark).length - 1;
     },
-    totalAllString(str, callback) {// 统计所有字符出现的次数
+    countAllString(str, callback) {// 统计所有字符出现的次数
         let obj = {};
         for (let i = 0; i < str.length; i++) {
             if (!obj[str.charAt(i)]) {
@@ -68,7 +101,7 @@ export default {
         callback && callback(obj);
         return obj;
     },
-    battleMostKey(obj) {// 比较对象中出现次数最多的键
+    countMostObject(obj) {// 比较对象中出现次数最多的键
         let maxKey = null;
         let maxVal = 0;
         for (let i in obj) {
@@ -83,31 +116,6 @@ export default {
             maxVal
         }
     },
-    getBlobToUrl(data, type = 'application/zip') {
-        const blob = new Blob([data], { type });
-        const url = window.URL.createObjectURL(blob);
-        // window.location.href = url;
-        return url;
-    },
-    getLocationQuery(fullPath = location.href) {
-        let obj = {};
-        let query = fullPath.split('?')[1];
-        if (query) {
-            let param = query.split('&');
-            for (let i of param) {
-                let arr = i.split('=');
-                obj[arr[0]] = arr[1];
-            }
-        }
-        return obj;
-    },
-    /**
-     * 
-     * @param {Number} date 非必填，传递值为false表示获取当前时间的格式化
-     * @param {String} str 
-     * @param {RegExp} pattern
-     * @returns String
-     */
     formatDate(date, str = '{Y}-{M}-{D} {h}:{m}:{s}', pattern = /{(Y|M|D|h|m|s)+}/g) {// 日期格式化
         if (!date) {
             date = new Date();
@@ -197,7 +205,7 @@ export default {
 
         return result;
     },
-    getMediaDuration(seconds, str = '{H}:{m}:{s}', pattern = /{(H|m|M|s)+}/g) {// 获取媒体影音时长
+    formatMedia(seconds, str = '{H}:{m}:{s}', pattern = /{(H|m|M|s)+}/g) {// 媒体时长格式化
         const parseTime = {
             H: parseInt(seconds / 3600),
             m: parseInt(seconds / 60 % 60),
@@ -213,7 +221,7 @@ export default {
 
         return result;
     },
-    countDown(date, schedule, finish) {
+    countDown(date, schedule, finish) {// 倒计时格式化
         if (!date) {
             throw new Error('Please pass a valid argument：$utils.countDown() <date>');
         }
