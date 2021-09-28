@@ -1,7 +1,7 @@
 export default {
     el(el) {
         if (typeof el !== "string") {
-            throw new Error('请传递正确参数');
+            throw new Error('Please pass a valid argument：$utils.el() <el>');
         }
 
         let str = el.charAt(0);

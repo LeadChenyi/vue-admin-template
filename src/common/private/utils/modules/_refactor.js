@@ -147,11 +147,11 @@ export default {
         })
         return newArr;
     },
-    lavalGroupTree(item, tree, key = 'pid') {
+    lavalTree(item, tree, key = 'pid') {
         let children = [];
         tree.forEach((son) => {
             if (item.id == son[key]) {
-                this.lavalGroupTree(son, tree, key);
+                this.lavalTree(son, tree, key);
                 children.push(son);
             }
         });
@@ -160,11 +160,11 @@ export default {
         }
         return item;
     },
-    infiniteClassify(data, key = 'pid') {
+    infiniteTree(data, key = 'pid') {
         const newArr = [];
         data.forEach((item) => {
             if (item[key] == 0 || item[key] == null) {
-                newArr.push(this.lavalGroupTree(item, data, key));
+                newArr.push(this.lavalTree(item, data, key));
             }
         });
         return newArr;

@@ -85,9 +85,9 @@ export default {
             age: 18,
             gender: "男",
         };
-        const hello = "北京欢迎你";
-
-        console.log(this.$utils.getPropertyArrayTree(books));
+        const hello = "北京欢迎你，北京欢迎你，北京欢迎你";
+        const message = "什么是快乐星球，色情你我他？你妈的？";
+        console.log(this.$utils.toForbidden(message));
     },
 };
 </script>

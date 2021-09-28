@@ -46,13 +46,6 @@ export default {
         }
         console.info('%c asyncload script success!', 'color:#0099ff');
     },
-    createMark(mark, count = 1) { // 创建字符
-        let str = "";
-        for (let i = 0; i < count; i++) {
-            str += mark;
-        }
-        return str;
-    },
     min(arr) {// 获取数组中最小值
         return Math.min.apply(this, arr);
     },
@@ -76,20 +69,12 @@ export default {
             color += (Math.random() * 16 | 0).toString(16);
         }
         return color;
-
-        /*let colors = ["#"];
-        let characters = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"];
-        for(let i = 0; i < 6;i++){
-            let tempIndex = Math.floor(Math.random() * characters.length);
-            colors.push(characters[tempIndex]);
-        }
-        return colors;*/
     },
-    rgba(value = 255, opacity = 0.5) {
+    rgba(value = 255, opacity = 1) {
         let r = Math.ceil(Math.random() * value);
         let g = Math.ceil(Math.random() * value);
         let b = Math.ceil(Math.random() * value);
-        let a = parseFloat(1 - Math.random() * opacity).toFixed(2);
+        let a = opacity >= 0 ? opacity : parseFloat(Math.random() * 1).toFixed(2);
         return `rgba(${r},${g},${b},${a})`;
     },
     captcha(min = 4, max = 6, isRandomDigit = true) {// 随机获取验证码
@@ -116,5 +101,20 @@ export default {
         }
 
         return codes.join();
-    }
+    },
+    rate(num, isHalf = false) {
+        let tempArr = [];
+        for (let i = 0; i < Math.floor(num); i++) {// 生产全星
+            tempArr.push("★");
+        }
+        if (isHalf && (num % 1) !== 0) {// 判断是否生成半星
+            let floatArr = num.toFixed(1).split(".");
+            let floatStr = floatArr[1];
+            tempArr.push(floatStr);
+        }
+        while (tempArr.length < 5) {// 补全剩余的空星
+            tempArr.push("☆");
+        }
+        return tempArr.join("");
+    },
 }
