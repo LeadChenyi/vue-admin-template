@@ -65,7 +65,9 @@
     },
     "rules": {
       "no-console": "off",
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "no-control-regex": "off",
+      "no-useless-escape": "off"
     }
   },
   "browserslist": [

@@ -35,6 +35,50 @@ export default {
         }
         return obj;
     },
+    getAlipayPath(path) {
+        path = decodeURIComponent(path);
+        if (path && path.indexOf('alipays:') != -1) {
+            if (path.indexOf('page=') != -1) {
+                path = path.split('page=')[1];
+                path = path.split('&query')[0];
+            } else {
+                return '';
+            }
+        }
+        return path;
+    },
+    getAlipayAppId(path) {
+        path = decodeURIComponent(path);
+        if (path && path.indexOf('alipays:') != -1) {
+            let appId = path.split('appId=')[1];
+            if (path.indexOf('page=') != -1) {
+                appId = appId.split('&page')[0];
+                return appId;
+            } else if (path.indexOf('query=') != -1) {
+                appId = appId.split('&query')[0];
+                return appId;
+            }
+            return appId;
+        }
+        return null;
+    },
+    getAlipayQuery(path) {
+        path = decodeURIComponent(path);
+        let obj = {};
+        if (path && path.indexOf('alipays:') != -1) {
+            if (path.indexOf('query=') != -1) {
+                let query = path.split('query=')[1];
+                if (query) {
+                    let param = query.split('&');
+                    for (let i of param) {
+                        let arr = i.split('=');
+                        obj[arr[0]] = arr[1];
+                    }
+                }
+            }
+        }
+        return obj;
+    },
     percent(current, total, percent = '100%') {// 百分率
         return parseInt(current / total * percent);
     },

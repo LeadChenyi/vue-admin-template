@@ -31,6 +31,17 @@ export default {
             }, delay);
         }
     },
+    openWindow(url, name, width, height) {
+        let x = parseInt(window.screen.width / 2) - (width / 2);
+        let y = parseInt(window.screen.height / 2) - (height / 2);
+        let params = "";
+        if (navigator.appName == "Microsoft Internet Explorer") {
+            params = "resizable=1,location=no,scrollbars=no,width=" + width + ",height=" + height + ",top=" + y + ",left=" + x;
+        } else {
+            params = "width=" + width + ",height=" + height + ",top=" + y + ",left=" + x + ",scrollbars=yes,dialog=yes,modal=yes,resizable=no";
+        }
+        window.open(url, name, params);
+    },
     ajax({
         method = 'get',
         url = '/'

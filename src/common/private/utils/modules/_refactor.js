@@ -1,4 +1,43 @@
 export default {
+    cutString(str, limit = 30, mark = '') {// 截取字符串
+        let count = 0;
+        let uniCount = 0;
+        let pattern = /[^\x00-\xff]/;
+        for (let i = 0; i < limit; i++) {
+            let temp = str.substr(i, 1);
+            if (pattern.exec(temp) != null) {// 中文字符占两位（包括符号）
+                count += 2;
+            } else {
+                count += 1;
+            }
+
+            if (count > limit) {
+                break;
+            } else {
+                uniCount++;
+            }
+        }
+        return str.substring(0, uniCount) + mark;
+    },
+    catName(str, mark = '*') {
+        return str.substring(0, 1) + mark + str.substring(str.length - 1, str.length);
+    },
+    encodeHTML(str) {// 转义html标签
+        return str.replace(/&/g, '&amp;')
+            .replace(/\"/g, '&quot;')
+            .replace(/\'/g, '&acute;')
+            .replace(/\//g, '&frasl;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+    },
+    decodeHTML(str) {// 还原html标签
+        return str.replace(/&amp;/g, '&')
+            .replace(/&quot;/g, '\"')
+            .replace(/&acute;/g, "\'")
+            .replace(/&frasl;/g, '\/')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+    },
     simple(arr) {// 数组化简（多维数组化成普通数组）
         let result = [];
         for (var i = 0; i < arr.length; i++) {
@@ -70,6 +109,26 @@ export default {
             result[index].push(arr[i]);
         }
         return result;
+    },
+    groupByDate(newArr = [], data) {
+        data.forEach((item, i) => {
+            let index = -1;
+            let isExists = newArr.some((newItem, j) => {
+                if (item.date == newItem.tab) {
+                    index = j;
+                    return true;
+                }
+            })
+            if (!isExists) {
+                newArr.push({
+                    tab: item.date,
+                    subList: [item]
+                })
+            } else {
+                newArr[index].subList.push(item);
+            }
+        })
+        return newArr;
     },
     sort(arr, property, order = true) {// 字典排序（默认升序）
         if (property !== undefined && typeof property !== 'boolean' && typeof property !== 'string') {
