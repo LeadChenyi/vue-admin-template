@@ -88,6 +88,10 @@ export default {
         };
         const hello = "北京欢迎你，北京欢迎你，北京欢迎你";
         const message = "什么是快乐星球，色情你我他？你妈的？";
+        const username = "此言很差矣";
+        const mobile = "13866668888";
+        console.log(this.$utils.toCenterPrivacy(username));
+        console.log(this.$utils.toCenterPrivacy(mobile, 3, 4));
     },
 };
 </script>

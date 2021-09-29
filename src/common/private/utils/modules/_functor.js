@@ -31,6 +31,20 @@ export default {
             }, delay);
         }
     },
+    delegate(element, type, selector, callback) {
+        element.addEventListener(type, e => {
+            let target = e.target
+            while (!target.matches(selector)) {
+                if (element === target) {
+                    target = null
+                    break
+                }
+                target = target.parentNode
+            }
+            callback && callback.call(target, e, target)
+        }, true)
+        return element;
+    },
     openWindow(url, name, width, height) {
         let x = parseInt(window.screen.width / 2) - (width / 2);
         let y = parseInt(window.screen.height / 2) - (height / 2);

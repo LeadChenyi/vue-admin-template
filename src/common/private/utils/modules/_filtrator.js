@@ -1,5 +1,5 @@
 export default {
-    toForbidden(str, words) {// 过滤非法字符
+    toForbidPrivacy(str, words) {// 替换被禁用的字符为隐私字符
         if (!words) {
             words = ["傻", "逼", "屌", "草", "你妈", "色情", "黄片", "三级片"];
         }
@@ -9,6 +9,21 @@ export default {
             });
         })
         return str;
+    },
+    /**
+     * 
+     * @param {String} str          文本内容
+     * @param {Number} start        起始位置保留几位 
+     * @param {Number} end          结束位置保留几位
+     * @param {String} mark         填充符号
+     * @param {Boolean} autoFill    是否按字符串位数添加符号
+     * @returns {String}            返回新文本内容
+     */
+    toCenterPrivacy(str, start = 1, end = 1, mark = '*', autoFill = true) {// 截取部分字符串为隐私字符
+        if (str.length > 3 && autoFill) {
+            mark = this.repeat(mark, str.length - start - end);
+        }
+        return str.substring(0, start) + mark + str.substring(str.length - end, str.length);
     },
     toTrim(str, direction = "both") {// 过滤空格字符
         if (typeof str !== "string") {

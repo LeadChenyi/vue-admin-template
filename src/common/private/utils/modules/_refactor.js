@@ -19,9 +19,6 @@ export default {
         }
         return str.substring(0, uniCount) + mark;
     },
-    catName(str, mark = '*') {
-        return str.substring(0, 1) + mark + str.substring(str.length - 1, str.length);
-    },
     encodeHTML(str) {// 转义html标签
         return str.replace(/&/g, '&amp;')
             .replace(/\"/g, '&quot;')
@@ -80,13 +77,13 @@ export default {
 
         let result = Array.isArray(data) ? [] : {}
         for (let key in data) {
-            if (Object.prototype.hasOwnProperty.call(data, key)) {
+            if (data.hasOwnProperty(key)) {
                 result[key] = this.deepClone(data[key])
             }
         }
         return result;
     },
-    unrepeatable(arr) {// 数组去重（去掉数组中重复的元素）
+    clearRepeat(arr) {// 数组去重（去掉数组中重复的元素）
         if (new Set) {
             return Array.from(new Set(arr));
         } else {
@@ -98,6 +95,12 @@ export default {
             })
             return result;
         }
+    },
+    unique(arr) {// 数组去重（可以过滤掉所有类型的重复数据）
+        return arr.filter((item) => {
+            let obj = {}
+            return obj.hasOwnProperty(typeof item + item) ? false : (obj[typeof item + item] = true)
+        })
     },
     group(arr, size) {// 数组分组（按条数分组）
         let result = [];
@@ -160,6 +163,15 @@ export default {
             return Math.random() > 0.5 ? 1 : -1
         })
     },
+    scatter(arr) {// 随机打散
+        const result = [];
+        while (arr.length) {
+            let index = Math.floor(arr.length * Math.random());
+            let item = arr.splice(index, 1);
+            result.push(...item);
+        }
+        return result;
+    },
     sortBubble(arr) {// 冒泡排序
         for (let i = 0; i < arr.length - 1; i++) {
             for (let j = 0; j < arr.length - 1 - i; j++) {
@@ -171,6 +183,19 @@ export default {
             }
         }
         return arr;
+    },
+    sortQuick(arr) {// 快速排序
+        if (arr.length <= 1) return arr;
+        let index = Math.floor(arr.length / 2);
+        let current = arr.splice(index, 1)[0], left = [], right = [];
+        for (let i = 0; i < arr.length; i++) {
+            if (current > arr[i]) {
+                left.push(arr[i])
+            } else {
+                right.push(arr[i])
+            }
+        }
+        return this.sortQuick(left).concat([current], this.sortQuick(right))
     },
     sortPropertyOrder(data, keys) {// 自定义数组对象中每个属性的排列顺序
         for (let i = 0; i < data.length; i++) {
