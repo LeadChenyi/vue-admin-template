@@ -1,41 +1,41 @@
-class EventBus {
+class EventBus {// 公共事件触发器
     constructor() {
-        this.events = new Map();
+        this.listeners = {}
     }
 
-    addEvent(key, fn, isOnce, ...args) {
-        const value = this.events.get(key) ? this.events.get(key) : this.events.set(key, new Map()).get(key)
-        value.set(fn, (...args1) => {
-            fn(...args, ...args1)
-            isOnce && this.off(key, fn)
-        })
-    }
-
-    on(key, fn, ...args) {
-        if (!fn) {
-            console.error(`没有传入回调函数`);
-            return
+    on(type, cb) {
+        if (!this.listeners[type]) {
+            this.listeners[type] = []
         }
-        this.addEvent(key, fn, false, ...args)
+        this.listeners[type].push(cb)
     }
 
-    fire(key, ...args) {
-        if (!this.events.get(key)) {
-            console.warn(`没有 ${key} 事件`);
-            return;
-        }
-        for (let [, cb] of this.events.get(key).entries()) {
-            cb(...args);
+    emit(type, ...args) {
+        if (this.listeners[type]) {
+            this.listeners[type].forEach(cb => {
+                cb(...args)
+            })
         }
     }
 
-    off(key, fn) {
-        if (this.events.get(key)) {
-            this.events.get(key).delete(fn);
+    off(type, cb) {
+        if (this.listeners[type]) {
+            const targetIndex = this.listeners[type].findIndex(item => item === cb)
+            if (targetIndex !== -1) {
+                this.listeners[type].splice(targetIndex, 1)
+            }
+            if (this.listeners[type].length === 0) {
+                delete this.listeners[type]
+            }
         }
     }
 
-    once(key, fn, ...args) {
-        this.addEvent(key, fn, true, ...args)
+    clear(type) {
+        if (this.listeners[type]) {
+            delete this.listeners[type]
+        }
     }
 }
+/**
+ * https://juejin.cn/post/6844904018964119566#heading-0
+ */

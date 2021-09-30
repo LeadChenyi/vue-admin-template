@@ -1,53 +1,53 @@
 class Subscribe {// 发布订阅者模式
     constructor() {
-        this.list = {}
+        this.events = {}
     }
-    on(key, fn) {
-        if (!this.list[key]) {
-            this.list[key] = []
+    /**
+     * 注册事件订阅行为
+     * @param {String} type 事件类型
+     * @param {Function} cb 回调函数
+     */
+    subscribe(type, cb) {
+        if (!this.events[type]) {
+            this.events[type] = []
         }
-        this.list[key].push(fn)
-        return this
+        this.events[type].push(cb)
     }
-    once(key, fn) {
-        if (!this.list[key]) {
-            this.list[key] = []
+    /**
+     * 发布事件
+     * @param {String} type 事件类型
+     * @param  {...any} args 参数列表
+     */
+    publish(type, ...args) {
+        if (this.events[type]) {
+            this.events[type].forEach(cb => {
+                cb(...args)
+            })
         }
-        this.list[key].push(fn)
-        this.list[key].flag = this.list[key].length;
-        return this
     }
-    emit(key, args) {
-        let that = this;
-        let fns = this.list[key]
-        if (!fns || fns.length === 0) return false
-        for (let i = 0; i < fns.length; i++) {
-            fns[i].apply(this, args)
-            if (fns.flag === i) {
-                that.off(key, fns[i - 1])
+    /**
+     * 移除某个事件的一个订阅行为
+     * @param {String} type 事件类型
+     * @param {Function} cb 回调函数
+     */
+    unsubscribe(type, cb) {
+        if (this.events[type]) {
+            const targetIndex = this.events[type].findIndex(item => item === cb)
+            if (targetIndex !== -1) {
+                this.events[type].splice(targetIndex, 1)
+            }
+            if (this.events[type].length === 0) {
+                delete this.events[type]
             }
         }
     }
-    off(key, fn) {
-        let fns = this.list[key];
-        let len = fns.length,
-            k = -1;
-        for (let i = 0; i < len; i++) {
-            if (fns[i].name === fn.name) { // 删除
-                k = i;
-                break;
-            }
-        }
-        if (k !== -1) {
-            this.list[key].splice(k, 1)
-        }
-    }
-
-    allOff(key) {
-        if (key === undefined) {
-            this.list = {}
-        } else {
-            this.list[key] = []
+    /**
+     * 移除某个事件的所有订阅行为
+     * @param {String} type 事件类型
+     */
+    unsubscribeAll(type) {
+        if (this.events[type]) {
+            delete this.events[type]
         }
     }
 }
