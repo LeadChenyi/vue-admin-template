@@ -14,10 +14,10 @@ export default {
     setClassName(obj, name) {
         obj.className ? (obj.className = name) : obj.setAttribute("class", name);
     },
-    getStyleAttr(obj, attr) {//获取样式属性值
-        return obj.currentStyle ? obj.currentStyle[attr] : window.getComputedStyle(obj, null)[attr];
+    getStyleAttribute(obj, attribute) {
+        return obj.currentStyle ? obj.currentStyle[attribute] : window.getComputedStyle(obj, null)[attribute];
     },
-    getScrollAttr() {
+    getScrollValue() {
         return document.body ? {
             scrollTop: document.body.scrollTop,
             scrollLeft: document.body.scrollLeft
@@ -26,20 +26,28 @@ export default {
             scrollLeft: document.documentElement.scrollLeft
         }
     },
-    getOffsetAttr() {
+    getOffsetValue() {
         return document.body ? {
+            top: document.body.offsetTop,
+            left: document.body.offsetLeft,
             width: document.body.offsetWidth,
             height: document.body.offsetHeight
         } : {
+            top: document.documentElement.offsetTop,
+            left: document.documentElement.offsetLeft,
             width: document.documentElement.offsetWidth,
             height: document.documentElement.offsetHeight
         }
     },
-    getClientAttr() {
+    getClientValue() {
         return document.body ? {
+            top: document.body.clientTop,
+            left: document.body.clientLeft,
             width: document.body.clientWidth,
             height: document.body.clientHeight
         } : {
+            top: document.documentElement.clientTop,
+            left: document.documentElement.clientLeft,
             width: document.documentElement.clientWidth,
             height: document.documentElement.clientHeight
         }
@@ -52,10 +60,10 @@ export default {
             y: (e.y ? e.y : e.pageY)
         }
     },
-    stopPre(e) {
-        //阻止事件冒泡
+    stopPrevent(e) {
+        // 阻止事件冒泡
         e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
-        //阻止默认行为
+        // 阻止默认行为
         e.preventDefault ? e.preventDefault() : e.returnValue = false;
     }
 }

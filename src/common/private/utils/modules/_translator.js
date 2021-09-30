@@ -17,11 +17,16 @@ export default {
             return data[index];
         }
     },
-    getBlobToUrl(data, type = 'application/zip') {// 获取资源文件二进制数据
+    blobToBase64(data, type = 'application/zip') {// 获取资源文件二进制数据
         const blob = new Blob([data], { type });
-        const url = window.URL.createObjectURL(blob);
-        // window.location.href = url;
-        return url;
+        return window.URL.createObjectURL(blob);
+    },
+    fileToBase64(file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            return e.target.result
+        };
     },
     getLocationQuery(fullPath = location.href) {// 获取地址参数
         let obj = {};
@@ -82,17 +87,31 @@ export default {
     percent(current, total, percent = '100%') {// 百分率
         return parseInt(current / total * percent);
     },
-    zeroize(value, limit = 10, mark = '0') {// 补零
+    zeroize(value, limit = 10, mark = '0') {// 条件补充
         if (value >= limit) {
-            return value.toString();
+            return value.toString(); // 返回类型统一转为字符串类型
         } else {
-            let num = String(limit).length - String(value).length;
-            mark = this.repeat(mark, num);
+            let count = limit.toString().length - value.toString().length;
+            mark = this.repeat(mark, count);
             return mark + value;
         }
     },
-    zeropad(str, digit = 2, mark = '0') {// 补充
-        return str.toString().padStart(digit, mark);
+    padString(str, digit = 2, mark = '0', direction = 'start') {// 强制补充
+        if (direction === 'start') {
+            return str.toString().padStart(digit, mark);
+        } else {
+            return str.toString().padEnd(digit, mark);
+        }
+    },
+    roundString(value, mark = '+') {
+        if (value > 9999) {
+            let end = value.toString().length - 4;
+            return value.toString().substring(0, end) + 'w' + mark;
+        } else if (value > 999) {
+            return value.toString().substring(0, 1) + 'k' + mark;
+        } else if (value > 99) {
+            return '99' + mark
+        }
     },
     repeat(mark, count = 1) {// 重复某个字符串
         if (mark.repeat) {
@@ -102,20 +121,20 @@ export default {
         }
         return mark;
     },
-    star(num, isHalf = false) {// 获取星星
-        let tempArr = [];
-        for (let i = 0; i < Math.floor(num); i++) {// 生产全星
-            tempArr.push("★");
+    star(value, isHalf = false) {// 获取星星
+        let result = [];
+        for (let i = 0; i < Math.floor(value); i++) {// 生产全星
+            result.push("★");
         }
-        if (isHalf && (num % 1) !== 0) {// 判断是否生成半星
-            let floatArr = num.toFixed(1).split(".");
+        if (isHalf && (value % 1) !== 0) {// 判断是否生成半星
+            let floatArr = value.toFixed(1).split(".");
             let floatStr = floatArr[1];
-            tempArr.push(floatStr);
+            result.push(floatStr);
         }
-        while (tempArr.length < 5) {// 补全剩余的空星
-            tempArr.push("☆");
+        while (result.length < 5) {// 补全剩余的空星
+            result.push("☆");
         }
-        return tempArr.join("");
+        return result.join("");
     },
     rate(value, rates) {// 获取评价
         if (!rates) {
@@ -307,5 +326,42 @@ export default {
             schedule && schedule(parseTime);
             // console.log(parseTime);
         }, 1000);
+    },
+    differDay(startDate, endDate) {// 相差天数
+        if (!startDate) {
+            throw new Error('Please pass a valid argument：$utils.differDay() <startDate>');
+        }
+
+        if (!endDate) {
+            endDate = new Date().getTime();
+        }
+
+        if (typeof startDate === 'object') {
+            startDate = startDate.getTime();
+        }
+
+        if (typeof endDate === 'object') {
+            endDate = endDate.getTime();
+        }
+
+        if (typeof startDate === 'string' || typeof startDate === 'number') {
+            if (startDate.toString().length == 10) {// 兼容服务端时间戳
+                startDate *= 1000;
+            }
+
+            startDate = startDate.toString()
+        }
+
+        if (typeof endDate === 'string' || typeof endDate === 'number') {
+            if (endDate.toString().length == 10) {// 兼容服务端时间戳
+                endDate *= 1000;
+            }
+
+            endDate = endDate.toString()
+        }
+
+        let differ = endDate - startDate;
+        let day = Math.floor(differ / (24 * 3600 * 1000));
+        return day;
     }
 }

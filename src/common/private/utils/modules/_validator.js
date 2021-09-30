@@ -46,4 +46,7 @@ export default {
         }
         return false;
     },
+    isBase64(str) {
+        return /data:image\/.+;base64,/.test(str)
+    }
 }

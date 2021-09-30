@@ -31,8 +31,7 @@ export default {
         }
 
         if (direction === "both") {
-            return str.trim();
-            //return str.replace(/^\s*|\s*$/g,"");
+            return str.replace(/^\s*|\s*$/g, "");
         } else if (direction === "all") {
             return str.replace(/\s*/g, "");
         } else if (direction === "left") {
@@ -41,18 +40,41 @@ export default {
             return str.replace(/\s*$/g, "");
         }
     },
-    tohtml(str) {// 过滤HTMl标签
+    toHTML(str) {// 过滤HTMl标签
         return str.replace(/<[^>]+>|&[^>]+;/g, "").trim();
     },
-    toHtmlTrim(str, direction = "both") {// 过滤HTMl标签及空格字符
-        let text = str.replace(/<\/?.+?>/g, "");
-        let result = "";
+    toHTMLTrim(str, direction = "both") {// 过滤HTMl标签及空格字符
+        str = str.replace(/<\/?.+?>/g, "");
         if (direction == "both") {
-            result = text.replace(/^\s*|\s*$/g, "");
+            return str.trim();
         } else if (direction == "all") {
-            result = text.replace(/\s*/g, "");
+            return str.replace(/\s*/g, "");
         }
-        return result;
+    },
+    encodeHTML(str) {// 编码HTML标签
+        return str.replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\x22/g, '&quot;')
+            .replace(/\x27/g, '&#39;')
+            .replace(/\x60/g, '&#96;');
+
+    },
+    decodeHTML(str) {// 解码HTML标签
+        return str.replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '\x22')
+            .replace(/&#0*39;/g, '\x27')
+            .replace(/&#0*96;/g, '\x60');
+    },
+    encodeCamelCased(str) {// 编码驼峰命名
+        return str.replace(/_(\w)/g, (...rest) => {
+            return rest[1].toUpperCase();
+        });
+    },
+    decodeCamelCased(str) {// 解码驼峰命名
+        return str.replace(/([A-Z])/g, "_$1").toLowerCase();
     },
     toTreePower(routers, permission = []) {// 过滤未授权数据
         return routers.filter(item => permission.includes(item.meta.code)).map((item) => {

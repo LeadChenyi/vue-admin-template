@@ -1,12 +1,12 @@
 export default {
-    each(list, callback) {// 数据遍历
-        if (list instanceof Array) {
-            for (let [key, value] of list) {
+    each(data, callback) {// 数据遍历
+        if (data instanceof Array) {
+            for (let [key, value] of data) {
                 callback && callback(key, value);
             }
         } else {
-            for (let key in list) {
-                let value = list[key];
+            for (let key in data) {
+                let value = data[key];
                 callback && callback(key, value);
             }
         }
@@ -31,7 +31,7 @@ export default {
             }, delay);
         }
     },
-    delegate(element, type, selector, callback) {
+    delegate(element, type, selector, callback) {// 事件代理
         element.addEventListener(type, e => {
             let target = e.target
             while (!target.matches(selector)) {
@@ -45,7 +45,7 @@ export default {
         }, true)
         return element;
     },
-    openWindow(url, name, width, height) {
+    openWindow(url, name, width, height) {// 打开新窗口
         let x = parseInt(window.screen.width / 2) - (width / 2);
         let y = parseInt(window.screen.height / 2) - (height / 2);
         let params = "";
@@ -117,13 +117,9 @@ export default {
         return null;
     },
     download(file) {// 资源下载
-        if (file.url) {
-            throw new Error('请文件地址必须传递！');
-        }
-
         let el = document.createElement("a");
         el.download = file.name || `webyi_file_${new Date().getTime()}`;    // 为空则为原文件名
-        el.href = file.url;
+        el.href = file.url || file;
         document.body.appendChild(el);
         el.click();
         el.remove();

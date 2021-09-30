@@ -1,5 +1,5 @@
 export default {
-    cutString(str, limit = 30, mark = '') {// 截取字符串
+    cutString(str, limit = 30, mark = '') {// 截取指定字节的字符串
         let count = 0;
         let uniCount = 0;
         let pattern = /[^\x00-\xff]/;
@@ -19,35 +19,23 @@ export default {
         }
         return str.substring(0, uniCount) + mark;
     },
-    encodeHTML(str) {// 转义html标签
-        return str.replace(/&/g, '&amp;')
-            .replace(/\"/g, '&quot;')
-            .replace(/\'/g, '&acute;')
-            .replace(/\//g, '&frasl;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
+    spliceString(str, index, mark) {
+        let start = str.substring(0, index);
+        let end = str.substring(index);
+        return start + mark + end;
     },
-    decodeHTML(str) {// 还原html标签
-        return str.replace(/&amp;/g, '&')
-            .replace(/&quot;/g, '\"')
-            .replace(/&acute;/g, "\'")
-            .replace(/&frasl;/g, '\/')
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>')
-    },
-    simple(arr) {// 数组化简（多维数组化成普通数组）
+    simple(arr) {// 数组化简（将多维数组化成普通数组）
         let result = [];
-        for (var i = 0; i < arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
             if (Array.isArray(arr[i])) {
-                let temp = this.simple(arr[i]);
-                result = [...result, ...temp];
+                result.push(...this.simple(arr[i]))
             } else {
                 result.push(arr[i]);
             }
         }
         return result;
     },
-    deepFlat(arr) {// 数组扁平化
+    deepFlat(arr) {// 数组扁平化（将多维数组化成普通数组）
         return arr.reduce((total, current) => {
             if (Array.isArray(current)) {
                 return [...total, ...this.deepFlat(current)];
@@ -197,7 +185,20 @@ export default {
         }
         return this.sortQuick(left).concat([current], this.sortQuick(right))
     },
-    sortPropertyOrder(data, keys) {// 自定义数组对象中每个属性的排列顺序
+    sortInsert(arr) {// 插入排序
+        let current, preIndex;
+        for (let i = 1; i < arr.length; i++) {
+            current = arr[i];
+            preIndex = i - 1;
+            while (preIndex >= 0 && arr[preIndex] > current) {
+                arr[preIndex + 1] = arr[preIndex];
+                preIndex--;
+            }
+            arr[preIndex + 1] = current;
+        }
+        return arr;
+    },
+    sortObjectProperty(data, keys) {// 数组对象中的属性排序（不改变数组对象索引）
         for (let i = 0; i < data.length; i++) {
             let temp = {};
             for (let j = 0; j < keys.length; j++) {
