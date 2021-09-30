@@ -43,12 +43,26 @@ export default {
     range(min, max, isContainMax = true) {// 获取随机范围数（包含最大值和最小值，可选择不包含最大值）
         return Math.floor(Math.random() * (max - min + (!!isContainMax)) + min);
     },
-    rangeOutside(min, max) {// 获取随机范围数（不包含最小值和最大值）
+    rangeExclude(min, max) {// 获取随机范围数（不包含最小值和最大值）
         return Math.ceil(Math.random() * (max - min - 1) + min);
     },
     rangeFrom(max = 1) {// 获取随机范围数（最小随机数为0，最大随机数默认为1，可指定最大值，译为从头开始）
         max++;
         return ((Math.random() * max) | 0);
+    },
+    rangeMinus(min, max) {// 获取随机范围数（包含最大值和最小值，支持负数）
+        if (min < 0) {
+            return Math.floor(Math.random() * (min + -max - 1) - min + 1);
+        } else {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+    },
+    rangeMinusExclude(min, max) {// 获取随机范围数（不包含最大值和最小值，支持负数）
+        if (min < 0) {
+            return Math.floor(Math.random() * (min + -max + 1) - min);
+        } else {
+            return Math.ceil(Math.random() * (max - min - 1) + min);
+        }
     },
     color(value = 16) {// 随机获取颜色值
         let color = "#";

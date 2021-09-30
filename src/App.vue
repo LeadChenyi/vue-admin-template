@@ -19,6 +19,7 @@ export default {
         this.syncThemeColor();
 
         // utils test area
+        const nums = [7, 5, 3, 1, 9];
         const scores1 = [100, [99, [88, [77, 66, 55]]]];
         const scores2 = [100, 99, 88, 77, 66, 55];
         const scores3 = [100, 99, 88, 77, 66, 55, 66, 77, 88, 99];
@@ -90,7 +91,7 @@ export default {
         const message = "什么是快乐星球，色情你我他？你妈的？";
         const username = "此言很差矣";
         const mobile = "13866668888";
-        // console.log(this.$utils.sortInsert(scores2));
+        console.log(this.$utils.countStringIndex(mobile, "6"));
     },
 };
 </script>

@@ -151,6 +151,15 @@ export default {
     countString(str, mark) {// 统计某个字符出现的次数
         return str.split(mark).length - 1;
     },
+    countStringIndex(str, mark) {// 统计某个字符出现的索引位置组成新数组返回
+        let index = str.indexOf(mark);
+        let result = [];
+        while (index !== -1) {
+            result.push(index);
+            index = str.indexOf(mark, index + 1);
+        }
+        return result;
+    },
     countAllString(str, callback) {// 统计所有字符出现的次数
         let obj = {};
         for (let i = 0; i < str.length; i++) {

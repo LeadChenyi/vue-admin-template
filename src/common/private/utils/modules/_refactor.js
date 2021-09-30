@@ -51,7 +51,27 @@ export default {
             return fn(...args)
         }
     },
+    merge(data1, data2) {// 合并
+        if (typeof data1 !== 'object' && typeof data2 !== 'object') {
+            throw new Error('Please pass a valid argument：$utils.merge() <data>');
+        }
+
+        if (Array.isArray(data1)) {
+            return data1.concat(data2);
+        } else {
+            return Object.assign(data1, data2);
+        }
+    },
+    mergeSubseries(arr1, arr2) {// 合并数组对象子序列项
+        return arr1.map((item, index) => {
+            return Object.assign(item, arr2[index])
+        })
+    },
     clone(data) {// 浅拷贝
+        if (typeof data !== 'object') {
+            return data;
+        }
+
         if (Array.isArray(data)) {
             return [].concat(data);
         } else {
@@ -85,8 +105,8 @@ export default {
         }
     },
     unique(arr) {// 数组去重（可以过滤掉所有类型的重复数据）
+        let obj = {}
         return arr.filter((item) => {
-            let obj = {}
             return obj.hasOwnProperty(typeof item + item) ? false : (obj[typeof item + item] = true)
         })
     },
@@ -121,6 +141,33 @@ export default {
         })
         return newArr;
     },
+    reverse(arr) {
+        const result = [];
+        for (let i = 0; i < arr.length; i++) {
+            result.unshift(arr[i]);
+        }
+
+        // for (let i = arr.length - 1; i >= 0; i--) {
+        //     result[result.length] = arr[i];
+        //     result.push(arr[i]);
+        // }
+
+        return result;
+    },
+    shuffle(arr) {// 随机洗牌（有序）
+        return arr.sort(() => {
+            return Math.random() > 0.5 ? 1 : -1
+        })
+    },
+    scatter(arr) {// 随机分散（无序）
+        const result = [];
+        while (arr.length) {
+            let index = Math.floor(arr.length * Math.random());
+            let item = arr.splice(index, 1);
+            result.push(...item);
+        }
+        return result;
+    },
     sort(arr, property, order = true) {// 字典排序（默认升序）
         if (property !== undefined && typeof property !== 'boolean' && typeof property !== 'string') {
             throw new Error('Please pass a valid argument: $utils.sort() <property>');
@@ -146,27 +193,21 @@ export default {
             }
         })
     },
-    sortRandom(arr) {// 随机排序
-        return arr.sort(() => {
-            return Math.random() > 0.5 ? 1 : -1
-        })
-    },
-    scatter(arr) {// 随机打散
-        const result = [];
-        while (arr.length) {
-            let index = Math.floor(arr.length * Math.random());
-            let item = arr.splice(index, 1);
-            result.push(...item);
-        }
-        return result;
-    },
-    sortBubble(arr) {// 冒泡排序
+    sortBubble(arr, order = true) {// 冒泡排序（默认升序从小到大）
         for (let i = 0; i < arr.length - 1; i++) {
-            for (let j = 0; j < arr.length - 1 - i; j++) {
-                if (arr[j] > arr[j + 1]) {
-                    let temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
+            for (let j = 0; j < arr.length - i; j++) {
+                if (order) {
+                    if (arr[j] > arr[j + 1]) {
+                        let temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                } else {
+                    if (arr[j] < arr[j + 1]) {
+                        let temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
                 }
             }
         }
