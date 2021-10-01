@@ -27,7 +27,6 @@ const built = {
         let fn = Symbol();
         context[fn] = this;
         let _this = this;
-        //  bind情况要复杂一点
         const result = function (...innerArgs) {
             if (this instanceof _this === true) {
                 this[fn] = _this;

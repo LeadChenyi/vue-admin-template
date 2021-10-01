@@ -121,6 +121,11 @@ export default {
             return obj.hasOwnProperty(typeof item + item) ? false : (obj[typeof item + item] = true)
         })
     },
+    chunk(arr, size) {// 数组拆分分组
+        return Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+            arr.slice(i * size, i * size + size)
+        );
+    },
     group(arr, size) {// 数组分组（按条数分组）
         let result = [];
         for (let i = 0; i < arr.length; i++) {

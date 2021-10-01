@@ -1,4 +1,8 @@
 export default {
+    call(key, ...args) {// 借调函数
+        context = context || window
+        return context => context[key](...args);
+    },
     each(data, callback) {// 数据遍历
         if (data instanceof Array) {
             for (let [key, value] of data) {
