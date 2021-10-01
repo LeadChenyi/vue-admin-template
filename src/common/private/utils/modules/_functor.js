@@ -3,18 +3,6 @@ export default {
         context = context || window
         return context => context[key](...args);
     },
-    each(data, callback) {// 数据遍历
-        if (data instanceof Array) {
-            for (let [key, value] of data) {
-                callback && callback(key, value);
-            }
-        } else {
-            for (let key in data) {
-                let value = data[key];
-                callback && callback(key, value);
-            }
-        }
-    },
     debounce(callback, delay = 1000) {// 防抖函数
         let timer = null;
         return function () {
@@ -60,6 +48,24 @@ export default {
         }
         window.open(url, name, params);
     },
+    setCookie(key, value, expires) {// 设置Cookie缓存数据
+        let date = new Date();
+        // 失效时间 = 当前时间 + 有效期N天
+        date.setTime(date.getTime() + (expires * 24 * 60 * 60 * 1000));
+        // 根据世界时把Date对象转换为字符串
+        document.cookie = key + "=" + value + "; expires=" + date.toUTCString();
+    },
+    getCookie(key) {// 获取Cookie缓存数据
+        key = key + "=";
+        let cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            let item = cookies[i].trim();
+            if (item.indexOf(key) == 0) {// 匹配的是key+=，所以索引只能是0
+                return item.substring(key.length, item.length);
+            }
+        }
+        return null;
+    },
     ajax({
         method = 'get',
         url = '/'
@@ -102,36 +108,6 @@ export default {
             xhr.send();
         }, duration);
     },
-    setCookie(key, value, expires) {// 设置Cookie缓存数据
-        let date = new Date();
-        // 失效时间 = 当前时间 + 有效期N天
-        date.setTime(date.getTime() + (expires * 24 * 60 * 60 * 1000));
-        // 根据世界时把Date对象转换为字符串
-        document.cookie = key + "=" + value + "; expires=" + date.toUTCString();
-    },
-    getCookie(key) {// 获取Cookie缓存数据
-        key = key + "=";
-        let cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            let item = cookies[i].trim();
-            if (item.indexOf(key) == 0) {// 匹配的是key+=，所以索引只能是0
-                return item.substring(key.length, item.length);
-            }
-        }
-        return null;
-    },
-    download(file) {// 资源下载
-        let el = document.createElement("a");
-        el.download = file.name || `webyi_file_${new Date().getTime()}`;    // 为空则为原文件名
-        el.href = file.url || file;
-        document.body.appendChild(el);
-        el.click();
-        el.remove();
-        console.info('%c download success!', 'color:#0099ff');
-    },
-    mathCalc(expression, toFixed = 2) {// 四则运算（防止小数点精度丢失）
-        return Math.round(expression * Math.pow(10, toFixed)) / Math.pow(10, toFixed);
-    },
     copyText(text) {// 拷贝文本到剪切板
         let input = document.createElement('input');
         input.setAttribute('id', 'copyId');
@@ -148,5 +124,76 @@ export default {
         selection.addRange(range);
         document.execCommand('copy');
         document.getElementById('copyId').remove();
+    },
+    download(file) {// 资源下载
+        let el = document.createElement("a");
+        el.download = file.name || `webyi_file_${new Date().getTime()}`;    // 为空则为原文件名
+        el.href = file.url || file;
+        document.body.appendChild(el);
+        el.click();
+        el.remove();
+        console.info('%c download success!', 'color:#0099ff');
+    },
+    blobToBase64(data, type = 'application/zip') {// 获取资源文件二进制数据
+        const blob = new Blob([data], { type });
+        return window.URL.createObjectURL(blob);
+    },
+    fileToBase64(file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            return e.target.result
+        };
+    },
+    getAlipayPath(path) {
+        path = decodeURIComponent(path);
+        if (path && path.indexOf('alipays:') != -1) {
+            if (path.indexOf('page=') != -1) {
+                path = path.split('page=')[1];
+                path = path.split('&query')[0];
+            } else {
+                return '';
+            }
+        }
+        return path;
+    },
+    getAlipayAppId(path) {
+        path = decodeURIComponent(path);
+        if (path && path.indexOf('alipays:') != -1) {
+            let appId = path.split('appId=')[1];
+            if (path.indexOf('page=') != -1) {
+                appId = appId.split('&page')[0];
+                return appId;
+            } else if (path.indexOf('query=') != -1) {
+                appId = appId.split('&query')[0];
+                return appId;
+            }
+            return appId;
+        }
+        return null;
+    },
+    getAlipayQuery(path) {
+        path = decodeURIComponent(path);
+        let obj = {};
+        if (path && path.indexOf('alipays:') != -1) {
+            if (path.indexOf('query=') != -1) {
+                let query = path.split('query=')[1];
+                if (query) {
+                    let param = query.split('&');
+                    for (let i of param) {
+                        let arr = i.split('=');
+                        obj[arr[0]] = arr[1];
+                    }
+                }
+            }
+        }
+        return obj;
+    },
+    currying(fn, ...args) {// 高阶柯里化
+        if (fn.length > args.length) {
+            return (...newArgs) => this.currying(fn, ...args, ...newArgs)
+        } else {
+            return fn(...args)
+        }
     }
 }

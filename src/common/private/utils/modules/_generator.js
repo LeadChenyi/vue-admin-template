@@ -29,54 +29,6 @@ export default {
             document.head.appendChild(el);
         }
     },
-    min(arr) {// 获取数组中最小值
-        return Math.min.apply(this, arr);
-    },
-    max(arr) {// 获取数组中最大值
-        return Math.max.apply(this, arr);
-    },
-    sum(arr) {// 获取数组中值的求和
-        return arr.reduce((total, num) => {
-            return total += num;
-        })
-    },
-    range(min, max, isContainMax = true) {// 获取随机范围数（包含最大值和最小值，可选择不包含最大值）
-        return Math.floor(Math.random() * (max - min + (!!isContainMax)) + min);
-    },
-    rangeExclude(min, max) {// 获取随机范围数（不包含最小值和最大值）
-        return Math.ceil(Math.random() * (max - min - 1) + min);
-    },
-    rangeFrom(max = 1) {// 获取随机范围数（最小随机数为0，最大随机数默认为1，可指定最大值，译为从头开始）
-        max++;
-        return ((Math.random() * max) | 0);
-    },
-    rangeMinus(min, max) {// 获取随机范围数（包含最大值和最小值，支持负数）
-        if (min < 0) {
-            return Math.floor(Math.random() * (min + -max - 1) - min + 1);
-        } else {
-            return Math.floor(Math.random() * (max - min + 1) + min);
-        }
-    },
-    rangeMinusExclude(min, max) {// 获取随机范围数（不包含最大值和最小值，支持负数）
-        if (min < 0) {
-            return Math.floor(Math.random() * (min + -max + 1) - min);
-        } else {
-            return Math.ceil(Math.random() * (max - min - 1) + min);
-        }
-    },
-    section(a, b) {// 获取一个区间的值组成新数组返回
-        let temp, arr = [];
-        if (a > b) {
-            temp = a;
-            a = b;
-            b = temp;
-        }
-
-        for (let i = a; i <= b; i++) {
-            arr.push(i);
-        }
-        return arr
-    },
     color(value = 16) {// 随机获取颜色值
         let color = "#";
         for (let i = 0; i < 6; i++) {
@@ -111,5 +63,32 @@ export default {
         }
 
         return result.join();
+    },
+    star(value, isHalf = false) {// 获取星星
+        let result = [];
+        for (let i = 0; i < Math.floor(value); i++) {// 生产全星
+            result.push("★");
+        }
+        if (isHalf && (value % 1) !== 0) {// 判断是否生成半星
+            let floatArr = value.toFixed(1).split(".");
+            let floatStr = floatArr[1];
+            result.push(floatStr);
+        }
+        while (result.length < 5) {// 补全剩余的空星
+            result.push("☆");
+        }
+        return result.join("");
+    },
+    rate(value, rates) {// 获取评价
+        if (!rates) {
+            rates = [
+                { text: "极差", color: "#95989D" },
+                { text: "失望", color: "#67C23A" },
+                { text: "一般", color: "#E7A644" },
+                { text: "满意", color: "#409EFF" },
+                { text: "惊喜", color: "#F56C6C" }
+            ];
+        }
+        return rates[Math.floor(value) - 1];
     }
 }

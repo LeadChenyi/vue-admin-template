@@ -18,13 +18,8 @@ export default {
     isExternal(path) {// 是否为外部连接
         return /^(https?:|mailto:|tel:)/.test(path)
     },
-    isTokenExpirationTime(recordTimestamp, seconds = 7200) {// 令牌是否过期
-        let _diff = (new Date().getTime() - recordTimestamp) / 1000;
-        return _diff > seconds;
-    },
-    isMeetExpectionTime(recordTimestamp, seconds = 10) {// 是否达到预期时间
-        let _diff = (new Date().getTime() - recordTimestamp) / 1000;
-        return _diff >= seconds;
+    isBase64(str) {// 是否为base64路径
+        return /data:image\/.+;base64,/.test(str)
     },
     isQuickDoubleClick(recordTimestamp, milliseconds = 1000) {// 是否快速连点
         let currentTimestamp = new Date().getTime();
@@ -35,7 +30,15 @@ export default {
 
         return currentTimestamp;
     },
-    isEveryDayNotice(key) {// 是否每日进行一次性通知
+    isTokenExpirationTime(recordTimestamp, seconds = 7200) {// 令牌是否过期
+        let _diff = (new Date().getTime() - recordTimestamp) / 1000;
+        return _diff > seconds;
+    },
+    isMeetExpectionTime(recordTimestamp, seconds = 10) {// 是否达到预期时间
+        let _diff = (new Date().getTime() - recordTimestamp) / 1000;
+        return _diff >= seconds;
+    },
+    onceNoticeEveryDay(key) {// 是否每日进行一次性通知
         let _local = localStorage.getItem(key);
         let currentTime = this.formatDate(false, '{Y}-{M}-{D}');
         let recodeTime = _local ? this.formatDate(_local, '{Y}-{M}-{D}') : this.formatDate(false, '{Y}-{M}-{D}');
@@ -45,8 +48,5 @@ export default {
             return true;
         }
         return false;
-    },
-    isBase64(str) {
-        return /data:image\/.+;base64,/.test(str)
     }
 }
