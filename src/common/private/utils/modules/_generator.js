@@ -64,6 +64,19 @@ export default {
             return Math.ceil(Math.random() * (max - min - 1) + min);
         }
     },
+    section(a, b) {// 获取一个区间的值组成新数组返回
+        let temp, arr = [];
+        if (a > b) {
+            temp = a;
+            a = b;
+            b = temp;
+        }
+
+        for (let i = a; i <= b; i++) {
+            arr.push(i);
+        }
+        return arr
+    },
     color(value = 16) {// 随机获取颜色值
         let color = "#";
         for (let i = 0; i < 6; i++) {

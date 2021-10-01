@@ -91,7 +91,7 @@ export default {
         const message = "什么是快乐星球，色情你我他？你妈的？";
         const username = "此言很差矣";
         const mobile = "13866668888";
-        console.log(this.$utils.countStringIndex(mobile, "6"));
+        console.log(this.$utils.privateProperty(logs, ["value"]));
     },
 };
 </script>

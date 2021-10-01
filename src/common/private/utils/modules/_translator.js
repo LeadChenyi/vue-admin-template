@@ -372,5 +372,58 @@ export default {
         let differ = endDate - startDate;
         let day = Math.floor(differ / (24 * 3600 * 1000));
         return day;
+    },
+    getIP(content) {// 获取文本类容中的所有IP地址
+        return content.match(/\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/gi);
+    },
+    getImage(content, pattern = 'allPath', regexp) {// 获取文本类容中的所有图片路径
+        const parsePattern = {
+            allPath: /src=[\'\"]?([^\'\"]*)[\'\"]?/i,
+            notHttp: /src=[\'\"]?((?!https?)[^\'\"]*)[\'\"]?/i
+        }
+
+        let images = content.match(/<img .*src=['"]([^'"]+)[^>].*>/gi);
+        let paths = [];
+        for (let i = 0; i < images.length; i++) {
+            let item = images[i].match(regexp || parsePattern[pattern]);
+            if (item) {
+                paths.push(item[1]);
+            }
+        }
+        return paths;
+    },
+    replacePath(content, targets, paths) {// 替换文本类容中的所有目标路径
+        let obj = {}
+        if (targets instanceof Array) {
+            targets.forEach((item, index) => {
+                obj[item] = paths[index];
+            })
+        } else {
+            Object.assign(obj, targets)
+        }
+
+        for (let key in obj) {
+            content = content.replace(new RegExp(key, "ig"), obj[key]);
+        }
+        return content;
+    },
+    privateProperty(data, props) {// 保护对象或数组对象中的属性
+        if (data instanceof Array) {
+            data.forEach((item, index) => {
+                for (let key in item) {
+                    if (props.includes(key)) {
+                        delete data[index][key]
+                    }
+                }
+            })
+        } else {
+            for (let key in data) {
+                if (props.includes(key)) {
+                    delete data[key]
+                }
+            }
+        }
+
+        return data
     }
 }

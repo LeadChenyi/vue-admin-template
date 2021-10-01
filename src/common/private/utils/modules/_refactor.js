@@ -35,6 +35,17 @@ export default {
         }
         return result;
     },
+    simpleObject(obj) {// 对象简化
+        const result = {};
+        for (let key in obj) {
+            if (obj[key] instanceof Object) {
+                Object.assign(result, this.simpleObject(obj[key]))
+            } else {
+                result[key] = obj[key]
+            }
+        }
+        return result;
+    },
     deepFlat(arr) {// 数组扁平化（将多维数组化成普通数组）
         return arr.reduce((total, current) => {
             if (Array.isArray(current)) {
@@ -154,12 +165,12 @@ export default {
 
         return result;
     },
-    shuffle(arr) {// 随机洗牌（有序）
+    scatterOrder(arr) {// 有序打散
         return arr.sort(() => {
             return Math.random() > 0.5 ? 1 : -1
         })
     },
-    scatter(arr) {// 随机分散（无序）
+    scatter(arr) {// 无序打散
         const result = [];
         while (arr.length) {
             let index = Math.floor(arr.length * Math.random());
