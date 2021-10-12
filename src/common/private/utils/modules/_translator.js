@@ -88,7 +88,7 @@ export default {
             return Object.assign(data1, data2);
         }
     },
-    privateProperty(data, props) {// 保护对象或数组对象中的属性
+    excludeProperty(data, props) {// 隐私保护移除对象属性成员
         if (data instanceof Array) {
             data.forEach((item, index) => {
                 for (let key in item) {

@@ -5,6 +5,7 @@ import VueClipboard from 'vue-clipboard-plus'
 import Cookie from 'js-cookie'
 import Underscore from 'underscore';
 import Dayjs from 'dayjs';
+import Axios from 'axios'
 
 
 export default {
@@ -18,5 +19,6 @@ export default {
         Object.defineProperty(Vue.prototype, '$cookie', { value: Cookie });
         Object.defineProperty(Vue.prototype, '$underscore', { value: Underscore });
         Object.defineProperty(Vue.prototype, '$dayjs', { value: Dayjs });
+        Object.defineProperty(Vue.prototype, '$axios', { value: Axios });
     }
 }

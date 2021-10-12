@@ -18,7 +18,20 @@ export default {
         // 同步主题颜色
         this.syncThemeColor();
 
-        // utils test area
+        // test area
+        // this.getServerLocalEnv();
+    },
+    methods: {
+        getServerLocalEnv() {
+            this.$axios
+                .get("http://localhost:3000/api")
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
     },
 };
 </script>

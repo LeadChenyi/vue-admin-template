@@ -12,6 +12,15 @@ module.exports = {
                 pathRewrite: {  // 是否重写前缀到请求路径中
                     "^/api": "/"
                 }
+            },
+            '/api2': {          // 代理服务器的前缀
+                target: 'http://localhost:3001',
+                ws: true,      // 是否支持webScokit
+                changeOrigin: true,
+                secure: false,
+                pathRewrite: {  // 是否重写前缀到请求路径中
+                    "^/api2": "/"
+                }
             }
         }
     },

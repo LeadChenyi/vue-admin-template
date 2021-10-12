@@ -148,6 +148,14 @@ export default [
                 meta: {
                     title: '自定义组件'
                 }
+            },
+            {
+                path: '/chatroom',
+                name: 'Chatroom',
+                component: () => import('@/pages/unit/chatroom'),
+                meta: {
+                    title: '聊天室'
+                }
             }
         ]
     },
