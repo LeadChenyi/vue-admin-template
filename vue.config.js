@@ -13,13 +13,13 @@ module.exports = {
                     "^/api": "/"
                 }
             },
-            '/api2': {          // 代理服务器的前缀
-                target: 'http://localhost:3001',
-                ws: true,      // 是否支持webScokit
+            '/nest': {
+                target: 'http://api.webyi.top/api',
+                ws: true,
                 changeOrigin: true,
                 secure: false,
-                pathRewrite: {  // 是否重写前缀到请求路径中
-                    "^/api2": "/"
+                pathRewrite: {
+                    "^/nest": "/"
                 }
             }
         }

@@ -22,10 +22,10 @@ export default {
     created() {
         /**
          * 指定连接WebSocket命名空间及房间号
-         * ws://localhost:3001 等价于 http://localhost:3001
-         * wss://localhost:3001 等价于 https://localhost:3001
+         * ws://localhost 等价于 http://localhost
+         * wss://localhost 等价于 https://localhost
          */
-        this.socket = io(`ws://localhost:3001/chatroom?room_id=${this.roomId}`);
+        this.socket = io(`ws://api.webyi.top/chatroom?room_id=${this.roomId}`);
 
         // 监听服务器事件消息
         this.socket.on("serverBroadcast", function (data) {

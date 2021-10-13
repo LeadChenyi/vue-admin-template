@@ -24,7 +24,7 @@ export default {
     methods: {
         getServerLocalEnv() {
             this.$axios
-                .get("http://localhost:3000/api")
+                .get("http://api.webyi.top/api")
                 .then((res) => {
                     console.log(res);
                 })
