@@ -48,7 +48,7 @@ export default {
             min = Math.floor(Math.random() * (max - min + 1) + min);
         }
 
-        if (characters) {
+        if (!characters) {
             characters = [
                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
@@ -62,7 +62,7 @@ export default {
             result.push(characters[index]);
         }
 
-        return result.join();
+        return result.join('');
     },
     star(value, isHalf = false) {// 获取星星
         let result = [];

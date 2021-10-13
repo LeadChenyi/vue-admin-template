@@ -4,22 +4,22 @@ const path = require('path');
 module.exports = {
     devServer: {
         proxy: {
-            '/api': {          // 代理服务器的前缀
+            '/mock': {          // 代理服务器的前缀
                 target: 'https://easy-mock.bookset.io/mock/60bbb4795aca6a408a54972d/operator',
                 ws: true,      // 是否支持webScokit
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {  // 是否重写前缀到请求路径中
-                    "^/api": "/"
+                    "^/mock": "/"
                 }
             },
-            '/nest': {
+            '/api': {
                 target: 'http://api.webyi.top/api',
                 ws: true,
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {
-                    "^/nest": "/"
+                    "^/api": "/"
                 }
             }
         }
