@@ -13,13 +13,22 @@ module.exports = {
                     "^/mock": "/"
                 }
             },
-            '/api': {
+            '/local': {
+                target: 'http://localhost:3000/api',
+                ws: true,
+                changeOrigin: true,
+                secure: false,
+                pathRewrite: {
+                    "^/local": "/"
+                }
+            },
+            '/online': {
                 target: 'http://api.webyi.top/api',
                 ws: true,
                 changeOrigin: true,
                 secure: false,
                 pathRewrite: {
-                    "^/api": "/"
+                    "^/online": "/"
                 }
             }
         }

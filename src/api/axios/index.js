@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import QS from 'qs'
 import './interceptors'
 import { Message } from 'element-ui';
 
@@ -14,9 +15,9 @@ const Request = ({
     responseType = 'json',
     showError = true
 }) => {
-    // if (method == 'POST' || method == 'PUT') {
-    //     data = querystring.stringify(data);
-    // }
+    if (method == 'POST' || method == 'PUT') {
+        data = QS.stringify(data);
+    }
 
     return new Promise((resolve, reject) => {
         Axios({
@@ -28,7 +29,7 @@ const Request = ({
             headers,
             responseType
         }).then(res => {
-            if (res.status == 200) {
+            if (res.status >= 200 && res.status <= 204) {
                 resolve(res.data);
                 return false;
             }

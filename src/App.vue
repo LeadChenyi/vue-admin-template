@@ -19,7 +19,7 @@ export default {
         this.syncThemeColor();
 
         // test area
-        // this.getServerLocalEnv();
+        this.getServerLocalEnv();
     },
     methods: {
         getServerLocalEnv() {

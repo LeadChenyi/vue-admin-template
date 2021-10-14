@@ -27,7 +27,7 @@ router.afterEach(() => {
 
 async function userNextTick(to, from, next) {
     // 使用异步方式获取用户信息、动态路由数据后再放行路由拦截
-    !Store.state.app.userInfo && await getUserInfo();
+    // !Store.state.app.userInfo && await getUserInfo();
     !Store.state.app.routers && await getRouters();
 
     if (to.path === '/login') {
@@ -97,6 +97,8 @@ function getRouters() {
         })
         .catch((err) => {
             console.log(err);
+
+            getItemPath(StaticRouter);
         });
 }
 

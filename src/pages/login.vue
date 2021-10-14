@@ -99,8 +99,9 @@ export default {
                 },
             ],
             loginForm: {
-                username: "admin",
-                password: "111111",
+                mobile: "13489938668",
+                username: "此言很差矣",
+                password: "123456",
             },
             loginRules: {
                 username: [
@@ -136,13 +137,14 @@ export default {
                     this.loading = true;
                     this.$request({
                         method: "POST",
-                        url: "/login",
+                        url: "/user/login",
                         data: this.loginForm,
                     })
                         .then((res) => {
                             this.loading = false;
                             console.log(res);
-                            if (res.code != 200) {
+
+                            if (res.statusCode != 200) {
                                 this.$message({
                                     type: "error",
                                     message: res.message,
@@ -154,10 +156,11 @@ export default {
                                 type: "success",
                                 message: res.message,
                             });
+                            // 自定义有效期的话只能传入时间对象
                             this.$cookie.set(
                                 "authorize_access_token",
                                 res.data.token,
-                                { expires: 7 }
+                                { expires: 1 }
                             );
                             this.$router.push({
                                 name: "Dashboard",
