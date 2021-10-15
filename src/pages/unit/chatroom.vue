@@ -215,7 +215,24 @@ export default {
         }
     }
 
-    // 滚动条
+    // 自定义滚动条样式
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+    &::-webkit-scrollbar-button {
+        display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(50, 50, 50, 0.5);
+        border-radius: 5px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        cursor: pointer; // 无效（滚动条选择器中有部分属性是无效的）
+        background-color: rgba(255, 50, 50, 0.5);
+    }
+    &::-webkit-scrollbar-track {
+        background-color: rgba(200, 200, 200, 0.5);
+    }
 }
 .chat-view-b {
     .chat-item__self {

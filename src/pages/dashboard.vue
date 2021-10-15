@@ -87,13 +87,13 @@ export default {
         };
     },
     created() {
-        this.loading = this.$loading({
-            lock: true,
-            text: "Loading",
-            spinner: "el-icon-loading",
-            background: "rgba(0, 0, 0, 0.7)",
-        });
-        this.initData();
+        // this.loading = this.$loading({
+        //     lock: true,
+        //     text: "Loading",
+        //     spinner: "el-icon-loading",
+        //     background: "rgba(0, 0, 0, 0.7)",
+        // });
+        // this.initData();
     },
     methods: {
         initData() {

@@ -100,19 +100,22 @@ export default {
         },
         logout() {
             this.$request({
-                url: "/logout",
+                url: "/user/logout",
                 method: "POST",
             })
                 .then((res) => {
                     console.log(res);
-                    if (res.code != 200) {
+                    if (res.statusCode != 200) {
                         this.$message({
                             type: "error",
                             message: res.message,
                         });
                         return false;
                     }
-
+                    this.$message({
+                        type: "success",
+                        message: res.message,
+                    });
                     this.$cookie.remove("authorize_access_token");
                     this.$store.dispatch("app/setUserInfo", null);
                     this.$store.dispatch("app/setRouters", null);

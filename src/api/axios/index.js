@@ -34,15 +34,15 @@ const Request = ({
                 return false;
             }
 
-            reject(res.statusText || new Error('请求异常'));
+            if (showError) {
+                Message.error(res.statusText || '网络请求异常')
+            }
+            reject(res.statusText || new Error('网络请求异常'));
         }).catch(err => {
             if (showError) {
-                Message({
-                    type: 'error',
-                    content: JSON.stringify(err)
-                })
+                Message.error(err.response.data.message || err.response.statusText || '网络请求异常')
             }
-            reject(err);
+            reject(err.response.data);
         });
     })
 }

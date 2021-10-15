@@ -99,7 +99,7 @@ export default {
                 },
             ],
             loginForm: {
-                mobile: "13489938668",
+                mobile: "",
                 username: "此言很差矣",
                 password: "123456",
             },
@@ -166,9 +166,8 @@ export default {
                                 name: "Dashboard",
                             });
                         })
-                        .catch((err) => {
+                        .catch(() => {
                             this.loading = false;
-                            console.log(err);
                         });
                 }
             });

@@ -19,6 +19,9 @@ Axios.interceptors.response.use(
         return response;
     },
     error => {
+        // console.log(error)               // 浏览器错误信息
+        // console.log(error.response)      // Axios响应信息
+        // console.log(error.request)       // Axios请求信息
         return Promise.reject(error);
     }
 );
