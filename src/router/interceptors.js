@@ -10,7 +10,7 @@ import StaticRouter from '@/router/modules/staticRouter.js';
 // 注意 404 等系统页面需要添加到白名单上，因为只要跳转页面就会触发路由守卫，否则会进入死循环
 router.beforeEach((to, from, next) => {
     NProgress.start();
-    const isAuthorize = Cookie.get('authorize_access_token') ? true : false;
+    const isAuthorize = Cookie.get('webyi_jwt_token') ? true : false;
     // console.log('router beforeEach', isAuthorize, Store.state.app.routerPaths)
     if (isAuthorize) {
         // 已登录模式

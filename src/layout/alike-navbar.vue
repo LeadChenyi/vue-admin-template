@@ -116,7 +116,7 @@ export default {
                         type: "success",
                         message: res.message,
                     });
-                    this.$cookie.remove("authorize_access_token");
+                    this.$cookie.remove("webyi_jwt_token");
                     this.$store.dispatch("app/setUserInfo", null);
                     this.$store.dispatch("app/setRouters", null);
                     this.$router.push({

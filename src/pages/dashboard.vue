@@ -94,6 +94,7 @@ export default {
         //     background: "rgba(0, 0, 0, 0.7)",
         // });
         // this.initData();
+        // this.getUserById("6168873fef549067365c781e");    // 需要令牌
     },
     methods: {
         initData() {
@@ -125,6 +126,21 @@ export default {
             // mock data
             this.$request({
                 url: `/index/projects`,
+            })
+                .then((res) => {
+                    if (res.code != 200) {
+                        this.$message.error(res.message);
+                        return false;
+                    }
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        getUserById(id) {
+            this.$request({
+                url: `/user/${id}`,
             })
                 .then((res) => {
                     if (res.code != 200) {

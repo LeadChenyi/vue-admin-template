@@ -156,11 +156,13 @@ export default {
                                 type: "success",
                                 message: res.message,
                             });
-                            // 自定义有效期的话只能传入时间对象
+                            // 自定义有效期的话只能传入时间对象（按秒来计算）
+                            const timestamp = new Date().getTime() + 300 * 1000;
+                            const expiresInSeconds = new Date(timestamp);
                             this.$cookie.set(
-                                "authorize_access_token",
+                                "webyi_jwt_token",
                                 res.data.token,
-                                { expires: 1 }
+                                { expires: expiresInSeconds }
                             );
                             this.$router.push({
                                 name: "Dashboard",
