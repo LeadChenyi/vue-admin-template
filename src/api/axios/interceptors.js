@@ -4,7 +4,6 @@ import Cookie from 'js-cookie'
 // 请求拦截
 Axios.interceptors.request.use(
     config => {
-        console.log(Cookie.get('webyi_jwt_token'))
         // JTW规范请求头中添加令牌 Authorization: Bearer <token>
         config.headers['Authorization'] = `Bearer ${Cookie.get('webyi_jwt_token')}`;
         return config;

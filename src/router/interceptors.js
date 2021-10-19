@@ -27,12 +27,14 @@ router.afterEach(() => {
 
 async function userNextTick(to, from, next) {
     // 使用异步方式获取用户信息、动态路由数据后再放行路由拦截
-    // !Store.state.app.userInfo && await getUserInfo();
-    // !Store.state.app.routers && await getRouters();
-    if (!Store.state.app.routers) {
-        await Store.dispatch("app/setRouters", StaticRouter);
-        await getItemPath(StaticRouter);
-    }
+    !Store.state.app.userInfo && await getUserInfo();
+    !Store.state.app.routers && await getRouters();
+
+    // 直接调用静态路由
+    // if (!Store.state.app.routers) {
+    //     await Store.dispatch("app/setRouters", StaticRouter);
+    //     await getItemPath(StaticRouter);
+    // }
 
     if (to.path === '/login') {
         next({ name: 'Dashboard' })
@@ -59,7 +61,7 @@ function visitorNextTick(to, from, next) {
 // 只有return Promise对象异步调用才是有效的，否则会影响执行顺序
 function getUserInfo() {
     return Request({
-        url: "/userInfo",
+        url: "/user/6168873fef549067365c781e",
     })
         .then((res) => {
             if (res.code != 200) {
@@ -78,7 +80,7 @@ function getUserInfo() {
 
 function getRouters() {
     return Request({
-        url: "/routers",
+        url: "/menu/routers/123",
     })
         .then(async (res) => {
             if (res.code != 200) {

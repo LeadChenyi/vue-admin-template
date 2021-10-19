@@ -10,7 +10,7 @@
                                     <el-form-item>
                                         <el-input
                                             placeholder="用户名称"
-                                            v-model.trim="query.userName"
+                                            v-model.trim="query.username"
                                         ></el-input>
                                     </el-form-item>
                                     <el-form-item>
@@ -72,7 +72,7 @@
                                 element-loading-text="数据加载中..."
                             >
                                 <el-table-column
-                                    prop="userName"
+                                    prop="username"
                                     label="用户名称"
                                 ></el-table-column>
                                 <el-table-column label="是否禁用">
@@ -90,7 +90,7 @@
                                             type="text"
                                             size="small"
                                             v-permission="['user:list:update']"
-                                            @click="handleEditor(scope.row.id)"
+                                            @click="handleEditor(scope.row._id)"
                                         >
                                             编辑
                                         </el-button>
@@ -98,7 +98,7 @@
                                             type="text"
                                             size="small"
                                             v-permission="['user:list:delete']"
-                                            @click="handleDelete(scope.row.id)"
+                                            @click="handleDelete(scope.row._id)"
                                         >
                                             删除
                                         </el-button>
@@ -132,7 +132,7 @@
             <el-form :model="form" ref="form" label-width="100px">
                 <el-form-item label="用户名称">
                     <el-input
-                        v-model="form.userName"
+                        v-model="form.username"
                         placeholder="请输入用户名称"
                     />
                 </el-form-item>
@@ -182,13 +182,13 @@ export default {
                 daterange: [],
                 startDate: "",
                 endDate: "",
-                userName: "",
+                username: "",
                 status: "all",
                 currentPage: 1,
                 pageSize: 10,
             },
             form: {
-                userName: "",
+                username: "",
                 status: false,
                 roleIds: [],
             },
@@ -233,7 +233,7 @@ export default {
     },
     async created() {
         await this.initData();
-        await this.getDataRole();
+        // await this.getDataRole();
     },
     methods: {
         changeDate(date) {
@@ -262,8 +262,15 @@ export default {
         initData() {
             this.isLoadingTable = true;
             this.$request({
-                url: "/users",
-                params: this.query,
+                url: "/user",
+                params: {
+                    username: this.query.username,
+                    start_at: this.query.startDate,
+                    end_at: this.query.endDate,
+                    page: this.query.currentPage,
+                    size: this.query.pageSize,
+                    status: this.query.status,
+                },
             })
                 .then((res) => {
                     console.log(res);
@@ -273,7 +280,7 @@ export default {
                     }
 
                     this.users = res.data;
-                    this.total = res.total;
+                    this.total = res.count;
                 })
                 .finally(() => {
                     this.isLoadingTable = false;
@@ -289,7 +296,7 @@ export default {
             })
                 .then((_) => {
                     this.$request({
-                        url: `/update/status/${row.id}`,
+                        url: `/user/status/${row._id}`,
                         method: "PUT",
                     })
                         .then((res) => {
@@ -322,6 +329,7 @@ export default {
             this.isEdit = true;
             this.$request({
                 url: `/user/${id}`,
+                method: "GET",
             })
                 .then((res) => {
                     console.log(res);
@@ -344,7 +352,7 @@ export default {
             })
                 .then((_) => {
                     this.$request({
-                        url: `/delete/${id}`,
+                        url: `/user/${id}`,
                         method: "DELETE",
                     })
                         .then((res) => {
@@ -363,7 +371,7 @@ export default {
                 .catch((_) => {});
         },
         submit() {
-            let url = this.isEdit ? `/update/${this.form.id}` : "/create";
+            let url = this.isEdit ? `/user/${this.form.id}` : "/user/register";
             let method = this.isEdit ? "PUT" : "POST";
             this.isLoadingSubmit = true;
             this.$request({
@@ -390,12 +398,12 @@ export default {
         },
         cancel() {
             this.showDialog = false;
-            this.form.userName = "";
+            this.form.username = "";
             this.form.status = false;
         },
         getDataRole() {
             this.$request({
-                url: "/roles",
+                url: "/user/role",
             })
                 .then((res) => {
                     console.log("getDataRole", res);

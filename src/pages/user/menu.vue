@@ -102,7 +102,7 @@
                                             v-permission="['user:menu:update']"
                                             type="text"
                                             size="small"
-                                            @click="handleEditor(scope.row.id)"
+                                            @click="handleEditor(scope.row._id)"
                                         >
                                             编辑
                                         </el-button>
@@ -110,7 +110,7 @@
                                             v-permission="['user:menu:delete']"
                                             type="text"
                                             size="small"
-                                            @click="handleDelete(scope.row.id)"
+                                            @click="handleDelete(scope.row._id)"
                                         >
                                             删除
                                         </el-button>
@@ -313,8 +313,14 @@ export default {
         initData() {
             this.isLoadingTable = true;
             this.$request({
-                url: "/menus",
-                params: this.query,
+                url: "/menu",
+                params: {
+                    start_at: this.query.startDate,
+                    end_at: this.query.endDate,
+                    page: this.query.currentPage,
+                    size: this.query.pageSize,
+                    status: this.query.status,
+                },
             })
                 .then((res) => {
                     console.log(res);
@@ -324,7 +330,7 @@ export default {
                     }
 
                     this.menus = res.data;
-                    this.total = res.total;
+                    this.total = res.count;
                 })
                 .finally(() => {
                     this.isLoadingTable = false;
@@ -340,7 +346,7 @@ export default {
             })
                 .then((_) => {
                     this.$request({
-                        url: `/update/status/${row.id}`,
+                        url: `/update/status/${row._id}`,
                         method: "PUT",
                     })
                         .then((res) => {
@@ -373,6 +379,7 @@ export default {
             this.isEdit = true;
             this.$request({
                 url: `/menu/${id}`,
+                method: "GET",
             })
                 .then((res) => {
                     console.log(res);
@@ -395,7 +402,7 @@ export default {
             })
                 .then((_) => {
                     this.$request({
-                        url: `/delete/${id}`,
+                        url: `/menu/${id}`,
                         method: "DELETE",
                     })
                         .then((res) => {
@@ -414,7 +421,7 @@ export default {
                 .catch((_) => {});
         },
         submit() {
-            let url = this.isEdit ? `/update/${this.form.id}` : "/create";
+            let url = this.isEdit ? `/menu/${this.form.id}` : "/menu/create";
             let method = this.isEdit ? "PUT" : "POST";
             this.isLoadingSubmit = true;
             this.$request({
