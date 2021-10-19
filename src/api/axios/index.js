@@ -30,6 +30,7 @@ const Request = ({
             responseType
         }).then(res => {
             if (res.status >= 200 && res.status <= 204) {
+                console.log('请求响应：', res.data);
                 resolve(res.data);
                 return false;
             }

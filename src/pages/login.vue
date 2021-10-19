@@ -142,7 +142,6 @@ export default {
                     })
                         .then((res) => {
                             this.loading = false;
-                            console.log(res);
 
                             if (res.statusCode != 200) {
                                 this.$message({

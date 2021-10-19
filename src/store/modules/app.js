@@ -7,7 +7,7 @@ export default {
         userInfo: null,                     // 用户信息
         routers: null,                      // 存放全路由（动态路由+静态路由）
         routerPaths: [],                    // 存放全路由的路径（动态路由+静态路由）
-        enums: {},                          // 枚举
+        enums: null,                          // 枚举
         tags: null,                         // 标签页
     },
     getters: {

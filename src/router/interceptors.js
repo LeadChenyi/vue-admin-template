@@ -26,9 +26,10 @@ router.afterEach(() => {
 })
 
 async function userNextTick(to, from, next) {
-    // 使用异步方式获取用户信息、动态路由数据后再放行路由拦截
+    // 使用异步方式获取用户信息、动态路由、枚举数据后再放行拦截
     !Store.state.app.userInfo && await getUserInfo();
     !Store.state.app.routers && await getRouters();
+    !Store.state.app.enums && await getEnums();
 
     // 直接调用静态路由
     // if (!Store.state.app.routers) {
@@ -114,4 +115,23 @@ function getItemPath(routers) {
             getItemPath(routers[i].children);
         }
     }
+}
+
+function getEnums() {
+    return Request({
+        url: "/getEnums",
+    })
+        .then((res) => {
+            if (res.code != 200) {
+                Message({
+                    type: "error",
+                    message: res.message,
+                });
+                return false;
+            }
+            Store.dispatch("app/setEnums", res.data);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }
