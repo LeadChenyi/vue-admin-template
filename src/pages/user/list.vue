@@ -371,7 +371,7 @@ export default {
                 .catch((_) => {});
         },
         submit() {
-            let url = this.isEdit ? `/user/${this.form.id}` : "/user/register";
+            let url = this.isEdit ? `/user/${this.form._id}` : "/user/register";
             let method = this.isEdit ? "PUT" : "POST";
             this.isLoadingSubmit = true;
             this.$request({

@@ -398,7 +398,7 @@ export default {
                 .catch((_) => {});
         },
         submit() {
-            let url = this.isEdit ? `/role/${this.form.id}` : "/role/create";
+            let url = this.isEdit ? `/role/${this.form._id}` : "/role/create";
             let method = this.isEdit ? "PUT" : "POST";
             this.isLoadingSubmit = true;
             this.$request({

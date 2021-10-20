@@ -9,11 +9,11 @@
                                 <div>
                                     <el-form-item>
                                         <el-input
-                                            placeholder="菜单名称"
-                                            v-model.trim="query.menuName"
+                                            placeholder="菜单标题"
+                                            v-model.trim="query.title"
                                         ></el-input>
                                     </el-form-item>
-                                    <!-- <el-form-item>
+                                    <el-form-item>
                                         <el-select
                                             v-model="query.status"
                                             placeholder="状态"
@@ -31,7 +31,7 @@
                                                 :value="false"
                                             ></el-option>
                                         </el-select>
-                                    </el-form-item> -->
+                                    </el-form-item>
                                     <el-form-item>
                                         <el-date-picker
                                             v-model="query.daterange"
@@ -72,22 +72,22 @@
                                 element-loading-text="数据加载中..."
                             >
                                 <el-table-column
-                                    prop="menuName"
-                                    label="菜单名称"
-                                ></el-table-column>
-                                <el-table-column
-                                    prop="menuCode"
-                                    label="权限字符"
+                                    prop="title"
+                                    label="菜单标题"
                                 ></el-table-column>
                                 <el-table-column
                                     prop="type"
                                     label="菜单类型"
                                 ></el-table-column>
                                 <el-table-column
-                                    prop="parentId"
+                                    prop="char"
+                                    label="权限字符"
+                                ></el-table-column>
+                                <el-table-column
+                                    prop="parent_id"
                                     label="上级目录"
                                 ></el-table-column>
-                                <!-- <el-table-column label="是否禁用">
+                                <el-table-column label="是否禁用">
                                     <template slot-scope="scope">
                                         <el-switch
                                             v-model="scope.row.status"
@@ -95,7 +95,7 @@
                                             @change="changeStatus(scope.row)"
                                         ></el-switch>
                                     </template>
-                                </el-table-column> -->
+                                </el-table-column>
                                 <el-table-column label="操作">
                                     <template slot-scope="scope">
                                         <el-button
@@ -145,28 +145,22 @@
                 <el-form-item label="上级目录">
                     <el-cascader
                         clearable
-                        placeholder="请输入上级目录"
-                        v-model="form.menuCode"
+                        placeholder="请选择上级目录"
+                        v-model="form.parent_id"
                         :options="menuOptions"
                         :props="{
                             checkStrictly: true,
-                            label: 'menuName',
-                            value: 'menuCode',
+                            label: 'title',
+                            value: '_id',
                         }"
                         :show-all-levels="false"
                         @change="changeCascader"
                     ></el-cascader>
                 </el-form-item>
-                <el-form-item label="菜单名称">
+                <el-form-item label="菜单标题">
                     <el-input
-                        v-model="form.menuName"
-                        placeholder="请输入菜单名称"
-                    />
-                </el-form-item>
-                <el-form-item label="权限字符">
-                    <el-input
-                        v-model="form.menuCode"
-                        placeholder="请输入权限字符"
+                        v-model="form.title"
+                        placeholder="请输入菜单标题"
                     />
                 </el-form-item>
                 <el-form-item label="菜单类型">
@@ -179,10 +173,24 @@
                         >
                     </el-radio-group>
                 </el-form-item>
-
-                <!-- <el-form-item label="是否禁用">
+                <el-form-item label="权限字符">
+                    <el-input
+                        v-model="form.char"
+                        placeholder="请输入权限字符"
+                    />
+                </el-form-item>
+                <el-form-item label="菜单排序">
+                    <el-input
+                        v-model="form.sort"
+                        placeholder="请输入菜单排序，值越大越靠前，默认为0"
+                    />
+                </el-form-item>
+                <el-form-item label="是否隐藏">
+                    <el-switch v-model="form.hidden" :width="50"></el-switch>
+                </el-form-item>
+                <el-form-item label="是否禁用">
                     <el-switch v-model="form.status" :width="50"></el-switch>
-                </el-form-item> -->
+                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="cancel">取 消</el-button>
@@ -211,25 +219,23 @@ export default {
             isLoadingSearch: false,
             isLoadingTable: false,
             isLoadingSubmit: false,
-            menuTypeEnums: {
-                CATALOG: "目录",
-                PAGE: "页面",
-                HANDLE: "操作",
-            },
+            menuTypeEnums: null,
             query: {
                 daterange: [],
                 startDate: "",
                 endDate: "",
-                menuName: "",
+                title: "",
                 status: "all",
                 currentPage: 1,
                 pageSize: 10,
             },
             form: {
-                menuName: "",
-                menuCode: "",
-                type: "CATALOG",
-                parentId: 0,
+                title: "",
+                type: "catalog",
+                char: "",
+                parent_id: 0,
+                sort: 0,
+                hidden: false,
                 status: false,
             },
             pickerOptions: {
@@ -272,6 +278,7 @@ export default {
         };
     },
     created() {
+        this.menuTypeEnums = this.$store.getters["app/getEnums"].MenuName;
         this.initData();
     },
     computed: {
@@ -323,7 +330,6 @@ export default {
                 },
             })
                 .then((res) => {
-                    console.log(res);
                     if (res.code != 200) {
                         this.$message.error(res.message);
                         return false;
@@ -346,7 +352,7 @@ export default {
             })
                 .then((_) => {
                     this.$request({
-                        url: `/update/status/${row._id}`,
+                        url: `/menu/status/${row._id}`,
                         method: "PUT",
                     })
                         .then((res) => {
@@ -382,7 +388,6 @@ export default {
                 method: "GET",
             })
                 .then((res) => {
-                    console.log(res);
                     this.showDialog = true;
                     loading.close();
 
@@ -421,9 +426,11 @@ export default {
                 .catch((_) => {});
         },
         submit() {
-            let url = this.isEdit ? `/menu/${this.form.id}` : "/menu/create";
+            let url = this.isEdit ? `/menu/${this.form._id}` : "/menu/create";
             let method = this.isEdit ? "PUT" : "POST";
             this.isLoadingSubmit = true;
+            console.log(this.form);
+
             this.$request({
                 url,
                 method,
@@ -448,19 +455,21 @@ export default {
         },
         cancel() {
             this.showDialog = false;
-            this.form.menuName = "";
-            this.form.menuCode = "";
-            this.form.type = "CATALOG";
-            this.form.parentId = 0;
+            this.form.title = "";
+            this.form.type = "catalog";
+            this.form.char = "";
+            this.form.parent_id = 0;
+            this.form.sort = 0;
+            this.form.hidden = false;
             this.form.status = false;
         },
-        changeCascader(details) {
-            this.form.menuCode = details[details.length - 1];
+        changeCascader(ids) {
+            this.form.parent_id = ids.length ? ids[ids.length - 1] : "0";
         },
         lavalGroup(item, tree) {
             let children = [];
             tree.forEach((child) => {
-                if (item.id == child.parentId) {
+                if (item._id == child.parent_id) {
                     this.lavalGroup(child, tree);
                     children.push(child);
                 }
@@ -478,7 +487,7 @@ export default {
                 if (newVal && newVal != oldVal) {
                     this.menuOptions = [];
                     newVal.forEach((item) => {
-                        if (item.parentId == 0 || item.parentId == null) {
+                        if (item.parent_id == 0 || item.parent_id == null) {
                             this.menuOptions.push(
                                 this.lavalGroup(item, newVal)
                             );
