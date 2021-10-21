@@ -62,7 +62,7 @@ function visitorNextTick(to, from, next) {
 // 只有return Promise对象异步调用才是有效的，否则会影响执行顺序
 function getUserInfo() {
     return Request({
-        url: "/user/6168873fef549067365c781e",
+        url: "/user/permissions/6168873fef549067365c781e",
     })
         .then((res) => {
             if (res.code != 200) {

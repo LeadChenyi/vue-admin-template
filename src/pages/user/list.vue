@@ -138,14 +138,14 @@
                     />
                 </el-form-item>
                 <el-form-item label="分配角色">
-                    <el-checkbox-group v-model="form.role_ids">
-                        <el-checkbox
+                    <el-radio-group v-model="form.role_id">
+                        <el-radio
                             :label="item._id"
                             v-for="(item, index) in roles"
                             :key="index"
-                            >{{ item.name }}</el-checkbox
+                            >{{ item.name }}</el-radio
                         >
-                    </el-checkbox-group>
+                    </el-radio-group>
                 </el-form-item>
 
                 <el-form-item label="是否禁用">
@@ -190,8 +190,9 @@ export default {
             },
             form: {
                 username: "",
-                status: false,
+                role_id: "",
                 role_ids: [],
+                status: false,
             },
             pickerOptions: {
                 shortcuts: [
@@ -404,6 +405,8 @@ export default {
         cancel() {
             this.showDialog = false;
             this.form.username = "";
+            this.form.role_id = "";
+            this.form.role_ids = [];
             this.form.status = false;
         },
         getDataRole() {

@@ -156,8 +156,8 @@
                         :data="tree"
                         show-checkbox
                         accordion
-                        node-key="char"
-                        :props="{ label: 'title', value: 'char' }"
+                        node-key="_id"
+                        :props="{ label: 'title', value: '_id' }"
                         @check="checkTree"
                     ></el-tree>
                 </el-form-item>
@@ -212,6 +212,7 @@ export default {
                 name: "",
                 char: "",
                 menu_ids: [],
+                menu_ids_all: [],
                 status: false,
                 remark: "",
             },
@@ -428,6 +429,7 @@ export default {
             this.form.name = "";
             this.form.char = "";
             this.form.menu_ids = [];
+            this.form.menu_ids_all = [];
             this.form.status = false;
             this.form.remark = "";
             this.$refs.queryTree.setCheckedKeys(this.form.menu_ids);
@@ -460,9 +462,13 @@ export default {
                 .catch((_) => {});
         },
         checkTree(current, tree) {
-            console.log("current checked status", current);
+            // console.log("current checked status", current);
             console.log("tree checked status", tree);
             this.form.menu_ids = [...tree.checkedKeys];
+            this.form.menu_ids_all = [
+                ...tree.halfCheckedKeys,
+                ...tree.checkedKeys,
+            ];
         },
     },
 };
