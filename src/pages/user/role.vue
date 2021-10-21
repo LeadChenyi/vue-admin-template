@@ -10,7 +10,7 @@
                                     <el-form-item>
                                         <el-input
                                             placeholder="角色名称"
-                                            v-model.trim="query.roleName"
+                                            v-model.trim="query.name"
                                         ></el-input>
                                     </el-form-item>
                                     <el-form-item>
@@ -23,12 +23,12 @@
                                                 value="all"
                                             ></el-option>
                                             <el-option
-                                                label="启用"
-                                                :value="true"
+                                                label="未禁用"
+                                                :value="false"
                                             ></el-option>
                                             <el-option
-                                                label="禁用"
-                                                :value="false"
+                                                label="已禁用"
+                                                :value="true"
                                             ></el-option>
                                         </el-select>
                                     </el-form-item>
@@ -72,11 +72,11 @@
                                 element-loading-text="数据加载中..."
                             >
                                 <el-table-column
-                                    prop="roleName"
+                                    prop="name"
                                     label="角色名称"
                                 ></el-table-column>
                                 <el-table-column
-                                    prop="roleCode"
+                                    prop="char"
                                     label="权限字符"
                                 ></el-table-column>
                                 <el-table-column label="是否禁用">
@@ -140,13 +140,13 @@
             <el-form :model="form" ref="form" label-width="100px">
                 <el-form-item label="角色名称">
                     <el-input
-                        v-model="form.roleName"
+                        v-model="form.name"
                         placeholder="请输入角色名称"
                     />
                 </el-form-item>
                 <el-form-item label="权限字符">
                     <el-input
-                        v-model="form.roleCode"
+                        v-model="form.char"
                         placeholder="请输入角色权限字符"
                     />
                 </el-form-item>
@@ -156,8 +156,8 @@
                         :data="tree"
                         show-checkbox
                         accordion
-                        node-key="menuCode"
-                        :props="{ label: 'menuName', value: 'menuCode' }"
+                        node-key="char"
+                        :props="{ label: 'title', value: 'char' }"
                         @check="checkTree"
                     ></el-tree>
                 </el-form-item>
@@ -203,15 +203,15 @@ export default {
                 daterange: [],
                 startDate: "",
                 endDate: "",
-                roleName: "",
+                name: "",
                 status: "all",
                 currentPage: 1,
                 pageSize: 10,
             },
             form: {
-                roleName: "",
-                roleCode: "",
-                menuCodekeys: [],
+                name: "",
+                char: "",
+                menu_ids: [],
                 status: false,
                 remark: "",
             },
@@ -256,7 +256,7 @@ export default {
     },
     async created() {
         await this.initData();
-        // await this.getTree();
+        await this.getTree();
     },
     methods: {
         changeDate(date) {
@@ -287,6 +287,7 @@ export default {
             this.$request({
                 url: "/role",
                 params: {
+                    name: this.query.name,
                     start_at: this.query.startDate,
                     end_at: this.query.endDate,
                     page: this.query.currentPage,
@@ -295,7 +296,6 @@ export default {
                 },
             })
                 .then((res) => {
-                    console.log(res);
                     if (res.code != 200) {
                         this.$message.error(res.message);
                         return false;
@@ -364,9 +364,7 @@ export default {
                     }
                     Object.assign(this.form, res.data);
                     this.$nextTick(() => {
-                        this.$refs.queryTree.setCheckedKeys(
-                            this.form.menuCodekeys
-                        );
+                        this.$refs.queryTree.setCheckedKeys(this.form.menu_ids);
                     });
                 })
                 .catch((err) => {
@@ -401,13 +399,15 @@ export default {
             let url = this.isEdit ? `/role/${this.form._id}` : "/role/create";
             let method = this.isEdit ? "PUT" : "POST";
             this.isLoadingSubmit = true;
+            if (this.form._id) {
+                delete this.form._id;
+            }
             this.$request({
                 url,
                 method,
                 data: this.form,
             })
                 .then((res) => {
-                    console.log(res);
                     this.isLoadingSubmit = false;
                     if (res.code != 200) {
                         this.$message.error(res.message);
@@ -425,17 +425,17 @@ export default {
         },
         cancel() {
             this.showDialog = false;
-            this.form.roleName = "";
-            this.form.roleCode = "";
-            this.form.menuCodekeys = [];
+            this.form.name = "";
+            this.form.char = "";
+            this.form.menu_ids = [];
             this.form.status = false;
             this.form.remark = "";
-            this.$refs.queryTree.setCheckedKeys(this.form.menuCodekeys);
+            this.$refs.queryTree.setCheckedKeys(this.form.menu_ids);
         },
         lavalGroup(item, tree) {
             let children = [];
             tree.forEach((child) => {
-                if (item.id == child.parentId) {
+                if (item._id == child.parent_id) {
                     this.lavalGroup(child, tree);
                     children.push(child);
                 }
@@ -447,11 +447,11 @@ export default {
         },
         getTree() {
             this.$request({
-                url: "/menus",
+                url: "/menu/permissions/all",
             })
                 .then((res) => {
                     res.data.forEach((item) => {
-                        if (item.parentId == 0 || item.parentId == null) {
+                        if (item.parent_id == 0 || item.parent_id == null) {
                             this.tree.push(this.lavalGroup(item, res.data));
                         }
                     });
@@ -462,7 +462,7 @@ export default {
         checkTree(current, tree) {
             console.log("current checked status", current);
             console.log("tree checked status", tree);
-            this.form.menuCodekeys = tree.checkedKeys;
+            this.form.menu_ids = [...tree.checkedKeys];
         },
     },
 };
