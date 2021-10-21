@@ -134,15 +134,16 @@
                     <el-input
                         v-model="form.username"
                         placeholder="请输入用户名称"
+                        :disabled="isEdit ? true : false"
                     />
                 </el-form-item>
                 <el-form-item label="分配角色">
-                    <el-checkbox-group v-model="form.roleIds">
+                    <el-checkbox-group v-model="form.role_ids">
                         <el-checkbox
-                            :label="item.id"
+                            :label="item._id"
                             v-for="(item, index) in roles"
                             :key="index"
-                            >{{ item.roleName }}</el-checkbox
+                            >{{ item.name }}</el-checkbox
                         >
                     </el-checkbox-group>
                 </el-form-item>
@@ -190,7 +191,7 @@ export default {
             form: {
                 username: "",
                 status: false,
-                roleIds: [],
+                role_ids: [],
             },
             pickerOptions: {
                 shortcuts: [
@@ -233,7 +234,7 @@ export default {
     },
     async created() {
         await this.initData();
-        // await this.getDataRole();
+        await this.getDataRole();
     },
     methods: {
         changeDate(date) {
@@ -374,6 +375,10 @@ export default {
             let url = this.isEdit ? `/user/${this.form._id}` : "/user/register";
             let method = this.isEdit ? "PUT" : "POST";
             this.isLoadingSubmit = true;
+            if (this.form._id) {
+                delete this.form._id;
+                delete this.form.username;
+            }
             this.$request({
                 url,
                 method,
@@ -403,7 +408,7 @@ export default {
         },
         getDataRole() {
             this.$request({
-                url: "/user/role",
+                url: "/role",
             })
                 .then((res) => {
                     console.log("getDataRole", res);
@@ -415,13 +420,6 @@ export default {
                     this.roles = res.data;
                 })
                 .catch((_) => {});
-        },
-    },
-    watch: {
-        showDialog(newVal, oldVal) {
-            if (newVal && newVal != oldVal) {
-                // this.getDataRole();
-            }
         },
     },
 };
