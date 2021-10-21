@@ -23,12 +23,12 @@
                                                 value="all"
                                             ></el-option>
                                             <el-option
-                                                label="启用"
-                                                :value="true"
+                                                label="未禁用"
+                                                :value="false"
                                             ></el-option>
                                             <el-option
-                                                label="禁用"
-                                                :value="false"
+                                                label="已禁用"
+                                                :value="true"
                                             ></el-option>
                                         </el-select>
                                     </el-form-item>
@@ -322,11 +322,12 @@ export default {
             this.$request({
                 url: "/menu",
                 params: {
+                    title: this.query.title,
+                    status: this.query.status,
                     start_at: this.query.startDate,
                     end_at: this.query.endDate,
                     page: this.query.currentPage,
                     size: this.query.pageSize,
-                    status: this.query.status,
                 },
             })
                 .then((res) => {
@@ -429,6 +430,9 @@ export default {
             let url = this.isEdit ? `/menu/${this.form._id}` : "/menu/create";
             let method = this.isEdit ? "PUT" : "POST";
             this.isLoadingSubmit = true;
+            if (this.form._id) {
+                delete this.form._id;
+            }
             console.log(this.form);
 
             this.$request({
