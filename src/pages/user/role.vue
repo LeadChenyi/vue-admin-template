@@ -54,7 +54,7 @@
                                         >搜索</el-button
                                     >
                                     <el-button
-                                        v-permission="['user:role:create']"
+                                        v-permission="['role:handle:create']"
                                         type="primary"
                                         icon="el-icon-document-add"
                                         @click="handleCreate"
@@ -95,7 +95,9 @@
                                 <el-table-column label="操作">
                                     <template slot-scope="scope">
                                         <el-button
-                                            v-permission="['user:role:update']"
+                                            v-permission="[
+                                                'role:handle:update',
+                                            ]"
                                             type="text"
                                             size="small"
                                             @click="handleEditor(scope.row._id)"
@@ -103,7 +105,9 @@
                                             编辑
                                         </el-button>
                                         <el-button
-                                            v-permission="['user:role:delete']"
+                                            v-permission="[
+                                                'role:handle:delete',
+                                            ]"
                                             type="text"
                                             size="small"
                                             @click="handleDelete(scope.row._id)"

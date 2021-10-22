@@ -23,12 +23,12 @@
                                                 value="all"
                                             ></el-option>
                                             <el-option
-                                                label="启用"
-                                                :value="true"
+                                                label="未禁用"
+                                                :value="false"
                                             ></el-option>
                                             <el-option
-                                                label="禁用"
-                                                :value="false"
+                                                label="已禁用"
+                                                :value="true"
                                             ></el-option>
                                         </el-select>
                                     </el-form-item>
@@ -54,7 +54,7 @@
                                         >搜索</el-button
                                     >
                                     <el-button
-                                        v-permission="['user:list:create']"
+                                        v-permission="['user:handle:create']"
                                         type="primary"
                                         icon="el-icon-document-add"
                                         @click="handleCreate"
@@ -89,7 +89,9 @@
                                         <el-button
                                             type="text"
                                             size="small"
-                                            v-permission="['user:list:update']"
+                                            v-permission="[
+                                                'user:handle:update',
+                                            ]"
                                             @click="handleEditor(scope.row._id)"
                                         >
                                             编辑
@@ -97,7 +99,9 @@
                                         <el-button
                                             type="text"
                                             size="small"
-                                            v-permission="['user:list:delete']"
+                                            v-permission="[
+                                                'user:handle:delete',
+                                            ]"
                                             @click="handleDelete(scope.row._id)"
                                         >
                                             删除

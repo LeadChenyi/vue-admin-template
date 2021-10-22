@@ -54,7 +54,7 @@
                                         >搜索</el-button
                                     >
                                     <el-button
-                                        v-permission="['user:menu:create']"
+                                        v-permission="['menu:handle:create']"
                                         type="primary"
                                         icon="el-icon-document-add"
                                         @click="handleCreate"
@@ -99,7 +99,9 @@
                                 <el-table-column label="操作">
                                     <template slot-scope="scope">
                                         <el-button
-                                            v-permission="['user:menu:update']"
+                                            v-permission="[
+                                                'menu:handle:update',
+                                            ]"
                                             type="text"
                                             size="small"
                                             @click="handleEditor(scope.row._id)"
@@ -107,7 +109,9 @@
                                             编辑
                                         </el-button>
                                         <el-button
-                                            v-permission="['user:menu:delete']"
+                                            v-permission="[
+                                                'menu:handle:delete',
+                                            ]"
                                             type="text"
                                             size="small"
                                             @click="handleDelete(scope.row._id)"
@@ -173,10 +177,22 @@
                         >
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item label="菜单路径">
+                    <el-input
+                        v-model="form.path"
+                        placeholder="请输入菜单路径"
+                    />
+                </el-form-item>
                 <el-form-item label="权限字符">
                     <el-input
                         v-model="form.char"
                         placeholder="请输入权限字符"
+                    />
+                </el-form-item>
+                <el-form-item label="菜单图标">
+                    <el-input
+                        v-model="form.icon"
+                        placeholder="请输入菜单图标"
                     />
                 </el-form-item>
                 <el-form-item label="菜单排序">
@@ -232,8 +248,10 @@ export default {
             form: {
                 title: "",
                 type: "catalog",
+                path: "",
                 char: "",
                 parent_id: 0,
+                icon: "",
                 sort: 0,
                 hidden: false,
                 status: false,
@@ -461,8 +479,10 @@ export default {
             this.showDialog = false;
             this.form.title = "";
             this.form.type = "catalog";
+            this.form.path = "";
             this.form.char = "";
             this.form.parent_id = 0;
+            this.form.icon = "";
             this.form.sort = 0;
             this.form.hidden = false;
             this.form.status = false;

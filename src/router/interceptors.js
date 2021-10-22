@@ -27,15 +27,12 @@ router.afterEach(() => {
 
 async function userNextTick(to, from, next) {
     // 使用异步方式获取用户信息、动态路由、枚举数据后再放行拦截
-    !Store.state.app.userInfo && await getUserInfo();
-    !Store.state.app.routers && await getRouters();
+    // !Store.state.app.userInfo && await getUserInfo();
+    // !Store.state.app.routers && await getRouters();
+    !Store.state.app.enums && await getPassport();
     !Store.state.app.enums && await getEnums();
 
-    // 直接调用静态路由
-    // if (!Store.state.app.routers) {
-    //     await Store.dispatch("app/setRouters", StaticRouter);
-    //     await getItemPath(StaticRouter);
-    // }
+
 
     if (to.path === '/login') {
         next({ name: 'Dashboard' })
@@ -59,7 +56,6 @@ function visitorNextTick(to, from, next) {
     }
 }
 
-// 只有return Promise对象异步调用才是有效的，否则会影响执行顺序
 function getUserInfo() {
     return Request({
         url: "/user/permissions/6168873fef549067365c781e",
@@ -100,21 +96,52 @@ function getRouters() {
             Store.dispatch("app/setRouters", fullRouters);
 
             // 全路由路径
-            getItemPath(fullRouters);
+            setRouterPaths(fullRouters);
         })
         .catch((err) => {
             console.log(err);
         });
 }
 
-// 同步执行
-function getItemPath(routers) {
+function setRouterPaths(routers) {
     for (let i = 0; i < routers.length; i++) {
         Store.dispatch("app/setRouterPaths", routers[i].path);
         if (routers[i].children) {
-            getItemPath(routers[i].children);
+            setRouterPaths(routers[i].children);
         }
     }
+}
+
+function getPassport() {
+    return Request({
+        url: "/user/passport/6168873fef549067365c781e",
+    })
+        .then((res) => {
+            if (res.code != 200) {
+                Message({
+                    type: "error",
+                    message: res.message,
+                });
+                return false;
+            }
+
+            const { routers, ...infos } = res.data;
+            // 全路由
+            const fullRouters = [...routers, ...StaticRouter]
+            fullRouters.sort((a, b) => {
+                return b.meta['sort'] - a.meta['sort']
+            });
+            Store.dispatch("app/setRouters", fullRouters);
+
+            // 全路由路径
+            setRouterPaths(fullRouters);
+
+            // 用户信息
+            Store.dispatch("app/setUserInfo", infos);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 }
 
 function getEnums() {
