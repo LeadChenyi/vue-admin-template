@@ -27,12 +27,8 @@ router.afterEach(() => {
 
 async function userNextTick(to, from, next) {
     // 使用异步方式获取用户信息、动态路由、枚举数据后再放行拦截
-    // !Store.state.app.userInfo && await getUserInfo();
-    // !Store.state.app.routers && await getRouters();
     !Store.state.app.enums && await getPassport();
     !Store.state.app.enums && await getEnums();
-
-
 
     if (to.path === '/login') {
         next({ name: 'Dashboard' })
@@ -56,53 +52,6 @@ function visitorNextTick(to, from, next) {
     }
 }
 
-function getUserInfo() {
-    return Request({
-        url: "/user/permissions/6168873fef549067365c781e",
-    })
-        .then((res) => {
-            if (res.code != 200) {
-                Message({
-                    type: "error",
-                    message: res.message,
-                });
-                return false;
-            }
-            Store.dispatch("app/setUserInfo", res.data);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-}
-
-function getRouters() {
-    return Request({
-        url: "/menu/routers/123",
-    })
-        .then(async (res) => {
-            if (res.code != 200) {
-                Message({
-                    type: "error",
-                    message: res.message,
-                });
-                return false;
-            }
-
-            // 全路由
-            const fullRouters = [...res.data, ...StaticRouter]
-            fullRouters.sort((a, b) => {
-                return b.meta['sort'] - a.meta['sort']
-            });
-            Store.dispatch("app/setRouters", fullRouters);
-
-            // 全路由路径
-            setRouterPaths(fullRouters);
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-}
-
 function setRouterPaths(routers) {
     for (let i = 0; i < routers.length; i++) {
         Store.dispatch("app/setRouterPaths", routers[i].path);
@@ -114,7 +63,7 @@ function setRouterPaths(routers) {
 
 function getPassport() {
     return Request({
-        url: "/user/passport/6168873fef549067365c781e",
+        url: "/user/passport/auth",
     })
         .then((res) => {
             if (res.code != 200) {
