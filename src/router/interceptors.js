@@ -27,7 +27,7 @@ router.afterEach(() => {
 
 async function userNextTick(to, from, next) {
     // 使用异步方式获取用户信息、动态路由、枚举数据后再放行拦截
-    !Store.state.app.enums && await getPassport();
+    !Store.state.app.routers && await getPassport();
     !Store.state.app.enums && await getEnums();
 
     if (to.path === '/login') {

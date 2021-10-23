@@ -39,7 +39,10 @@
             <div class="alike-navbar-user-wrap">
                 <img
                     class="alike-navbar-user-avatar"
-                    :src="getUserInfo && getUserInfo.avatar"
+                    :src="
+                        getUserInfo.avatar ||
+                        'http://source.webyi.top/webyi_app_1634974720118.png'
+                    "
                 />
                 <i class="el-icon-caret-bottom" />
             </div>
