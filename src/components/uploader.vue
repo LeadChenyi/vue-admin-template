@@ -5,11 +5,14 @@
         @click="chooseFile"
         v-drag-upload
     >
-        <div class="alike-uploader__preview" v-if="file">
+        <div
+            class="alike-uploader__preview"
+            v-if="file && types.includes('image/png')"
+        >
             <img
                 class="alike-uploader__preview-image"
-                src=""
-                alt="成功上传文件"
+                :src="file"
+                alt="上传文件"
             />
             <div class="alike-uploader__preview-mask">
                 <span
@@ -27,6 +30,7 @@
             class="alike-uploader__input"
             ref="uploaderFinder"
             type="file"
+            name="file"
             @change="changeFile"
         />
     </div>

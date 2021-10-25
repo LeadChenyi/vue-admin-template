@@ -55,16 +55,16 @@
                 >{{ $t("login.buttonText") }}</el-button
             >
 
-            <div class="login-form-tips">
+            <!-- <div class="login-form-tips">
                 {{ $t("login.tips") }}
-            </div>
+            </div> -->
         </el-form>
 
         <div class="select-language">
             <span>{{ $t("login.language") }}：</span>
             <el-dropdown trigger="click" @command="changeLanguage">
                 <span class="el-dropdown-link">
-                    {{ language }}
+                    {{ languageLabel === "Chinese" ? "中文" : languageLabel }}
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
@@ -85,16 +85,14 @@ export default {
     name: "Login",
     data() {
         return {
-            language: "Chinese",
+            languageLabel: "Chinese",
             languages: [
                 {
                     name: "Chinese",
-                    label: "中文",
                     locale: "zh",
                 },
                 {
                     name: "English",
-                    label: "英文",
                     locale: "en",
                 },
             ],
@@ -128,7 +126,7 @@ export default {
     },
     methods: {
         changeLanguage(command) {
-            this.language = this.languages[command].name;
+            this.languageLabel = this.languages[command].name;
             this.$i18n.locale = this.languages[command].locale;
         },
         handleLogin() {

@@ -48,7 +48,7 @@
             </div>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="center">中心</el-dropdown-item>
-                <el-dropdown-item command="notice">通知</el-dropdown-item>
+                <!-- <el-dropdown-item command="notice">通知</el-dropdown-item> -->
                 <el-dropdown-item command="setting">设置</el-dropdown-item>
                 <el-dropdown-item divided command="logout"
                     >退出</el-dropdown-item
@@ -84,11 +84,16 @@ export default {
     methods: {
         onCommandSetting(value) {
             switch (value) {
-                case "logout":
-                    this.logout();
+                case "center":
+                    this.$router.push({
+                        path: "/center",
+                    });
                     break;
                 case "setting":
                     this.$emit("clickSetting");
+                    break;
+                case "logout":
+                    this.logout();
                     break;
             }
         },

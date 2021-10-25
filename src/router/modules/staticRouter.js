@@ -169,17 +169,26 @@ export default [
             sort: 0
         },
     },
-    {
+    {   // 布局内的路由组且不显示在菜单栏上
         path: '/builtin',
         name: 'Builtin',
         component: Layout,
         meta: {
-            title: '布局内置路由组',
+            title: '',
             hidden: true,
             excludeTag: true,
             sort: 0
         },
         children: [
+            {
+                path: '/center',
+                name: 'Center',
+                component: () => import('@/pages/center'),
+                meta: {
+                    title: '个人中心',
+                    hidden: true
+                }
+            },
             {
                 path: '/403',
                 name: 'NotPower',

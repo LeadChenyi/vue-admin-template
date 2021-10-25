@@ -453,7 +453,7 @@ export default {
         },
         getTree() {
             this.$request({
-                url: "/menu/permissions/all",
+                url: "/menu/list/all",
             })
                 .then((res) => {
                     res.data.forEach((item) => {

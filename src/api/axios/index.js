@@ -15,7 +15,7 @@ const Request = ({
     responseType = 'json',
     showError = true
 }) => {
-    if (method == 'POST' || method == 'PUT') {
+    if (!headers['Content-Type'].includes('multipart/form-data') && (method == 'POST' || method == 'PUT')) {
         data = QS.stringify(data);
     }
 
@@ -52,11 +52,11 @@ function UploadFile(file) {
     let formData = new FormData();
     formData.append('file', file);
     return Request({
-        url: '/system/upload/file',
+        url: '/uploadFileCloud',
         method: 'POST',
         data: formData,
         headers: {
-            'Content-Type': 'multipart/form-data;boundary=something'
+            'Content-Type': 'multipart/form-data'
         }
     })
 }

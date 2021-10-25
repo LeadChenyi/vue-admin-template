@@ -451,15 +451,12 @@ export default {
             if (this.form._id) {
                 delete this.form._id;
             }
-            console.log(this.form);
-
             this.$request({
                 url,
                 method,
                 data: this.form,
             })
                 .then((res) => {
-                    console.log(res);
                     this.isLoadingSubmit = false;
                     if (res.code != 200) {
                         this.$message.error(res.message);

@@ -195,7 +195,6 @@ export default {
             form: {
                 username: "",
                 role_id: "",
-                role_ids: [],
                 status: false,
             },
             pickerOptions: {
@@ -379,18 +378,23 @@ export default {
         submit() {
             let url = this.isEdit ? `/user/${this.form._id}` : "/user/register";
             let method = this.isEdit ? "PUT" : "POST";
+            let data = this.isEdit
+                ? {
+                      username: this.form.username,
+                      role_id: this.form.role_id,
+                      status: this.form.status,
+                  }
+                : {
+                      role_id: this.form.role_id,
+                      status: this.form.status,
+                  };
             this.isLoadingSubmit = true;
-            if (this.form._id) {
-                delete this.form._id;
-                delete this.form.username;
-            }
             this.$request({
                 url,
                 method,
-                data: this.form,
+                data,
             })
                 .then((res) => {
-                    console.log(res);
                     this.isLoadingSubmit = false;
                     if (res.code != 200) {
                         this.$message.error(res.message);
@@ -410,7 +414,6 @@ export default {
             this.showDialog = false;
             this.form.username = "";
             this.form.role_id = "";
-            this.form.role_ids = [];
             this.form.status = false;
         },
         getDataRole() {
