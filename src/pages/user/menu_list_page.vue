@@ -4,22 +4,69 @@
             <el-row :gutter="20">
                 <el-col :span="24">
                     <el-card>
-                        <el-button
-                            v-permission="['menu:handle:create']"
-                            type="primary"
-                            icon="el-icon-document-add"
-                            @click="handleCreate"
-                            >新增</el-button
-                        >
+                        <div class="query">
+                            <el-form :inline="true" :model="query">
+                                <div>
+                                    <el-form-item>
+                                        <el-input
+                                            placeholder="菜单标题"
+                                            v-model.trim="query.title"
+                                        ></el-input>
+                                    </el-form-item>
+                                    <el-form-item>
+                                        <el-select
+                                            v-model="query.status"
+                                            placeholder="状态"
+                                        >
+                                            <el-option
+                                                label="不限"
+                                                value="all"
+                                            ></el-option>
+                                            <el-option
+                                                label="未禁用"
+                                                :value="false"
+                                            ></el-option>
+                                            <el-option
+                                                label="已禁用"
+                                                :value="true"
+                                            ></el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                    <el-form-item>
+                                        <el-date-picker
+                                            v-model="query.daterange"
+                                            type="daterange"
+                                            align="right"
+                                            unlink-panels
+                                            range-separator="至"
+                                            start-placeholder="开始日期"
+                                            end-placeholder="结束日期"
+                                            value-format="yyyy-MM-dd"
+                                            :picker-options="pickerOptions"
+                                            @change="changeDate"
+                                        ></el-date-picker>
+                                    </el-form-item>
+                                    <el-button
+                                        type="primary"
+                                        icon="el-icon-search"
+                                        @click="handleSearch"
+                                        :loading="isLoadingSearch"
+                                        >搜索</el-button
+                                    >
+                                    <el-button
+                                        v-permission="['menu:handle:create']"
+                                        type="primary"
+                                        icon="el-icon-document-add"
+                                        @click="handleCreate"
+                                        >新增</el-button
+                                    >
+                                </div>
+                            </el-form>
+                        </div>
+
                         <div class="table">
                             <el-table
-                                :default-expand-all="false"
-                                row-key="_id"
                                 :data="menus"
-                                :tree-props="{
-                                    children: 'children',
-                                    hasChildren: 'hasChildren',
-                                }"
                                 :max-height="maxHeightTable"
                                 header-cell-class-name="table-header"
                                 v-loading="isLoadingTable"
@@ -76,6 +123,18 @@
                                 </el-table-column>
                             </el-table>
                         </div>
+                        <div class="pagination">
+                            <el-pagination
+                                background
+                                layout="total, sizes, prev, pager, next"
+                                :page-sizes="[10, 20, 30]"
+                                :total="total"
+                                :current-page="query.currentPage"
+                                :page-size="query.pageSize"
+                                @current-change="handleCurrentChange"
+                                @size-change="handleSizeChange"
+                            ></el-pagination>
+                        </div>
                     </el-card>
                 </el-col>
             </el-row>
@@ -93,7 +152,7 @@
                         clearable
                         placeholder="请选择上级目录"
                         v-model="form.parent_id"
-                        :options="menus"
+                        :options="menuOptions"
                         :props="{
                             checkStrictly: true,
                             label: 'title',
@@ -169,12 +228,24 @@ export default {
     data() {
         return {
             menus: [],
+            menuOptions: [],
+            total: 0,
             maxHeightTable: "auto",
             showDialog: false,
             isEdit: false,
+            isLoadingSearch: false,
             isLoadingTable: false,
             isLoadingSubmit: false,
             menuTypeEnums: null,
+            query: {
+                daterange: [],
+                startDate: "",
+                endDate: "",
+                title: "",
+                status: "all",
+                currentPage: 1,
+                pageSize: 10,
+            },
             form: {
                 title: "",
                 type: "catalog",
@@ -185,6 +256,43 @@ export default {
                 sort: 0,
                 hidden: false,
                 status: false,
+            },
+            pickerOptions: {
+                shortcuts: [
+                    {
+                        text: "最近一周",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 7
+                            );
+                            picker.$emit("pick", [start, end]);
+                        },
+                    },
+                    {
+                        text: "最近一个月",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 30
+                            );
+                            picker.$emit("pick", [start, end]);
+                        },
+                    },
+                    {
+                        text: "最近三个月",
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(
+                                start.getTime() - 3600 * 1000 * 24 * 90
+                            );
+                            picker.$emit("pick", [start, end]);
+                        },
+                    },
+                ],
             },
         };
     },
@@ -205,10 +313,41 @@ export default {
         },
     },
     methods: {
+        changeDate(date) {
+            if (date) {
+                this.query.startDate = date[0];
+                this.query.endDate = date[1];
+            } else {
+                this.query.startDate = "";
+                this.query.endDate = "";
+            }
+        },
+        handleSearch() {
+            this.isLoadingSearch = true;
+            this.query.currentPage = 1;
+            this.initData();
+        },
+        handleCurrentChange(page) {
+            this.query.currentPage = page;
+            this.initData();
+        },
+        handleSizeChange(size) {
+            this.query.currentPage = 1;
+            this.query.pageSize = size;
+            this.initData();
+        },
         initData() {
             this.isLoadingTable = true;
             this.$request({
-                url: "/menu/list/all",
+                url: "/menu",
+                params: {
+                    title: this.query.title,
+                    status: this.query.status,
+                    start_at: this.query.startDate,
+                    end_at: this.query.endDate,
+                    page: this.query.currentPage,
+                    size: this.query.pageSize,
+                },
             })
                 .then((res) => {
                     if (res.code != 200) {
@@ -216,20 +355,14 @@ export default {
                         return false;
                     }
 
-                    this.menus = [];
-                    if (res.data && res.data.length) {
-                        res.data.forEach((item) => {
-                            if (item.parent_id == 0 || item.parent_id == null) {
-                                this.menus.push(
-                                    this.lavalGroup(item, res.data)
-                                );
-                            }
-                        });
-                    }
-                    console.log(this.menus);
+                    this.menus = res.data;
+                    this.total = res.count;
                 })
                 .finally(() => {
                     this.isLoadingTable = false;
+                    if (this.isLoadingSearch) {
+                        this.isLoadingSearch = false;
+                    }
                 });
         },
         changeStatus(row) {
@@ -364,10 +497,26 @@ export default {
                 }
             });
             if (children.length) {
-                item["children"] = children;
-                item["hasChildren"] = false; // hasChildren为true时需要结合load&lazy使用
+                item.children = children;
             }
             return item;
+        },
+    },
+    watch: {
+        menus: {
+            immediate: true,
+            handler(newVal, oldVal) {
+                if (newVal && newVal != oldVal) {
+                    this.menuOptions = [];
+                    newVal.forEach((item) => {
+                        if (item.parent_id == 0 || item.parent_id == null) {
+                            this.menuOptions.push(
+                                this.lavalGroup(item, newVal)
+                            );
+                        }
+                    });
+                }
+            },
         },
     },
 };
