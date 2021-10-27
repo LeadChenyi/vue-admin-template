@@ -116,7 +116,11 @@ export default {
             }
         },
         successFile(input) {
-            this.$uploadFile(input.file)
+            this.$uploadFile({
+                data: {
+                    file: input.file,
+                },
+            })
                 .then((res) => {
                     if (res.data.url) {
                         this.form.avatar = res.data.url;

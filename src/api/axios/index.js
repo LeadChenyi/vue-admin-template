@@ -48,16 +48,26 @@ const Request = ({
     })
 }
 
-function UploadFile(file) {
-    let formData = new FormData();
-    formData.append('file', file);
+
+function UploadFile({
+    url = '/uploadFileCloud',
+    method = 'POST',
+    data = {},
+    headers = {
+        'Content-Type': 'multipart/form-data'
+    }
+}) {
+    // 上传文件的字段键名必须与后端的一致指定为 “file”
+    const formData = new FormData();
+    for (let key in data) {
+        formData.append(key, data[key]);
+    }
+
     return Request({
-        url: '/uploadFileCloud',
-        method: 'POST',
+        url,
+        method,
         data: formData,
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
+        headers
     })
 }
 
