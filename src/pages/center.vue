@@ -31,10 +31,9 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload> -->
                     <uploader
-                        :autoVerify="false"
                         :file="form.avatar"
-                        @success="successFile"
-                        @delete="deleteFile"
+                        @success="successAvatar"
+                        @delete="deleteAvatar"
                     ></uploader>
                 </el-form-item>
             </el-form>
@@ -115,7 +114,7 @@ export default {
                 this.form.avatar = res.data.url;
             }
         },
-        successFile(input) {
+        successAvatar(input) {
             this.$uploadFile({
                 data: {
                     file: input.file,
@@ -130,7 +129,7 @@ export default {
                     console.log(err);
                 });
         },
-        deleteFile() {
+        deleteAvatar() {
             this.form.avatar = "";
         },
     },

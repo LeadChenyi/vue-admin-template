@@ -5,32 +5,38 @@
         @click="chooseFile"
         v-drag-upload
     >
-        <div
-            class="alike-uploader__preview"
-            v-if="file && types.includes('image/png')"
-        >
-            <img
-                class="alike-uploader__preview-image"
-                :src="file"
-                alt="上传文件"
-            />
-            <div class="alike-uploader__preview-mask">
-                <span
-                    class="alike-uploader__preview-icon"
-                    @click.stop="deleteFile"
-                >
-                    删除
-                    <!-- <alike-icon type="delete" size="30px" color="#ffffff"></alike-icon> -->
-                </span>
+        <template v-if="file">
+            <div class="alike-uploader__preview" v-if="previewType === 'image'">
+                <img class="alike-uploader__preview-image" :src="file" />
+                <div class="alike-uploader__preview-mask">
+                    <span
+                        class="alike-uploader__preview-icon"
+                        @click.stop="deleteFile"
+                        >删除图片</span
+                    >
+                </div>
             </div>
-        </div>
-        <!-- <alike-icon type="plus" size="30px" color="#999999" v-else></alike-icon> -->
+            <div
+                class="alike-uploader__preview"
+                v-else-if="previewType === 'pdf'"
+            >
+                <div>pdf已上传</div>
+                <div class="alike-uploader__preview-mask">
+                    <span
+                        class="alike-uploader__preview-icon"
+                        @click.stop="deleteFile"
+                        >删除文件</span
+                    >
+                </div>
+            </div>
+        </template>
+        <span v-else>+</span>
 
         <input
             class="alike-uploader__input"
             ref="uploaderFinder"
             type="file"
-            name="file"
+            :accept="types.join(',')"
             @change="changeFile"
         />
     </div>
@@ -61,7 +67,7 @@ export default {
         },
         autoVerify: {
             type: Boolean,
-            default: true,
+            default: false,
         },
         size: {
             type: Number,
@@ -76,6 +82,10 @@ export default {
                 "image/gif",
             ],
         },
+        previewType: {
+            type: String,
+            default: "image",
+        },
     },
     methods: {
         chooseFile() {
@@ -87,12 +97,13 @@ export default {
             this.$refs.uploaderFinder.click();
         },
         changeFile(e) {
-            this.verifyFile(e.target.files[0]);
-        },
-        verifyFile(file) {
-            let tempFilePath = window.URL.createObjectURL(file);
+            let file = e.target.files[0];
             this.$emit("change", file);
 
+            let tempFilePath = window.URL.createObjectURL(file);
+            this.verifyFile(file, tempFilePath);
+        },
+        verifyFile(file, tempFilePath) {
             if (this.autoVerify) {
                 if (file.size > this.size) {
                     this.$emit("fail", {
@@ -109,7 +120,7 @@ export default {
                 }
             }
 
-            this.$emit("success", { file: file, filePath: tempFilePath });
+            this.$emit("success", { file, filePath: tempFilePath });
         },
         deleteFile() {
             // 解决单文件上传模式被删除后无法再次触发上传控件的问题
