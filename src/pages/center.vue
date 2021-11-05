@@ -32,7 +32,7 @@
                     </el-upload> -->
                     <uploader
                         :file="form.avatar"
-                        @success="successAvatar"
+                        @change="changeAvatar"
                         @delete="deleteAvatar"
                     ></uploader>
                 </el-form-item>
@@ -114,10 +114,10 @@ export default {
                 this.form.avatar = res.data.url;
             }
         },
-        successAvatar(input) {
+        changeAvatar({ file }) {
             this.$uploadFile({
                 data: {
-                    file: input.file,
+                    file,
                 },
             })
                 .then((res) => {

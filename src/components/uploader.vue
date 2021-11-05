@@ -16,11 +16,8 @@
                     >
                 </div>
             </div>
-            <div
-                class="alike-uploader__preview"
-                v-else-if="previewType === 'pdf'"
-            >
-                <div>pdf已上传</div>
+            <div class="alike-uploader__preview" v-else>
+                <div>文件已上传</div>
                 <div class="alike-uploader__preview-mask">
                     <span
                         class="alike-uploader__preview-icon"
@@ -52,6 +49,8 @@
  * @property types {Array} 支持上传文件的格式
  * @event change {Function} 上传图片时触发
  * @event delete {Function} 删除图片时触发
+ * @event fail {Function} 验证失败时触发
+ * @event success {Function} 验证成功时触发
  */
 
 export default {
@@ -67,11 +66,11 @@ export default {
         },
         autoVerify: {
             type: Boolean,
-            default: false,
+            default: true,
         },
         size: {
             type: Number,
-            default: 2097152, //  2md = 2 * 1024 * 1024
+            default: 2097152,
         },
         types: {
             type: Array,
@@ -98,29 +97,29 @@ export default {
         },
         changeFile(e) {
             let file = e.target.files[0];
-            this.$emit("change", file);
-
             let tempFilePath = window.URL.createObjectURL(file);
-            this.verifyFile(file, tempFilePath);
-        },
-        verifyFile(file, tempFilePath) {
-            if (this.autoVerify) {
-                if (file.size > this.size) {
-                    this.$emit("fail", {
-                        msg: `图片上传大小不得超过${this.size}字节`,
-                    });
-                    return false;
-                }
 
-                if (!this.types.includes(file.type)) {
-                    this.$emit("fail", {
-                        msg: `图片类型仅支持${this.types.join(",")}`,
-                    });
-                    return false;
-                }
+            this.$emit("change", { file, tempFilePath });
+            if (this.autoVerify) {
+                this.verifyFile({ file, tempFilePath });
+            }
+        },
+        verifyFile({ file, tempFilePath }) {
+            if (file.size > this.size) {
+                this.$emit("fail", {
+                    msg: `图片上传大小不得超过${this.size}字节`,
+                });
+                return false;
             }
 
-            this.$emit("success", { file, filePath: tempFilePath });
+            if (!this.types.includes(file.type)) {
+                this.$emit("fail", {
+                    msg: `图片类型仅支持${this.types.join(",")}`,
+                });
+                return false;
+            }
+
+            this.$emit("success", { file, tempFilePath });
         },
         deleteFile() {
             // 解决单文件上传模式被删除后无法再次触发上传控件的问题
@@ -133,34 +132,13 @@ export default {
     },
     directives: {
         dragUpload(el, binding, vnode) {
+            // 获取当前组件上下文对象
             const vm = vnode.context;
-
-            // 判断是否支持上传器拖放事件
             if (!vm.enableDrag) {
                 return false;
             }
 
-            // 针对文档
-            // document.ondragenter = function(e){
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            // }
-            // document.ondragover = function(e){
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            // }
-            // document.ondragleave = function(e){
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            // }
-            // document.ondrop = function(e){
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            //     console.log('drop...')
-            //     vm.verifyFile(e.dataTransfer.files[0]);
-            // }
-
-            // 指定元素
+            // 指定元素监听拖拽事件
             el.ondragenter = function (e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -176,7 +154,6 @@ export default {
             el.ondrop = function (e) {
                 e.preventDefault();
                 e.stopPropagation();
-
                 vm.verifyFile(e.dataTransfer.files[0]);
             };
         },
