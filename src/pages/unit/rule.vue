@@ -312,6 +312,7 @@
 </template>
 
 <script>
+import Schema from "async-validator";
 export default {
     name: "Rule",
     data() {
@@ -432,9 +433,52 @@ export default {
                     },
                 },
             },
+            user: {
+                name: "此言很差矣",
+                age: 18,
+            },
+            descriptor: {
+                name: [
+                    {
+                        type: "string",
+                        required: true,
+                        message: "用户名称不能为空",
+                    },
+                    {
+                        min: 6,
+                        message: "用户名称字符不得小于6位",
+                    },
+                ],
+                age: {
+                    type: "number",
+                    required: true,
+                    message: "用户年龄不能为空",
+                },
+            },
         };
     },
+    created() {
+        this.sendAsyncValidator(this.descriptor, this.user)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    },
     methods: {
+        sendAsyncValidator(rules, forms) {
+            return new Promise((resolve, reject) => {
+                const validator = new Schema(rules);
+                validator.validate(forms, (errors, fields) => {
+                    console.log(errors, fields);
+                    if (errors) {
+                        return reject(errors[0].message);
+                    }
+                    return resolve(fields);
+                });
+            });
+        },
         onSubmit(ref, ctx) {
             this.$refs[ref].validate((valid) => {
                 if (valid) {
