@@ -21,11 +21,9 @@
             <el-form-item prop="username">
                 <!-- <span class="login-form-icon"></span> -->
                 <el-input
-                    ref="username"
                     v-model="loginForm.username"
-                    placeholder="Username"
-                    name="username"
                     type="text"
+                    placeholder="请输入用户名称"
                     tabindex="1"
                     auto-complete="on"
                 />
@@ -34,17 +32,28 @@
             <el-form-item prop="password">
                 <!-- <span class="login-form-icon"></span> -->
                 <el-input
-                    :key="passwordType"
-                    ref="password"
                     v-model="loginForm.password"
                     :type="passwordType"
-                    placeholder="Password"
-                    name="password"
+                    placeholder="请输入用户密码"
                     tabindex="2"
+                    auto-complete="on"
+                />
+                <!-- <span class="login-form-pwd"></span> -->
+            </el-form-item>
+            <el-form-item prop="captcha">
+                <div
+                    ref="svgCaptcha"
+                    class="login-svg-captcha"
+                    @click="getCaptcha"
+                ></div>
+                <el-input
+                    v-model="loginForm.captcha"
+                    type="text"
+                    placeholder="请输入验证码"
+                    tabindex="3"
                     auto-complete="on"
                     @keyup.enter.native="handleLogin"
                 />
-                <!-- <span class="login-form-pwd"></span> -->
             </el-form-item>
 
             <el-button
@@ -100,6 +109,7 @@ export default {
                 mobile: "",
                 username: "此言很差矣",
                 password: "123456",
+                captcha: "",
             },
             loginRules: {
                 username: [
@@ -118,11 +128,22 @@ export default {
                         validator: this.$validation.isPassword,
                     },
                 ],
+                captcha: [
+                    {
+                        label: "验证码",
+                        required: true,
+                        trigger: "blur",
+                        message: "验证码不能为空",
+                    },
+                ],
             },
             loading: false,
             passwordType: "password",
             redirect: null,
         };
+    },
+    mounted() {
+        this.getCaptcha();
     },
     methods: {
         changeLanguage(command) {
@@ -173,6 +194,17 @@ export default {
                 }
             });
         },
+        getCaptcha() {
+            this.$request({
+                url: "/getCaptcha",
+            })
+                .then((res) => {
+                    this.$refs.svgCaptcha.innerHTML = res.data.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
     },
 };
 </script>
@@ -200,6 +232,10 @@ export default {
         background-color: rgba(0, 0, 0, 0.2);
         border-radius: 5px;
         color: #454545;
+
+        ::v-deep .el-form-item__content {
+            line-height: initial;
+        }
     }
 
     .el-input {
@@ -261,6 +297,22 @@ export default {
         color: #889889;
         cursor: pointer;
         user-select: none;
+    }
+
+    .login-svg-captcha {
+        display: inline-block;
+        width: 150px;
+        height: 45px;
+        border-radius: 2px;
+        margin-top: 2px;
+        margin-left: 2px;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .login-svg-captcha + .el-input {
+        width: calc(100% - 152px);
+        vertical-align: top;
     }
 
     .login-form-submit {
