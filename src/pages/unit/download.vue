@@ -35,18 +35,20 @@ import mime from "mime";
 export default {
     name: "Download",
     methods: {
-        download(url) {
+        download(file) {
             this.$downloadFile({
-                url,
+                data: {
+                    file,
+                },
             })
                 .then((res) => {
                     // 文件地址
-                    const fileURL = new URL(url);
+                    const fileURL = new URL(file);
                     const fileName = fileURL.pathname.split("/")[1];
                     const mimeExtension = fileURL.pathname.split(".")[1];
                     const mimeType = mime.getType(mimeExtension);
 
-                    // 文件流
+                    // 文件流 （等价于 {responseType:"blob"}）
                     const bufObj = Buffer.from(res.data, "binary");
                     const blob = new Blob([bufObj], { type: mimeType });
                     const blobURL = URL.createObjectURL(blob);
@@ -58,6 +60,22 @@ export default {
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        downloadTwo(file) {
+            // 当响应类型设为blob时返回的数据结构只能有文件流数据，否则整体的数据结构都会被包含在Blob对象中。例：{"code":200,"statusCode":200,"msg":"download:ok","message":"下载成功","data":"\u0000\u0001\u0001..."}
+            this.$downloadFile({
+                data: {
+                    file,
+                },
+                responseType: "blob",
+            })
+                .then((res) => {
+                    const blobURL = URL.createObjectURL(res);
+                    console.log(blobURL);
                 })
                 .catch((err) => {
                     console.log(err);

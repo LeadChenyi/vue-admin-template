@@ -71,11 +71,20 @@ function UploadFile({
     })
 }
 
-function DownloadFile(data) {
+function DownloadFile({
+    url = '/downloadFileCloud',
+    method = 'POST',
+    data = {},
+    headers,
+    responseType
+}) {
+
     return Request({
-        url: '/downloadFile',
-        method: 'POST',
-        data
+        url,
+        method,
+        data,
+        headers,
+        responseType
     })
 }
 
