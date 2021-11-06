@@ -71,11 +71,11 @@ function UploadFile({
     })
 }
 
-function DownloadFile(url, params) {
+function DownloadFile(data) {
     return Request({
-        url,
-        params,
-        responseType: 'blob'
+        url: '/downloadFile',
+        method: 'POST',
+        data
     })
 }
 

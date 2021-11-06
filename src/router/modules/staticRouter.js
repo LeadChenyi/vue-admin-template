@@ -102,6 +102,14 @@ export default [
                 }
             },
             {
+                path: '/download',
+                name: 'Download',
+                component: () => import('@/pages/unit/download'),
+                meta: {
+                    title: '下载文件'
+                }
+            },
+            {
                 path: '/excel',
                 name: 'Excel',
                 component: () => import('@/pages/unit/excel'),
