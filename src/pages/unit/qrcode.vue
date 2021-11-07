@@ -1,5 +1,5 @@
 <template>
-    <div class="alive-container">
+    <div class="alike-container">
         <el-row :gutter="20">
             <el-col :span="12">
                 <el-card>

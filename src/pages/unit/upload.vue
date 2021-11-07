@@ -1,6 +1,6 @@
 <template>
     <div class="alike-container">
-        <el-row class="mt-20" :gutter="20">
+        <el-row :gutter="20">
             <el-col :span="12">
                 <el-card>
                     <div slot="header">单图上传</div>
@@ -63,7 +63,7 @@ import Uploader from "@/components/uploader.vue";
 import Uploaders from "@/components/uploaders.vue";
 import VuePdf from "vue-pdf";
 export default {
-    name: "Preview",
+    name: "Upload",
     components: {
         Uploader,
         Uploaders,

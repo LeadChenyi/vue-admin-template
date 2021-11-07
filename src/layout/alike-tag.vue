@@ -150,6 +150,24 @@ export default {
     align-items: center;
     flex: 1;
     overflow-x: auto;
+    overflow-y: hidden;
+    &::-webkit-scrollbar {
+        height: 5px;
+    }
+    &::-webkit-scrollbar-button {
+        display: none;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(50, 50, 50, 0.5);
+        border-radius: 5px;
+
+        &:hover {
+            background-color: rgba(255, 50, 50, 0.5);
+        }
+    }
+    &::-webkit-scrollbar-track {
+        background-color: rgba(200, 200, 200, 0.5);
+    }
 }
 .alike-tag-left-group {
     display: flex;

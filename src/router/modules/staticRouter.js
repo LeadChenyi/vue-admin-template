@@ -54,19 +54,19 @@ export default [
                 }
             },
             {
+                path: '/print',
+                name: 'Print',
+                component: () => import('@/pages/unit/print'),
+                meta: {
+                    title: '打印指定元素'
+                }
+            },
+            {
                 path: '/sort',
                 name: 'Sort',
                 component: () => import('@/pages/unit/sort'),
                 meta: {
                     title: '元素拖动排序'
-                }
-            },
-            {
-                path: '/swiper',
-                name: 'Swiper',
-                component: () => import('@/pages/unit/swiper'),
-                meta: {
-                    title: '幻灯片'
                 }
             },
             {
@@ -86,19 +86,11 @@ export default [
                 }
             },
             {
-                path: '/print',
-                name: 'Print',
-                component: () => import('@/pages/unit/print'),
+                path: '/upload',
+                name: 'Upload',
+                component: () => import('@/pages/unit/upload'),
                 meta: {
-                    title: '打印指定元素'
-                }
-            },
-            {
-                path: '/preview',
-                name: 'Preview',
-                component: () => import('@/pages/unit/preview'),
-                meta: {
-                    title: '上传文件预览'
+                    title: '上传文件'
                 }
             },
             {
@@ -115,6 +107,22 @@ export default [
                 component: () => import('@/pages/unit/excel'),
                 meta: {
                     title: '导入导出数据'
+                }
+            },
+            {
+                path: '/cropper',
+                name: 'Cropper',
+                component: () => import('@/pages/unit/cropper'),
+                meta: {
+                    title: '图片裁剪'
+                }
+            },
+            {
+                path: '/swiper',
+                name: 'Swiper',
+                component: () => import('@/pages/unit/swiper'),
+                meta: {
+                    title: '幻灯片'
                 }
             },
             {
