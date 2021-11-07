@@ -22,6 +22,7 @@
     "mockjs": "^1.1.0",
     "nprogress": "^0.2.0",
     "pikaz-excel-js": "^0.2.16",
+    "qrcode": "^1.4.4",
     "qs": "^6.10.1",
     "quill-image-extend-module": "^1.1.2",
     "socket.io-client": "^4.2.0",

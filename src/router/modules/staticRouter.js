@@ -118,6 +118,13 @@ export default [
                 }
             },
             {
+                path: '/qrcode',
+                name: 'QRCode',
+                component: () => import('@/pages/unit/qrcode'),
+                meta: {
+                    title: '二维码'
+                }
+            }, {
                 path: '/chart',
                 name: 'Chart',
                 component: () => import('@/pages/unit/chart'),

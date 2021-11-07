@@ -29,7 +29,8 @@ const Request = ({
             headers,
             responseType
         }).then(res => {
-            if (res.status >= 200 && res.status <= 204) {
+            const allowStatus = [200, 201];
+            if (allowStatus.includes(res.status)) {
                 console.log('请求响应：', res.data);
                 resolve(res.data);
                 return false;
