@@ -1,20 +1,22 @@
 <template>
     <div class="alike-container">
-        <el-col :span="24">
-            <el-card>
-                <div slot="header">Tencent Map</div>
-                <tencent-map-view
-                    :zoom="zoom"
-                    @ready="readyMap"
-                    @click="clickMap"
-                    @mousemove="mousemoveMap"
-                ></tencent-map-view>
-                <div class="mt-20">
-                    <el-button @click="plusZoom">放大地图</el-button>
-                    <el-button @click="reduceZoom">缩小地图</el-button>
-                </div>
-            </el-card>
-        </el-col>
+        <el-row :gutter="20">
+            <el-col :span="24">
+                <el-card>
+                    <div slot="header">Tencent Map</div>
+                    <tencent-map-view
+                        :zoom="zoom"
+                        @ready="readyMap"
+                        @click="clickMap"
+                        @mousemove="mousemoveMap"
+                    ></tencent-map-view>
+                    <div class="mt-20">
+                        <el-button @click="plusZoom">放大地图</el-button>
+                        <el-button @click="reduceZoom">缩小地图</el-button>
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
     </div>
 </template>
 

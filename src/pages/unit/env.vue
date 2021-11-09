@@ -1,7 +1,10 @@
 <template>
     <div class="alike-container">
-        <div>mode：{{ mode }}</div>
-        <div>baseUrl：{{ baseUrl }}</div>
+        <el-card>
+            <div slot="header">环境变量</div>
+            <div>mode：{{ mode }}</div>
+            <div>baseUrl：{{ baseUrl }}</div>
+        </el-card>
     </div>
 </template>
 

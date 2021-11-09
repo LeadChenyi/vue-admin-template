@@ -126,6 +126,14 @@ export default [
                 }
             },
             {
+                path: '/scrollView',
+                name: 'ScrollView',
+                component: () => import('@/pages/unit/scrollView'),
+                meta: {
+                    title: '滚动容器'
+                }
+            },
+            {
                 path: '/qrcode',
                 name: 'QRCode',
                 component: () => import('@/pages/unit/qrcode'),

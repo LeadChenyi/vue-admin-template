@@ -1,6 +1,6 @@
 <template>
     <div class="alike-container">
-        <el-row class="mt-20" :gutter="20">
+        <el-row :gutter="20">
             <el-col :span="24">
                 <el-card>
                     <div slot="header">vue-awesome-swiper + swiper.animate</div>
