@@ -6,6 +6,7 @@
 
 <script>
 import theme from "@/mixins/theme.js";
+import VConsole from "vconsole";
 export default {
     name: "App",
     mixins: [theme],
@@ -20,6 +21,9 @@ export default {
 
         // test area
         // this.getServerLocalEnv();
+
+        new VConsole();
+        console.log("Hello VConsole");
     },
     methods: {
         getServerLocalEnv() {
