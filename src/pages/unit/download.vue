@@ -1,14 +1,14 @@
 <template>
     <div class="alike-container">
         <el-row :gutter="20">
-            <el-col :span="24">
+            <el-col :span="12">
                 <el-card>
-                    <div slot="header">二进制文件流下载</div>
+                    <div slot="header">二进制文件流 + a标签下载</div>
                     <div>
                         <el-button
                             type="primary"
                             @click="
-                                download(
+                                aDownload(
                                     'http://source.webyi.top/webyi_app_1636045464406.jpg'
                                 )
                             "
@@ -17,7 +17,32 @@
                         <el-button
                             type="primary"
                             @click="
-                                download(
+                                aDownload(
+                                    'http://source.webyi.top/webyi_app_1636085521644.jpg'
+                                )
+                            "
+                            >下载图片2-敖丙</el-button
+                        >
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="12">
+                <el-card>
+                    <div slot="header">网络资源地址 + file-saver下载</div>
+                    <div>
+                        <el-button
+                            type="primary"
+                            @click="
+                                fileSave(
+                                    'http://source.webyi.top/webyi_app_1636045464406.jpg'
+                                )
+                            "
+                            >下载图片1-哪吒</el-button
+                        >
+                        <el-button
+                            type="primary"
+                            @click="
+                                fileSave(
                                     'http://source.webyi.top/webyi_app_1636085521644.jpg'
                                 )
                             "
@@ -27,15 +52,27 @@
                 </el-card>
             </el-col>
         </el-row>
+        <el-row>
+            <el-card>
+                <div slot="header">zip + file-saver下载</div>
+                <div>
+                    <el-button type="primary" @click="textZipSave"
+                        >文本压缩包下载</el-button
+                    >
+                </div>
+            </el-card>
+        </el-row>
     </div>
 </template>
 
 <script>
 import mime from "mime";
+import { saveAs } from "file-saver";
+import JSZip from "jszip";
 export default {
     name: "Download",
     methods: {
-        download(file) {
+        aDownload(file) {
             this.$downloadFile({
                 data: {
                     file,
@@ -65,7 +102,7 @@ export default {
                     console.log(err);
                 });
         },
-        downloadTwo(file) {
+        aDownloadTwo(file) {
             // 当响应类型设为blob时返回的数据结构只能有文件流数据，否则整体的数据结构都会被包含在Blob对象中。例：{"code":200,"statusCode":200,"msg":"download:ok","message":"下载成功","data":"\u0000\u0001\u0001..."}
             this.$downloadFile({
                 data: {
@@ -80,6 +117,19 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
+        },
+        fileSave(url) {
+            const fileURL = new URL(url);
+            const fileName = fileURL.pathname.split("/")[1];
+            saveAs(url, fileName);
+        },
+        textZipSave() {
+            const zip = new JSZip();
+            let text = zip.folder("text");
+            text.file("Hello.txt", "Hello World\n");
+            zip.generateAsync({ type: "blob" }).then(function (content) {
+                saveAs(content, "text.zip");
+            });
         },
     },
 };
