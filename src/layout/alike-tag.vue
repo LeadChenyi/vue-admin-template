@@ -41,7 +41,7 @@
 
 <script>
 import Draggable from "vuedraggable";
-
+import { MAX_ROUTER } from "@/common/config.js";
 export default {
     name: "AlikeTag",
     components: {
@@ -82,7 +82,7 @@ export default {
             });
             // 如果不存在，则将当前路由放入标签列表中
             if (!isExist) {
-                if (this.tags.length >= 8) {
+                if (this.tags.length >= MAX_ROUTER) {
                     this.tags.shift();
                 }
                 this.tags.push({
@@ -153,17 +153,14 @@ export default {
     overflow-y: hidden;
     &::-webkit-scrollbar {
         height: 5px;
+        transform: height 300ms ease;
     }
     &::-webkit-scrollbar-button {
         display: none;
     }
-    &::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb:hover {
         background-color: rgba(50, 50, 50, 0.5);
         border-radius: 5px;
-
-        &:hover {
-            background-color: rgba(255, 50, 50, 0.5);
-        }
     }
     &::-webkit-scrollbar-track {
         background-color: rgba(200, 200, 200, 0.5);

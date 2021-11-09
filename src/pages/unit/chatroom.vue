@@ -21,6 +21,7 @@
                     v-for="(item, index) in chats"
                     :key="`${item.uuid}__${index}`"
                     :class="{ 'chat-item__self': uuid == item.uuid }"
+                    ref="chatItemFinder"
                 >
                     <div class="chat-info">
                         <span class="chat-time">{{
@@ -97,6 +98,15 @@ export default {
         this.socket.on("serverBroadcast", (data) => {
             console.log("服务器广播的消息：", data);
             this.chats.push(data);
+            // 滚动至底部
+            this.$nextTick(() => {
+                this.$refs.chatItemFinder[this.chats.length - 1].scrollIntoView(
+                    {
+                        behavior: "smooth",
+                        block: "start",
+                    }
+                );
+            });
         });
     },
     methods: {
@@ -217,14 +227,15 @@ export default {
 
     // 自定义滚动条样式
     &::-webkit-scrollbar {
-        width: 10px;
+        width: 8px;
+        transform: height 300ms ease;
     }
     &::-webkit-scrollbar-button {
         display: none;
     }
     &::-webkit-scrollbar-thumb {
         background-color: rgba(50, 50, 50, 0.5);
-        border-radius: 5px;
+        border-radius: 8px;
 
         &:hover {
             background-color: rgba(255, 50, 50, 0.5);

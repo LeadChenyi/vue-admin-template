@@ -4,5 +4,6 @@ module.exports = {
     SUPER_ADMIN_ROLE_CODE: "super_admin",
     SUPER_ADMIN_PERMISSION_CODE: "*:*:*",
     ALLOW_ROUTER_PATH: [],
-    DENY_ROUTER_PATH: []
+    DENY_ROUTER_PATH: [],
+    MAX_ROUTER: 20
 }
