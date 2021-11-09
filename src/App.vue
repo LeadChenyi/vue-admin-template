@@ -6,7 +6,6 @@
 
 <script>
 import theme from "@/mixins/theme.js";
-import VConsole from "vconsole";
 export default {
     name: "App",
     mixins: [theme],
@@ -20,13 +19,10 @@ export default {
         this.syncThemeColor();
 
         // test area
-        // this.getServerLocalEnv();
-
-        new VConsole();
-        console.log("Hello VConsole");
+        // this.standAloneRequest();
     },
     methods: {
-        getServerLocalEnv() {
+        standAloneRequest() {
             this.$axios
                 .get("http://api.webyi.top/api")
                 .then((res) => {
