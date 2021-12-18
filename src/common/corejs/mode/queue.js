@@ -1,4 +1,5 @@
 class Queue {
+    // 队列
     constructor() {
         this.items = [];
     }
@@ -24,9 +25,9 @@ class Queue {
     }
 
     toString() {
-        let result = "";
+        let result = '';
         for (let item of this.items) {
-            result += item + " ";
+            result += item + ' ';
         }
         return result;
     }
