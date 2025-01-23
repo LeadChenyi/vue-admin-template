@@ -12,11 +12,10 @@ EventBus.prototype.on = function(type, cb) {
 };
 
 // 派遣事件
-EventBus.prototype.emit = function(type, ...args) {
-    // 形参 “...” 为合并
+EventBus.prototype.emit = function(type, ...args) {// 合并形参为数组
     if (this.listeners[type]) {
         this.listeners[type].forEach((cb) => {
-            cb(...args); // 实参 “...” 为解构
+            cb(...args); // 解构形参为序列对象
         });
         return false;
     }

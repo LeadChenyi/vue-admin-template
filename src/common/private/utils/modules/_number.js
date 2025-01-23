@@ -39,7 +39,7 @@ export default {
         }
         return arr
     },
-    roundString(value, mark = '+') {
+    formatCurrency(value, mark = '+') {
         if (value > 9999) {
             let end = value.toString().length - 4;
             return value.toString().substring(0, end) + 'w' + mark;
@@ -49,7 +49,7 @@ export default {
             return '99' + mark
         }
     },
-    percent(current, total, percent = '100%') {// 百分率
+    formatPercent(current, total, percent = '100%') {// 百分率
         return parseInt(current / total * percent);
     },
     formatMedia(seconds, str = '{H}:{m}:{s}', pattern = /{(H|m|M|s)+}/g) {// 媒体时长格式化
